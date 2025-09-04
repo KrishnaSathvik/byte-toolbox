@@ -13,7 +13,7 @@
     "src/components/tools/TimestampConverter.tsx"
   ],
   "out": "docs",
-  "name": "DevToolbox - Component Documentation",
+  "name": "ByteToolbox - Component Documentation",
   "readme": "COMPONENT-DOCUMENTATION.md",
   "theme": "default",
   "excludePrivate": true,
