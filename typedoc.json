@@ -1,0 +1,46 @@
+{
+  "entryPoints": [
+    "src/components/ToolLayout.tsx",
+    "src/components/Navigation.tsx",
+    "src/components/ThemeProvider.tsx",
+    "src/components/ThemeToggle.tsx",
+    "src/components/ui/monaco-editor.tsx",
+    "src/components/tools/JsonFormatter.tsx",
+    "src/components/tools/Base64Encoder.tsx",
+    "src/components/tools/HashGenerator.tsx",
+    "src/components/tools/UuidGenerator.tsx",
+    "src/components/tools/RegexTester.tsx",
+    "src/components/tools/TimestampConverter.tsx"
+  ],
+  "out": "docs",
+  "name": "DevToolbox - Component Documentation",
+  "readme": "COMPONENT-DOCUMENTATION.md",
+  "theme": "default",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "hideGenerator": false,
+  "sort": ["source-order"],
+  "categorizeByGroup": true,
+  "defaultCategory": "Components",
+  "categoryOrder": [
+    "Tool Components",
+    "Core Infrastructure", 
+    "Theme Management",
+    "UI Components",
+    "*"
+  ],
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  },
+  "customCss": "./typedoc-custom.css",
+  "githubPages": false,
+  "includeVersion": true,
+  "searchInComments": true,
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": false
+  }
+}
