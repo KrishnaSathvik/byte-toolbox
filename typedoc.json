@@ -1,46 +1,49 @@
 {
-  "entryPoints": [
-    "src/components/ToolLayout.tsx",
-    "src/components/Navigation.tsx",
-    "src/components/ThemeProvider.tsx",
-    "src/components/ThemeToggle.tsx",
-    "src/components/ui/monaco-editor.tsx",
-    "src/components/tools/JsonFormatter.tsx",
-    "src/components/tools/Base64Encoder.tsx",
-    "src/components/tools/HashGenerator.tsx",
-    "src/components/tools/UuidGenerator.tsx",
-    "src/components/tools/RegexTester.tsx",
-    "src/components/tools/TimestampConverter.tsx"
-  ],
+  "entryPoints": ["src/components/**/*.tsx", "src/components/**/*.ts"],
+  "entryPointStrategy": "expand",
   "out": "docs",
-  "name": "DevToolbox - Component Documentation",
-  "readme": "COMPONENT-DOCUMENTATION.md",
-  "theme": "default",
+  "name": "DevToolbox Documentation",
+  "includeVersion": true,
   "excludePrivate": true,
   "excludeProtected": true,
   "excludeExternals": true,
-  "hideGenerator": false,
-  "sort": ["source-order"],
+  "readme": "COMPONENT-DOCUMENTATION.md",
+  "theme": "default",
   "categorizeByGroup": true,
-  "defaultCategory": "Components",
+  "defaultCategory": "Other",
   "categoryOrder": [
     "Tool Components",
-    "Core Infrastructure", 
-    "Theme Management",
+    "Infrastructure Components", 
+    "Theme Components",
     "UI Components",
-    "*"
+    "Testing Components",
+    "Other"
+  ],
+  "sort": ["source-order"],
+  "kindSortOrder": [
+    "Project",
+    "Module", 
+    "Namespace",
+    "Enum",
+    "Class",
+    "Interface",
+    "Constructor",
+    "Property",
+    "Variable",
+    "Function",
+    "Accessor",
+    "Method"
   ],
   "navigation": {
     "includeCategories": true,
     "includeGroups": true
   },
-  "customCss": "./typedoc-custom.css",
-  "githubPages": false,
-  "includeVersion": true,
   "searchInComments": true,
-  "validation": {
-    "notExported": true,
-    "invalidLink": true,
-    "notDocumented": false
-  }
+  "cleanOutputDir": true,
+  "exclude": [
+    "**/*.test.tsx",
+    "**/*.test.ts",
+    "**/__tests__/**",
+    "**/node_modules/**"
+  ]
 }

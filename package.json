@@ -8,7 +8,14 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "docs:build": "typedoc",
+    "docs:serve": "typedoc --watch --serve",
+    "docs:clean": "rm -rf docs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -64,10 +71,8 @@
     "sonner": "^1.7.4",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
-    "typedoc": "^0.28.12",
     "uuid": "^9.0.1",
     "vaul": "^0.9.9",
-    "vitest": "^3.2.4",
     "zod": "^3.25.76"
   },
   "devDependencies": {
@@ -85,8 +90,10 @@
     "lovable-tagger": "^1.1.9",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
+    "typedoc": "^0.28.12",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
-    "vite": "^5.4.19"
+    "vite": "^5.4.19",
+    "vitest": "^3.2.4"
   }
 }

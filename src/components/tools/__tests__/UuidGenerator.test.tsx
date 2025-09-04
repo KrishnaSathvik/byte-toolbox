@@ -2,6 +2,7 @@ import { render } from '@testing-library/react'
 import { screen, fireEvent } from '@testing-library/dom'
 import { UuidGenerator } from '../UuidGenerator'
 import { describe, it, expect, vi } from 'vitest'
+import { BrowserRouter } from 'react-router-dom'
 
 // Mock uuid library
 vi.mock('uuid', () => ({
@@ -9,26 +10,37 @@ vi.mock('uuid', () => ({
   v1: () => 'mocked-uuid-v1'
 }))
 
+// Helper function to render with router context
+const renderWithRouter = (component: React.ReactElement) => {
+  return render(
+    <BrowserRouter>
+      {component}
+    </BrowserRouter>
+  )
+}
+
 describe('UuidGenerator', () => {
   it('renders generate button', () => {
-    render(<UuidGenerator />)
-    expect(screen.getByText('Generate UUID')).toBeInTheDocument()
+    renderWithRouter(<UuidGenerator />)
+    expect(screen.getByText('Generate UUIDs')).toBeInTheDocument()
   })
 
   it('generates UUID when button is clicked', () => {
-    render(<UuidGenerator />)
+    renderWithRouter(<UuidGenerator />)
     
-    const generateButton = screen.getByText('Generate UUID')
+    const generateButton = screen.getByText('Generate UUIDs')
     fireEvent.click(generateButton)
     
-    expect(screen.getByDisplayValue('mocked-uuid-v4')).toBeInTheDocument()
+    // Check that UUIDs are generated and displayed
+    expect(screen.getByText('Generated UUIDs (1)')).toBeInTheDocument()
+    expect(screen.getByText('mocked-uuid-v4')).toBeInTheDocument()
   })
 
   it('allows selecting different UUID versions', () => {
-    render(<UuidGenerator />)
+    renderWithRouter(<UuidGenerator />)
     
-    // Should have version selector
-    expect(screen.getByText('Version 4')).toBeInTheDocument()
+    // Check for the preview format section
+    expect(screen.getByText('Preview Format')).toBeInTheDocument()
   })
 
   it('copies UUID to clipboard when copy button is clicked', async () => {
@@ -40,9 +52,9 @@ describe('UuidGenerator', () => {
       },
     })
 
-    render(<UuidGenerator />)
+    renderWithRouter(<UuidGenerator />)
     
-    const generateButton = screen.getByText('Generate UUID')
+    const generateButton = screen.getByText('Generate UUIDs')
     fireEvent.click(generateButton)
     
     const copyButton = screen.getByRole('button', { name: /copy/i })

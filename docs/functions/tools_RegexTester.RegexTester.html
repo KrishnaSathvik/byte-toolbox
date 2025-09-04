@@ -1,0 +1,50 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>RegexTester | DevToolbox Documentation - v0.0.0</title><meta name="description" content="Documentation for DevToolbox Documentation"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="../index.html" class="title">DevToolbox Documentation - v0.0.0</a><div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb" aria-label="Breadcrumb"><li><a href="../modules/tools_RegexTester.html">tools/RegexTester</a></li><li><a href="" aria-current="page">RegexTester</a></li></ul><h1>Function RegexTester</h1></div><section class="tsd-panel"><ul class="tsd-signatures"><li class=""><div class="tsd-signature tsd-anchor-link" id="regextester"><span class="tsd-kind-call-signature">RegexTester</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span><a href="#regextester" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div><div class="tsd-description"><div class="tsd-comment tsd-typography"><p>RegexTester - A comprehensive regular expression testing and debugging tool</p>
+<p>Features:</p>
+<ul>
+<li>Real-time regex pattern testing with live results</li>
+<li>Support for all JavaScript regex flags (g, i, m, u, y)</li>
+<li>Visual match highlighting in test text</li>
+<li>Detailed match information with groups and positions</li>
+<li>Common pattern library for quick access</li>
+<li>Pattern validation with detailed error messages</li>
+<li>Copy pattern and download results functionality</li>
+<li>Professional Monaco editor integration</li>
+</ul>
+</div><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4><p>JSX element containing the complete regex testing interface</p>
+<div class="tsd-comment tsd-typography"><div class="tsd-tag-example"><h4 class="tsd-anchor-link" id="example">Example<a href="#example" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><pre><code class="tsx"><span class="hl-8">// Basic usage - test regex patterns against text</span><br/><span class="hl-0">&lt;</span><span class="hl-1">RegexTester</span><span class="hl-2"> </span><span class="hl-0">/&gt;</span><br/><br/><span class="hl-8">// The component provides:</span><br/><span class="hl-8">// - Pattern input with flag support</span><br/><span class="hl-8">// - Test text editor with syntax highlighting</span><br/><span class="hl-8">// - Real-time match highlighting and validation</span><br/><span class="hl-8">// - Quick pattern buttons for common use cases</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Regex Flag Support:</p>
+<ul>
+<li>g (global): Find all matches, not just the first</li>
+<li>i (ignoreCase): Case-insensitive matching</li>
+<li>m (multiline): ^ and $ match line breaks</li>
+<li>u (unicode): Full Unicode support</li>
+<li>y (sticky): Match only from lastIndex position</li>
+</ul>
+<p>Match Information:</p>
+<ul>
+<li>Full match text and position</li>
+<li>Capture groups with individual values</li>
+<li>Visual highlighting in source text</li>
+<li>Match count and statistics</li>
+</ul>
+<p>Common Patterns Included:</p>
+<ul>
+<li>Email address validation</li>
+<li>URL/URI matching</li>
+<li>Phone number formats</li>
+<li>IP address validation</li>
+<li>Date and time patterns</li>
+<li>Credit card numbers</li>
+<li>Color codes (hex)</li>
+</ul>
+<p>Technical Details:</p>
+<ul>
+<li>Uses native JavaScript RegExp constructor</li>
+<li>Handles global flag with proper lastIndex management</li>
+<li>Prevents infinite loops on zero-length matches</li>
+<li>HTML highlighting with XSS protection</li>
+<li>Memory-efficient match processing</li>
+</ul>
+</div></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/KrishnaSathvik/byte-toolbox/blob/39177aaf96c7626c246d16c648f7baa2d9bf4ff4/src/components/tools/RegexTester.tsx#L105">src/components/tools/RegexTester.tsx:105</a></li></ul></aside></div></li></ul></section></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">DevToolbox Documentation - v0.0.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
