@@ -1,6 +1,6 @@
-# 🛠️ DevToolbox
+# 🛠️ ByteToolbox
 
-> **A comprehensive collection of developer tools built with React, TypeScript, and modern web technologies**
+> **Free online developer tools for JSON formatting, Base64 encoding, hash generation, UUID creation, regex testing, and timestamp conversion. Fast, secure, and privacy-focused tools that run locally in your browser.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -10,7 +10,7 @@
 
 ## 🎯 Overview
 
-DevToolbox is a modern, professional collection of essential developer tools designed to streamline your development workflow. Built with React, TypeScript, and Vite, it provides a fast, responsive, and intuitive interface for common development tasks.
+ByteToolbox is a modern, professional collection of essential developer tools designed to streamline your development workflow. Built with React, TypeScript, and Vite, it provides a fast, responsive, and intuitive interface for common development tasks.
 
 ## ✨ Features
 

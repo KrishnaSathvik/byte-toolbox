@@ -161,6 +161,43 @@ export const Navigation = () => {
         </div>
       </nav>
 
+      {/* Footer Links - Only show on desktop */}
+      <div className="hidden lg:block bg-nav-background border-t border-border">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-6 text-sm">
+              <Link 
+                to="/about" 
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                About
+              </Link>
+              <Link 
+                to="/faq" 
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                FAQ
+              </Link>
+              <Link 
+                to="/privacy" 
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Privacy
+              </Link>
+              <Link 
+                to="/terms" 
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Terms
+              </Link>
+            </div>
+            <div className="text-xs text-muted-foreground">
+              © 2024 ByteToolbox. All rights reserved.
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Command Palette */}
       {isSearchOpen && (
         <div 

@@ -11,6 +11,10 @@ import HashPage from "./pages/HashPage";
 import UuidPage from "./pages/UuidPage";
 import RegexPage from "./pages/RegexPage";
 import TimestampPage from "./pages/TimestampPage";
+import { About } from "./pages/About";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { TermsOfService } from "./pages/TermsOfService";
+import { FAQ } from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +34,10 @@ const App = () => (
           <Route path="/uuid" element={<UuidPage />} />
           <Route path="/regex" element={<RegexPage />} />
           <Route path="/timestamp" element={<TimestampPage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/faq" element={<FAQ />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

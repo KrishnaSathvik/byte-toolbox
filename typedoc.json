@@ -2,7 +2,7 @@
   "entryPoints": ["src/components/**/*.tsx", "src/components/**/*.ts"],
   "entryPointStrategy": "expand",
   "out": "docs",
-  "name": "DevToolbox Documentation",
+  "name": "ByteToolbox Documentation",
   "includeVersion": true,
   "excludePrivate": true,
   "excludeProtected": true,

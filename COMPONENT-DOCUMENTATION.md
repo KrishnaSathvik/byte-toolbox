@@ -1,10 +1,10 @@
-# 📚 DevToolbox Component Documentation Guide
+# 📚 ByteToolbox Component Documentation Guide
 
-> **Professional-grade documentation for all components in the DevToolbox application**
+> **Professional-grade documentation for all components in the ByteToolbox application**
 
 ## 🎯 Overview
 
-This guide provides comprehensive documentation for all components in the DevToolbox application. The documentation follows industry standards with JSDoc comments, TypeScript integration, and practical examples for every component.
+This guide provides comprehensive documentation for all components in the ByteToolbox application. The documentation follows industry standards with JSDoc comments, TypeScript integration, and practical examples for every component.
 
 ## 📊 Documentation Coverage Status
 
@@ -168,7 +168,7 @@ interface ToolLayoutProps {
 ---
 
 ### 2. **Navigation** (`src/components/Navigation.tsx`)
-**Purpose**: Main navigation component for DevToolbox
+**Purpose**: Main navigation component for ByteToolbox
 
 **Features**:
 - ✅ Responsive design with mobile hamburger menu
@@ -267,7 +267,7 @@ interface MonacoEditorProps {
 **Purpose**: Unit tests for Navigation component
 
 **Test Coverage**:
-- ✅ Renders DevToolbox logo
+- ✅ Renders ByteToolbox logo
 - ✅ Displays navigation links
 - ✅ Handles mobile menu toggle
 - ✅ Theme toggle functionality
