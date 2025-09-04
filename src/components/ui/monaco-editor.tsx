@@ -59,7 +59,7 @@ export const MonacoEditor = ({
           readOnly,
           minimap: { enabled: minimap },
           fontSize: 14,
-          fontFamily: 'Fira Code, SF Mono, Monaco, Consolas, monospace',
+          fontFamily: 'Cascadia Code, Source Code Pro, SF Mono, Monaco, Consolas, monospace',
           fontLigatures: true,
           lineNumbers: lineNumbers ? 'on' : 'off',
           automaticLayout: true,
@@ -67,32 +67,28 @@ export const MonacoEditor = ({
           scrollBeyondLastLine: false,
           renderLineHighlight: 'gutter',
           selectOnLineNumbers: true,
-          smoothScrolling: true,
+          smoothScrolling: false, // Disable smooth scrolling to reduce lag
           contextmenu: true,
-          formatOnPaste: true,
-          formatOnType: true,
+          formatOnPaste: false, // Disable auto-formatting to reduce processing
+          formatOnType: false, // Disable format-on-type to reduce lag
           tabSize: 2,
           insertSpaces: true,
           folding: true,
-          foldingHighlight: true,
-          showFoldingControls: 'mouseover',
-          cursorBlinking: 'smooth',
-          cursorSmoothCaretAnimation: 'on',
-          renderWhitespace: 'selection',
-          bracketPairColorization: { enabled: true },
+          foldingHighlight: false, // Disable folding highlight to reduce DOM updates
+          showFoldingControls: 'always', // Change from 'mouseover' to reduce cursor lag
+          cursorBlinking: 'blink', // Change from 'smooth' to reduce animations
+          cursorSmoothCaretAnimation: 'off', // Disable smooth cursor animation
+          renderWhitespace: 'none', // Reduce rendering overhead
+          bracketPairColorization: { enabled: false }, // Disable to reduce processing
           guides: {
-            bracketPairs: true,
-            indentation: true,
+            bracketPairs: false, // Disable to reduce DOM updates
+            indentation: false, // Disable to reduce rendering
           },
           suggest: {
-            showKeywords: true,
-            showSnippets: true,
+            showKeywords: false, // Disable suggestions to reduce processing
+            showSnippets: false,
           },
-          quickSuggestions: {
-            other: true,
-            comments: true,
-            strings: true
-          },
+          quickSuggestions: false, // Disable quick suggestions completely
           padding: { top: 16, bottom: 16 },
           scrollbar: {
             vertical: 'auto',
