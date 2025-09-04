@@ -1,8 +1,8 @@
-# 🛠️ ByteToolbox
+# 🛠️ ByteToolBox
 
 > **Free online developer tools for JSON formatting, Base64 encoding, hash generation, UUID creation, regex testing, and timestamp conversion. Fast, secure, and privacy-focused tools that run locally in your browser.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Commercial](https://img.shields.io/badge/License-Commercial-red.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -10,7 +10,7 @@
 
 ## 🎯 Overview
 
-ByteToolbox is a modern, professional collection of essential developer tools designed to streamline your development workflow. Built with React, TypeScript, and Vite, it provides a fast, responsive, and intuitive interface for common development tasks.
+ByteToolBox is a modern, professional collection of essential developer tools designed to streamline your development workflow. Built with React, TypeScript, and Vite, it provides a fast, responsive, and intuitive interface for common development tasks.
 
 ## ✨ Features
 
@@ -32,7 +32,7 @@ ByteToolbox is a modern, professional collection of essential developer tools de
 ### 🚀 **Performance & Quality**
 - **TypeScript** - Full type safety and excellent developer experience
 - **Vite** - Lightning-fast development and build times
-- **Component Documentation** - Comprehensive JSDoc documentation
+- **PWA Support** - Installable app with offline functionality
 - **Unit Tests** - Full test coverage with Vitest
 - **Accessibility** - WCAG compliant with keyboard navigation
 
@@ -55,8 +55,8 @@ ByteToolbox is a modern, professional collection of essential developer tools de
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/KrishnaSathvik/byte-toolbox.git
+# Download the project files
+# Extract to your desired directory
 
 # Navigate to the project directory
 cd byte-toolbox
@@ -69,6 +69,59 @@ npm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173) in your browser to see the application.
+
+## 📊 Google Analytics Setup
+
+ByteToolBox includes built-in Google Analytics 4 (GA4) support for tracking user interactions and tool usage. To enable analytics:
+
+### 1. Get Your Google Analytics Measurement ID
+
+1. Go to [Google Analytics](https://analytics.google.com/)
+2. Create a new GA4 property or use an existing one
+3. Copy your Measurement ID (format: `G-XXXXXXXXXX`)
+
+### 2. Configure Environment Variables
+
+Create a `.env` file in the project root:
+
+```bash
+# Google Analytics Configuration
+VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+```
+
+Replace `G-XXXXXXXXXX` with your actual Measurement ID.
+
+### 3. Update HTML Configuration
+
+The Google Analytics script is already included in `index.html`. Replace the placeholder `GA_MEASUREMENT_ID` with your actual Measurement ID:
+
+```html
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+```
+
+### 4. What Gets Tracked
+
+The application automatically tracks:
+
+- **Page Views**: All route changes and page visits
+- **Tool Usage**: Hash generation, JSON formatting, Base64 encoding, etc.
+- **User Interactions**: Copy, download, file uploads, algorithm changes
+- **Errors**: Failed operations and validation errors
+- **Performance**: Tool operation timing and success rates
+
+### 5. Privacy Considerations
+
+- All tracking is anonymous and respects user privacy
+- No personal data is collected
+- Users can disable tracking through browser settings
+- Analytics data is processed according to Google's privacy policy
 
 ## 📚 Available Scripts
 
@@ -226,17 +279,16 @@ npm run build
 # Deploy the dist folder to Netlify
 ```
 
-## 🤝 Contributing
+## 💼 Commercial Use
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+ByteToolBox is a commercial product. For licensing and usage rights, please contact us.
 
 ### Development Workflow
-1. Fork the repository
-2. Create a feature branch
+1. Download the project files
+2. Install dependencies
 3. Make your changes
-4. Add tests for new features
-5. Run the test suite
-6. Submit a pull request
+4. Test your modifications
+5. Deploy to your environment
 
 ### Code Standards
 - **TypeScript**: All code must be properly typed
@@ -246,7 +298,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under a Commercial License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -260,18 +312,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you have any questions or need help:
 
-- **Issues**: [GitHub Issues](https://github.com/KrishnaSathvik/byte-toolbox/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/KrishnaSathvik/byte-toolbox/discussions)
-- **Email**: [Your Email]
-
-## 🌟 Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=KrishnaSathvik/byte-toolbox&type=Date)](https://star-history.com/#KrishnaSathvik/byte-toolbox&Date)
+- **Email**: bytetoolbox@gmail.com
+- **Website**: [www.bytetoolbox.com](https://www.bytetoolbox.com)
+- **Support**: Contact us for technical support and licensing inquiries
 
 ---
 
-**Made with ❤️ by [Your Name]**
+**Made with ❤️ by ByteToolBox Team**
 
-[![GitHub](https://img.shields.io/badge/GitHub-100000?logo=github&logoColor=white)](https://github.com/KrishnaSathvik)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://linkedin.com/in/yourprofile)
-[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?logo=twitter&logoColor=white)](https://twitter.com/yourhandle)
+© 2025 ByteToolBox. All rights reserved.

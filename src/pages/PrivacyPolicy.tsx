@@ -1,16 +1,38 @@
 import { ToolLayout } from '@/components/ToolLayout';
+import { useSEO } from '@/hooks/useSEO';
 
 /**
- * Privacy Policy page for ByteToolbox
+ * Privacy Policy page for ByteToolBox
  * 
  * This page outlines our privacy practices and data handling policies.
  * Essential for AdSense approval and user trust.
  */
 export const PrivacyPolicy = () => {
+  useSEO({
+    title: 'Privacy Policy - ByteToolBox Developer Tools | Data Protection & Privacy',
+    description: 'Learn how ByteToolBox protects your privacy and handles your data. All processing happens locally in your browser. No data collection, no tracking, complete privacy.',
+    keywords: 'privacy policy, data protection, privacy-focused, no tracking, local processing, browser-based tools, GDPR compliant, user privacy',
+    canonical: 'https://www.bytetoolbox.com/privacy',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      'name': 'Privacy Policy - ByteToolBox',
+      'description': 'Privacy policy outlining how ByteToolBox protects user data and privacy.',
+      'url': 'https://www.bytetoolbox.com/privacy',
+      'isPartOf': {
+        '@type': 'WebSite',
+        'name': 'ByteToolBox',
+        'url': 'https://www.bytetoolbox.com'
+      },
+      'datePublished': '2025-01-04',
+      'dateModified': '2025-01-04'
+    }
+  });
+
   return (
     <ToolLayout
       title="Privacy Policy"
-      description="Learn how ByteToolbox protects your privacy and handles your data. All processing happens locally in your browser."
+      description="Learn how ByteToolBox protects your privacy and handles your data. All processing happens locally in your browser."
     >
       <div className="p-6 max-w-4xl mx-auto">
         <div className="prose prose-gray dark:prose-invert max-w-none">
@@ -21,7 +43,7 @@ export const PrivacyPolicy = () => {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-foreground mb-4">Our Commitment to Privacy</h2>
             <p className="text-muted-foreground leading-relaxed">
-              ByteToolbox is committed to protecting your privacy. We believe that your data should remain 
+              ByteToolBox is committed to protecting your privacy. We believe that your data should remain 
               private and secure. This privacy policy explains how we collect, use, and protect your 
               information when you use our developer tools.
             </p>
@@ -29,15 +51,15 @@ export const PrivacyPolicy = () => {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-foreground mb-4">Data Processing Philosophy</h2>
-            <div className="bg-success/10 border border-success/20 rounded-lg p-4 mb-4">
-              <h3 className="font-semibold text-success mb-2">🔒 Local Processing</h3>
-              <p className="text-success/80 text-sm">
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 mb-4">
+              <h3 className="font-semibold text-green-700 dark:text-green-300 mb-2">🔒 Local Processing</h3>
+              <p className="text-green-600 dark:text-green-400 text-sm">
                 All data processing happens locally in your browser. Your data never leaves your device 
                 and is never sent to our servers.
               </p>
             </div>
             <p className="text-muted-foreground leading-relaxed">
-              Unlike many online tools, ByteToolbox processes all data locally in your browser. 
+              Unlike many online tools, ByteToolBox processes all data locally in your browser. 
               This means your JSON data, Base64 content, hashes, UUIDs, and other sensitive 
               information never leaves your device.
             </p>
@@ -115,8 +137,7 @@ export const PrivacyPolicy = () => {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-foreground mb-4">Children's Privacy</h2>
             <p className="text-muted-foreground leading-relaxed">
-              ByteToolbox is not intended for children under 13. We do not knowingly collect 
-              personal information from children under 13.
+              ByteToolBox is not intended for children under 13. We do not collect personal information from children under 13.
             </p>
           </section>
 
@@ -135,16 +156,16 @@ export const PrivacyPolicy = () => {
             </p>
             <div className="bg-card border border-border rounded-lg p-4 mt-4">
               <p className="text-foreground">
-                <strong>Email:</strong> privacy@bytetoolbox.com<br />
-                <strong>GitHub:</strong> <a href="https://github.com/KrishnaSathvik/byte-toolbox" className="text-primary hover:underline">github.com/KrishnaSathvik/byte-toolbox</a>
+                <strong>Email:</strong> bytetoolbox@gmail.com<br />
+                <strong>Website:</strong> <a href="https://www.bytetoolbox.com" className="text-primary hover:underline">www.bytetoolbox.com</a>
               </p>
             </div>
           </section>
 
-          <div className="bg-info/10 border border-info/20 rounded-lg p-4 mt-8">
-            <h3 className="font-semibold text-info mb-2">💡 Privacy-First Design</h3>
-            <p className="text-info/80 text-sm">
-              ByteToolbox was designed with privacy in mind. Your data never leaves your device, 
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mt-8">
+            <h3 className="font-semibold text-blue-700 dark:text-blue-300 mb-2">💡 Privacy-First Design</h3>
+            <p className="text-blue-600 dark:text-blue-400 text-sm">
+              ByteToolBox was designed with privacy in mind. Your data never leaves your device, 
               ensuring maximum security and privacy for all your development work.
             </p>
           </div>

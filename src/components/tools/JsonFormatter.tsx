@@ -1,8 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { MonacoEditor } from '@/components/ui/monaco-editor';
 import { Button } from '@/components/ui/button';
 import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
+import { trackToolUsage, trackConversion, trackError } from '@/lib/analytics';
 import { Copy, Download, Wand2, Minimize2, FileText, AlertCircle, CheckCircle } from 'lucide-react';
 
 /**
@@ -22,6 +23,14 @@ const examples = [
     input: '{"user":{"profile":{"name":"John","settings":{"theme":"dark","notifications":true}}}}'
   }
 ];
+
+/**
+ * Props for the JsonFormatter component
+ */
+interface JsonFormatterProps {
+  /** Initial value to populate the input field */
+  initialValue?: string;
+}
 
 /**
  * JsonFormatter - A professional JSON formatting and validation tool
@@ -61,12 +70,19 @@ const examples = [
  * 
  * @returns JSX element containing the complete JSON formatter interface
  */
-export const JsonFormatter = () => {
-  const [input, setInput] = useState('');
+export const JsonFormatter = ({ initialValue = '' }: JsonFormatterProps = {}) => {
+  const [input, setInput] = useState(initialValue);
   const [output, setOutput] = useState('');
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const [error, setError] = useState<string>('');
   const [isMinified, setIsMinified] = useState(false);
+
+  // Update input when initialValue prop changes
+  useEffect(() => {
+    if (initialValue) {
+      setInput(initialValue);
+    }
+  }, [initialValue]);
   const { toast } = useToast();
 
   /**
@@ -95,11 +111,22 @@ export const JsonFormatter = () => {
       setError('');
       setIsMinified(minify);
       
+      // Track successful formatting
+      trackToolUsage('JSON Formatter', minify ? 'minify_json' : 'format_json', {
+        input_length: jsonString.length,
+        output_length: formatted.length,
+        is_minified: minify
+      });
+      trackConversion(minify ? 'json_minified' : 'json_formatted', 'JSON Formatter');
+      
       toast({
         title: minify ? 'JSON Minified' : 'JSON Formatted',
         description: `Successfully ${minify ? 'minified' : 'formatted'} your JSON`,
       });
     } catch (err) {
+      // Track error
+      trackError('json_validation_failed', err instanceof Error ? err.message : 'Invalid JSON', 'JSON Formatter');
+      
       setIsValid(false);
       setError(err instanceof Error ? err.message : 'Invalid JSON');
       setOutput('');
@@ -117,6 +144,10 @@ export const JsonFormatter = () => {
   const handleCopy = async () => {
     if (output) {
       await navigator.clipboard.writeText(output);
+      trackToolUsage('JSON Formatter', 'copy_output', {
+        output_length: output.length,
+        is_minified: isMinified
+      });
       toast({
         title: 'Copied!',
         description: 'Formatted JSON copied to clipboard',
@@ -136,6 +167,13 @@ export const JsonFormatter = () => {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       
+      // Track download
+      trackToolUsage('JSON Formatter', 'download_output', {
+        output_length: output.length,
+        is_minified: isMinified,
+        file_name: a.download
+      });
+      
       toast({
         title: 'Downloaded!',
         description: 'JSON file saved to your device',
@@ -148,96 +186,106 @@ export const JsonFormatter = () => {
     setOutput('');
     setIsValid(null);
     setError('');
+    trackToolUsage('JSON Formatter', 'clear_all');
   };
 
   const handleFillExample = (exampleInput: string) => {
     setInput(exampleInput);
+    trackToolUsage('JSON Formatter', 'fill_example', {
+      example_length: exampleInput.length
+    });
     validateAndFormat(exampleInput, false);
   };
 
   return (
     <ToolLayout
-      title="JSON Formatter & Validator"
-      description="Format, validate and minify JSON data with professional syntax highlighting. Perfect for debugging APIs, configuration files, and data analysis."
       examples={examples}
       onFillExample={handleFillExample}
     >
-      <div className="p-6">
+      <div className="w-full">
         {/* Toolbar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div className="flex flex-col gap-3 p-3 sm:p-6 border-b border-border">
+          {/* Top Row - Format/Minify/Clear */}
           <div className="flex flex-wrap items-center gap-2">
-            <Button onClick={handleFormat} className="flex items-center gap-2">
+            <Button onClick={handleFormat} className="flex items-center gap-2 text-sm flex-1 sm:flex-none">
               <Wand2 className="w-4 h-4" />
-              Format
+              <span className="hidden sm:inline">Format</span>
+              <span className="sm:hidden">Format</span>
             </Button>
-            <Button onClick={handleMinify} variant="secondary" className="flex items-center gap-2">
+            <Button onClick={handleMinify} variant="secondary" className="flex items-center gap-2 text-sm flex-1 sm:flex-none">
               <Minimize2 className="w-4 h-4" />
-              Minify
+              <span className="hidden sm:inline">Minify</span>
+              <span className="sm:hidden">Minify</span>
             </Button>
-            <Button onClick={handleClear} variant="outline">
+            <Button onClick={handleClear} variant="outline" className="text-sm flex-1 sm:flex-none">
               Clear
             </Button>
           </div>
           
-          <div className="flex items-center gap-2">
-            {output && (
-              <>
-                <Button onClick={handleCopy} variant="outline" size="sm" className="flex items-center gap-2">
-                  <Copy className="w-4 h-4" />
-                  Copy
-                </Button>
-                <Button onClick={handleDownload} variant="outline" size="sm" className="flex items-center gap-2">
-                  <Download className="w-4 h-4" />
-                  Download
-                </Button>
-              </>
-            )}
-          </div>
+          {/* Bottom Row - Copy/Download */}
+          {output && (
+            <div className="flex flex-wrap items-center gap-2">
+              <Button onClick={handleCopy} variant="outline" size="sm" className="flex items-center gap-2 text-sm flex-1 sm:flex-none">
+                <Copy className="w-4 h-4" />
+                <span className="hidden sm:inline">Copy</span>
+                <span className="sm:hidden">Copy</span>
+              </Button>
+              <Button onClick={handleDownload} variant="outline" size="sm" className="flex items-center gap-2 text-sm flex-1 sm:flex-none">
+                <Download className="w-4 h-4" />
+                <span className="hidden sm:inline">Download</span>
+                <span className="sm:hidden">Download</span>
+              </Button>
+            </div>
+          )}
         </div>
 
-        {/* Editors */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        {/* Editors - Full width layout */}
+        <div className="w-full">
           {/* Input */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
+          <div className="w-full p-4 sm:p-6 border-b border-border">
+            <div className="flex items-center gap-2 mb-3">
               <FileText className="w-4 h-4 text-muted-foreground" />
-              <h3 className="font-medium text-foreground">Input JSON</h3>
+              <h3 className="font-medium text-foreground text-sm sm:text-base">Input JSON</h3>
             </div>
-            <MonacoEditor
-              value={input}
-              onChange={(value) => setInput(value || '')}
-              language="json"
-              placeholder='Paste your JSON here...\n\nExample:\n{\n  "name": "John",\n  "age": 30\n}'
-              height="400px"
-            />
+            <div className="w-full">
+              <MonacoEditor
+                value={input}
+                onChange={(value) => setInput(value || '')}
+                language="json"
+                placeholder='Paste your JSON here...\n\nExample:\n{\n  "name": "John",\n  "age": 30\n}'
+                height="300px"
+              />
+            </div>
           </div>
 
           {/* Output */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
+          <div className="w-full p-4 sm:p-6">
+            <div className="flex items-center gap-2 mb-3">
               <FileText className="w-4 h-4 text-muted-foreground" />
-              <h3 className="font-medium text-foreground">
+              <h3 className="font-medium text-foreground text-sm sm:text-base">
                 {isMinified ? 'Minified JSON' : 'Formatted JSON'}
               </h3>
             </div>
-            <MonacoEditor
-              value={output}
-              language="json"
-              readOnly
-              height="400px"
-              placeholder="Formatted JSON will appear here..."
-            />
+            <div className="w-full">
+              <MonacoEditor
+                value={output}
+                language="json"
+                readOnly
+                height="300px"
+                placeholder="Formatted JSON will appear here..."
+              />
+            </div>
           </div>
         </div>
 
         {/* Status */}
-        <div className="mt-6 p-4 bg-secondary/30 rounded-lg">
-          <div className="flex items-center gap-3">
+        <div className="mt-6 p-4 sm:p-6 bg-secondary/30 rounded-lg mx-4 sm:mx-6">
+          <div className="flex items-center gap-2 sm:gap-3">
             {isValid === true && (
               <>
-                <CheckCircle className="w-5 h-5 text-success" />
+                <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
                 <span className="text-success font-medium">Valid JSON</span>
-                <span className="text-muted-foreground">
+                <span className="text-muted-foreground text-sm">
                   • Size: {new Blob([output]).size} bytes
                   {isMinified && ' (minified)'}
                 </span>
@@ -245,15 +293,15 @@ export const JsonFormatter = () => {
             )}
             {isValid === false && (
               <>
-                <AlertCircle className="w-5 h-5 text-destructive" />
+                <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
                 <span className="text-destructive font-medium">Invalid JSON</span>
-                <span className="text-muted-foreground">• {error}</span>
+                <span className="text-muted-foreground text-sm">• {error}</span>
               </>
             )}
             {isValid === null && (
               <>
-                <AlertCircle className="w-5 h-5 text-muted-foreground" />
-                <span className="text-muted-foreground">Enter JSON to validate and format</span>
+                <AlertCircle className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                <span className="text-muted-foreground text-sm">Enter JSON to validate and format</span>
               </>
             )}
           </div>

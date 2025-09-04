@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - ByteToolBox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            padding: 40px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+        
+        .icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 24px;
+            background: #3b82f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+        
+        p {
+            color: #a1a1aa;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        
+        .features {
+            text-align: left;
+            margin: 24px 0;
+        }
+        
+        .features h3 {
+            color: #ffffff;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .features ul {
+            list-style: none;
+            color: #a1a1aa;
+        }
+        
+        .features li {
+            padding: 4px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .retry-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .retry-btn:hover {
+            background: #2563eb;
+        }
+        
+        .status {
+            margin-top: 16px;
+            padding: 12px;
+            background: #1f2937;
+            border-radius: 8px;
+            color: #a1a1aa;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+            <div class="container">
+            <div class="icon">🔧</div>
+            <h1>You're Offline</h1>
+            <p>ByteToolBox works offline! Once you're back online, you'll have access to all features.</p>
+            <p style="font-size: 14px; color: #666; margin-top: 8px;">Visit us at <strong>www.bytetoolbox.com</strong></p>
+        
+        <div class="features">
+            <h3>Available Offline:</h3>
+            <ul>
+                <li>JSON Formatter & Validator</li>
+                <li>Base64 Encoder/Decoder</li>
+                <li>Hash Generator (SHA-256, SHA-512, MD5, SHA-1)</li>
+                <li>UUID Generator</li>
+                <li>Regex Tester</li>
+                <li>Timestamp Converter</li>
+            </ul>
+        </div>
+        
+        <button class="retry-btn" onclick="window.location.reload()">
+            Try Again
+        </button>
+        
+        <div class="status">
+            <strong>Status:</strong> Offline - All tools work locally in your browser<br>
+            <strong>Website:</strong> www.bytetoolbox.com
+        </div>
+    </div>
+    
+    <script>
+        // Check online status
+        function updateStatus() {
+            const status = document.querySelector('.status');
+            if (navigator.onLine) {
+                status.innerHTML = '<strong>Status:</strong> Online - Redirecting...<br><strong>Website:</strong> www.bytetoolbox.com';
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            } else {
+                status.innerHTML = '<strong>Status:</strong> Offline - All tools work locally in your browser<br><strong>Website:</strong> www.bytetoolbox.com';
+            }
+        }
+        
+        // Listen for online/offline events
+        window.addEventListener('online', updateStatus);
+        window.addEventListener('offline', updateStatus);
+        
+        // Initial status check
+        updateStatus();
+    </script>
+</body>
+</html>

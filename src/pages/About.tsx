@@ -1,18 +1,52 @@
 import { ToolLayout } from '@/components/ToolLayout';
 import { Code2, Shield, Zap, Users, Heart, Github, Twitter, Linkedin } from 'lucide-react';
+import { useSEO } from '@/hooks/useSEO';
 
 /**
- * About page for ByteToolbox
+ * About page for ByteToolBox
  * 
- * This page tells the story of ByteToolbox and builds trust with users.
+ * This page tells the story of ByteToolBox and builds trust with users.
  * Important for SEO and user engagement.
  */
 export const About = () => {
+  useSEO({
+    title: 'About ByteToolBox - Privacy-Focused Developer Tools | Free Online Utilities',
+    description: 'Learn about ByteToolBox - the privacy-focused developer tools platform built for modern developers. Fast, secure, completely free, and runs entirely in your browser.',
+    keywords: 'about bytetoolbox, developer tools, privacy-focused, free tools, online utilities, browser-based tools, open source, developer community',
+    canonical: 'https://www.bytetoolbox.com/about',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      'name': 'About ByteToolBox',
+      'description': 'Learn about ByteToolBox - the privacy-focused developer tools platform built for modern developers.',
+      'url': 'https://www.bytetoolbox.com/about',
+      'mainEntity': {
+        '@type': 'Organization',
+        'name': 'ByteToolBox',
+        'description': 'Privacy-focused developer tools platform providing free online utilities that run entirely in your browser.',
+        'url': 'https://www.bytetoolbox.com',
+        'foundingDate': '2025-01-04',
+        'slogan': 'Fast, secure, and always available developer tools'
+      }
+    }
+  });
+
   return (
-    <ToolLayout
-      title="About ByteToolbox"
-      description="Learn about ByteToolbox - the privacy-focused developer tools platform built for modern developers. Fast, secure, and completely free."
-    >
+    <ToolLayout>
+      {/* Hero Section */}
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold gradient-text mb-3 sm:mb-4">
+              About ByteToolBox
+            </h1>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Learn about ByteToolBox - the privacy-focused developer tools platform built for modern developers. Fast, secure, and completely free.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="p-6 max-w-4xl mx-auto">
         <div className="prose prose-gray dark:prose-invert max-w-none">
           
@@ -20,7 +54,7 @@ export const About = () => {
           <section className="mb-12 text-center">
             <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-8 mb-8">
               <Code2 className="w-16 h-16 text-primary mx-auto mb-4" />
-              <h1 className="text-4xl font-bold text-foreground mb-4">ByteToolbox</h1>
+              <h1 className="text-4xl font-bold text-foreground mb-4">ByteToolBox</h1>
               <p className="text-xl text-muted-foreground">
                 Privacy-focused developer tools built for the modern web
               </p>
@@ -31,7 +65,7 @@ export const About = () => {
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-6">Our Mission</h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              ByteToolbox was born from a simple idea: developers deserve fast, reliable, and 
+              ByteToolBox was born from a simple idea: developers deserve fast, reliable, and 
               privacy-focused tools that work seamlessly in their browser. We believe that 
               your data should stay on your device, and your tools should be lightning-fast.
             </p>
@@ -65,7 +99,7 @@ export const About = () => {
             <h2 className="text-3xl font-bold text-foreground mb-6">Our Story</h2>
             <div className="space-y-6 text-muted-foreground leading-relaxed">
               <p>
-                ByteToolbox started as a personal project to solve common development problems. 
+                ByteToolBox started as a personal project to solve common development problems. 
                 As developers, we were frustrated with slow, clunky online tools that required 
                 uploading sensitive data to unknown servers.
               </p>
@@ -75,7 +109,7 @@ export const About = () => {
                 or data uploads. Tools that just worked.
               </p>
               <p>
-                So we built ByteToolbox - a collection of essential developer tools that process 
+                So we built ByteToolBox - a collection of essential developer tools that process 
                 everything locally in your browser. No data leaves your device, no accounts required, 
                 and no compromises on speed or functionality.
               </p>
@@ -89,7 +123,7 @@ export const About = () => {
               <div>
                 <h3 className="text-xl font-semibold text-foreground mb-4">🔒 Privacy by Design</h3>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  Unlike other online tools, ByteToolbox processes all data locally in your browser. 
+                  Unlike other online tools, ByteToolBox processes all data locally in your browser. 
                   Your JSON data, Base64 content, and other sensitive information never leaves your device.
                 </p>
                 <ul className="list-disc list-inside text-muted-foreground space-y-2">
@@ -119,7 +153,7 @@ export const About = () => {
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-6">Our Tools</h2>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              ByteToolbox includes six essential developer tools, each designed to solve 
+              ByteToolBox includes six essential developer tools, each designed to solve 
               common development problems quickly and securely:
             </p>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -143,87 +177,54 @@ export const About = () => {
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-6">Built With Modern Technology</h2>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              ByteToolbox is built using the latest web technologies to ensure the best 
+              ByteToolBox is built using the latest web technologies to ensure the best 
               performance, security, and user experience:
             </p>
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <h3 className="text-xl font-semibold text-foreground mb-4">Frontend</h3>
-                <ul className="space-y-2 text-muted-foreground">
-                  <li>• <strong>React 18</strong> - Modern UI library</li>
-                  <li>• <strong>TypeScript</strong> - Type-safe development</li>
-                  <li>• <strong>Vite</strong> - Lightning-fast build tool</li>
-                  <li>• <strong>Tailwind CSS</strong> - Utility-first styling</li>
-                  <li>• <strong>shadcn/ui</strong> - Beautiful component library</li>
+                <ul className="bullet-list text-muted-foreground">
+                  <li><strong>React 18</strong> - Modern UI library</li>
+                  <li><strong>TypeScript</strong> - Type-safe development</li>
+                  <li><strong>Vite</strong> - Lightning-fast build tool</li>
+                  <li><strong>Tailwind CSS</strong> - Utility-first styling</li>
+                  <li><strong>shadcn/ui</strong> - Beautiful component library</li>
                 </ul>
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-foreground mb-4">Tools & Testing</h3>
-                <ul className="space-y-2 text-muted-foreground">
-                  <li>• <strong>Vitest</strong> - Fast unit testing</li>
-                  <li>• <strong>ESLint</strong> - Code quality</li>
-                  <li>• <strong>TypeDoc</strong> - Documentation generation</li>
-                  <li>• <strong>Monaco Editor</strong> - VS Code editor</li>
-                  <li>• <strong>Lucide Icons</strong> - Beautiful icon set</li>
+                <ul className="bullet-list text-muted-foreground">
+                  <li><strong>Vitest</strong> - Fast unit testing</li>
+                  <li><strong>ESLint</strong> - Code quality</li>
+                  <li><strong>TypeDoc</strong> - Documentation generation</li>
+                  <li><strong>Monaco Editor</strong> - VS Code editor</li>
+                  <li><strong>Lucide Icons</strong> - Beautiful icon set</li>
                 </ul>
               </div>
             </div>
           </section>
 
-          {/* Open Source */}
+          {/* Commercial Product */}
           <section className="mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-6">Open Source & Community</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-6">Professional Product</h2>
             <div className="bg-card border border-border rounded-lg p-6">
               <div className="flex items-start gap-4">
-                <Github className="w-8 h-8 text-foreground mt-1" />
+                <Code2 className="w-8 h-8 text-foreground mt-1" />
                 <div>
-                  <h3 className="text-xl font-semibold text-foreground mb-2">100% Open Source</h3>
+                  <h3 className="text-xl font-semibold text-foreground mb-2">Commercial Software</h3>
                   <p className="text-muted-foreground leading-relaxed mb-4">
-                    ByteToolbox is completely open source and available under the MIT License. 
-                    You can view, modify, and contribute to the codebase on GitHub.
+                    ByteToolBox is a professional, commercial product designed for developers 
+                    who need reliable, fast, and secure tools for their daily work.
                   </p>
-                  <a 
-                    href="https://github.com/KrishnaSathvik/byte-toolbox" 
-                    className="inline-flex items-center gap-2 text-primary hover:underline"
-                  >
-                    <Github className="w-4 h-4" />
-                    View on GitHub
-                  </a>
+                  <div className="text-sm text-muted-foreground">
+                    For licensing inquiries, contact us at bytetoolbox@gmail.com<br />
+                    Visit us at <a href="https://www.bytetoolbox.com" className="text-primary hover:underline">www.bytetoolbox.com</a>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Team Section */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-6">Meet the Team</h2>
-            <div className="bg-card border border-border rounded-lg p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Users className="w-8 h-8 text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-foreground">Krishna Sathvik</h3>
-                  <p className="text-muted-foreground">Founder & Lead Developer</p>
-                </div>
-              </div>
-              <p className="text-muted-foreground leading-relaxed">
-                Passionate about building tools that make developers' lives easier. 
-                Full-stack developer with a focus on performance, security, and user experience.
-              </p>
-              <div className="flex gap-4 mt-4">
-                <a href="https://github.com/KrishnaSathvik" className="text-muted-foreground hover:text-foreground">
-                  <Github className="w-5 h-5" />
-                </a>
-                <a href="https://twitter.com/yourhandle" className="text-muted-foreground hover:text-foreground">
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a href="https://linkedin.com/in/yourprofile" className="text-muted-foreground hover:text-foreground">
-                  <Linkedin className="w-5 h-5" />
-                </a>
-              </div>
-            </div>
-          </section>
 
           {/* Contact Section */}
           <section className="mb-12">
@@ -234,27 +235,27 @@ export const About = () => {
             </p>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="bg-card border border-border rounded-lg p-6">
-                <h3 className="font-semibold text-foreground mb-2">💬 Feedback & Support</h3>
+                <h3 className="font-semibold text-foreground mb-2">📧 Email Us</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Have a suggestion or found a bug? Let us know!
+                  Send us an email directly
                 </p>
                 <a 
-                  href="https://github.com/KrishnaSathvik/byte-toolbox/issues" 
+                  href="mailto:bytetoolbox@gmail.com" 
                   className="text-primary hover:underline text-sm"
                 >
-                  Open an issue on GitHub
+                  bytetoolbox@gmail.com
                 </a>
               </div>
               <div className="bg-card border border-border rounded-lg p-6">
-                <h3 className="font-semibold text-foreground mb-2">🤝 Contribute</h3>
+                <h3 className="font-semibold text-foreground mb-2">💼 Licensing</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Want to help improve ByteToolbox? We welcome contributions!
+                  Interested in commercial licensing or custom development?
                 </p>
                 <a 
-                  href="https://github.com/KrishnaSathvik/byte-toolbox" 
+                  href="mailto:bytetoolbox@gmail.com" 
                   className="text-primary hover:underline text-sm"
                 >
-                  Contribute on GitHub
+                  Contact us for licensing
                 </a>
               </div>
             </div>
@@ -265,7 +266,7 @@ export const About = () => {
             <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">Ready to Get Started?</h2>
               <p className="text-muted-foreground mb-6">
-                Try ByteToolbox today and experience the difference that privacy-focused, 
+                Try ByteToolBox today and experience the difference that privacy-focused, 
                 high-performance developer tools can make.
               </p>
               <a 

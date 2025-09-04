@@ -17,7 +17,7 @@ const tools = [
 ];
 
 /**
- * Navigation - The main navigation component for ByteToolbox
+ * Navigation - The main navigation component for ByteToolBox
  * 
  * Features:
  * - Responsive design with mobile hamburger menu
@@ -25,7 +25,7 @@ const tools = [
  * - Theme toggle (dark/light mode)
  * - Active route highlighting
  * - Tool search functionality
- * - ByteToolbox branding with logo
+ * - ByteToolBox branding with logo
  * 
  * @example
  * ```tsx
@@ -56,6 +56,64 @@ export const Navigation = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
 
+  // Generate breadcrumb data
+  const generateBreadcrumbs = () => {
+    const pathSegments = location.pathname.split('/').filter(Boolean);
+    const breadcrumbs = [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.bytetoolbox.com/'
+      }
+    ];
+
+    let currentPath = '';
+    pathSegments.forEach((segment, index) => {
+      currentPath += `/${segment}`;
+      const tool = tools.find(t => t.path === currentPath);
+      const name = tool ? tool.full : segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
+      
+      breadcrumbs.push({
+        '@type': 'ListItem',
+        position: index + 2,
+        name: name,
+        item: `https://www.bytetoolbox.com${currentPath}`
+      });
+    });
+
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs
+    };
+  };
+
+  // Add breadcrumb structured data
+  useEffect(() => {
+    const breadcrumbData = generateBreadcrumbs();
+    
+    // Remove existing breadcrumb data
+    const existingScript = document.querySelector('script[data-breadcrumb]');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    // Add new breadcrumb data
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-breadcrumb', 'true');
+    script.textContent = JSON.stringify(breadcrumbData);
+    document.head.appendChild(script);
+
+    return () => {
+      const scriptToRemove = document.querySelector('script[data-breadcrumb]');
+      if (scriptToRemove) {
+        scriptToRemove.remove();
+      }
+    };
+  }, [location.pathname]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -85,12 +143,12 @@ export const Navigation = () => {
   return (
     <>
       <nav className="bg-nav-background border-b border-border">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between h-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3">
-              <Code2 className="w-6 h-6 text-primary" />
-              <span className="text-xl font-semibold text-foreground">ByteToolbox</span>
+            <Link to="/" className="flex items-center gap-2 sm:gap-3">
+              <Code2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+              <span className="text-lg sm:text-xl font-semibold text-foreground">ByteToolBox</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -111,7 +169,7 @@ export const Navigation = () => {
             </div>
 
             {/* Search & Mobile Menu */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <ThemeToggle />
               <Button
                 variant="outline"
@@ -121,7 +179,7 @@ export const Navigation = () => {
               >
                 <Search className="w-4 h-4" />
                 <span className="hidden md:inline">Search</span>
-                <kbd className="hidden md:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs">
+                <kbd className="hidden md:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs text-muted-foreground">
                   ⌘K
                 </kbd>
               </Button>
@@ -129,7 +187,7 @@ export const Navigation = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="lg:hidden"
+                className="lg:hidden p-2"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -139,14 +197,14 @@ export const Navigation = () => {
 
           {/* Mobile Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden py-4 border-t border-border">
-              <div className="space-y-1">
+            <div className="lg:hidden py-4 border-t border-border bg-card/50 backdrop-blur-sm">
+              <div className="space-y-2 px-2">
                 {tools.map((tool) => (
                   <Link
                     key={tool.path}
                     to={tool.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block px-3 py-2 rounded-md text-sm font-medium ${
+                    className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                       location.pathname === tool.path
                         ? 'bg-primary text-primary-foreground'
                         : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
@@ -155,60 +213,24 @@ export const Navigation = () => {
                     {tool.full}
                   </Link>
                 ))}
+                
+                {/* Mobile Search Button */}
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsSearchOpen(true);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                >
+                  <Search className="w-4 h-4" />
+                  Search Tools
+                </button>
               </div>
             </div>
           )}
         </div>
       </nav>
 
-      {/* Footer Links - Only show on desktop */}
-      <div className="hidden lg:block bg-nav-background border-t border-border">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6 text-sm">
-              <Link 
-                to="/about" 
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                About
-              </Link>
-              <Link 
-                to="/blog" 
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Blog
-              </Link>
-              <Link 
-                to="/faq" 
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                FAQ
-              </Link>
-              <Link 
-                to="/comparisons" 
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Compare
-              </Link>
-              <Link 
-                to="/privacy" 
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Privacy
-              </Link>
-              <Link 
-                to="/terms" 
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Terms
-              </Link>
-            </div>
-            <div className="text-xs text-muted-foreground">
-              © 2024 ByteToolbox. All rights reserved.
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Command Palette */}
       {isSearchOpen && (
@@ -216,19 +238,19 @@ export const Navigation = () => {
           className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
           onClick={() => setIsSearchOpen(false)}
         >
-          <div className="fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2">
-            <div className="w-[90vw] max-w-lg bg-card border border-border rounded-lg">
+          <div className="fixed left-1/2 top-1/4 sm:top-1/3 -translate-x-1/2 -translate-y-1/2 w-[95vw] sm:w-[90vw] max-w-lg">
+            <div className="bg-card border border-border rounded-lg shadow-lg">
               <div className="flex items-center gap-3 p-4 border-b border-border">
                 <Search className="w-5 h-5 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Search tools..."
-                  className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none"
+                  className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-base"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   autoFocus
                 />
-                <kbd className="px-2 py-1 text-xs text-muted-foreground bg-muted rounded">ESC</kbd>
+                <kbd className="hidden sm:inline-flex px-2 py-1 text-xs text-muted-foreground bg-muted rounded">ESC</kbd>
               </div>
               <div className="max-h-64 overflow-y-auto">
                 {filteredTools.length > 0 ? (
@@ -237,13 +259,13 @@ export const Navigation = () => {
                       key={tool.path}
                       to={tool.path}
                       onClick={() => handleToolSelect(tool.path)}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-secondary transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-secondary transition-colors border-b border-border last:border-b-0"
                     >
-                      <div className="font-medium text-foreground">{tool.full}</div>
+                      <div className="font-medium text-foreground text-sm sm:text-base">{tool.full}</div>
                     </Link>
                   ))
                 ) : (
-                  <div className="px-4 py-8 text-center text-muted-foreground">
+                  <div className="px-4 py-8 text-center text-muted-foreground text-sm">
                     No tools found for "{searchQuery}"
                   </div>
                 )}

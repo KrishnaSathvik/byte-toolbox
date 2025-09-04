@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
+import { trackToolUsage, trackConversion, trackError } from '@/lib/analytics';
 import { Copy, Download, Clock, Calendar, RefreshCw } from 'lucide-react';
 
 /**
@@ -21,6 +22,14 @@ const examples = [
     input: '946684800'
   }
 ];
+
+/**
+ * Props for the TimestampConverter component
+ */
+interface TimestampConverterProps {
+  /** Initial value to populate the input field */
+  initialValue?: string;
+}
 
 /**
  * Available timezone options for display formatting
@@ -102,10 +111,17 @@ interface ConversionResult {
  * 
  * @returns JSX element containing the complete timestamp converter interface
  */
-export const TimestampConverter = () => {
-  const [input, setInput] = useState('');
+export const TimestampConverter = ({ initialValue = '' }: TimestampConverterProps = {}) => {
+  const [input, setInput] = useState(initialValue);
   const [inputType, setInputType] = useState<'timestamp' | 'date'>('timestamp');
   const [selectedTimezone, setSelectedTimezone] = useState('UTC');
+
+  // Update input when initialValue prop changes
+  useEffect(() => {
+    if (initialValue) {
+      setInput(initialValue);
+    }
+  }, [initialValue]);
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [result, setResult] = useState<ConversionResult | null>(null);
   const [error, setError] = useState('');
@@ -176,6 +192,7 @@ export const TimestampConverter = () => {
 
   const convertTimestamp = useCallback(() => {
     if (!input.trim()) {
+      trackError('missing_input', 'Input is required', 'Timestamp Converter');
       toast({
         title: 'Input Required',
         description: 'Please enter a timestamp or date',
@@ -219,11 +236,23 @@ export const TimestampConverter = () => {
       setResult(conversionResult);
       setError('');
       
+      // Track successful conversion
+      trackToolUsage('Timestamp Converter', 'convert_timestamp', {
+        input_type: inputType,
+        input_length: input.length,
+        timezone: selectedTimezone,
+        timestamp_value: timestamp
+      });
+      trackConversion('timestamp_converted', 'Timestamp Converter');
+      
       toast({
         title: 'Conversion Successful',
         description: 'Timestamp converted successfully',
       });
     } catch (err) {
+      // Track error
+      trackError('timestamp_conversion_failed', err instanceof Error ? err.message : 'Conversion failed', 'Timestamp Converter');
+      
       setError(err instanceof Error ? err.message : 'Conversion failed');
       setResult(null);
       
@@ -237,6 +266,10 @@ export const TimestampConverter = () => {
 
   const copyValue = async (value: string, label: string) => {
     await navigator.clipboard.writeText(value);
+    trackToolUsage('Timestamp Converter', 'copy_value', {
+      value_type: label,
+      value_length: value.length
+    });
     toast({
       title: 'Copied!',
       description: `${label} copied to clipboard`,
@@ -269,6 +302,13 @@ export const TimestampConverter = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
+    // Track download
+    trackToolUsage('Timestamp Converter', 'download_result', {
+      file_name: a.download,
+      input_type: inputType,
+      timezone: selectedTimezone
+    });
+    
     toast({
       title: 'Downloaded!',
       description: 'Results saved to your device',
@@ -278,30 +318,33 @@ export const TimestampConverter = () => {
   const useCurrentTime = () => {
     setInput(Math.floor(currentTime / 1000).toString());
     setInputType('timestamp');
+    trackToolUsage('Timestamp Converter', 'use_current_time');
   };
 
   const handleClear = () => {
     setInput('');
     setResult(null);
     setError('');
+    trackToolUsage('Timestamp Converter', 'clear_all');
   };
 
   const handleFillExample = (exampleInput: string) => {
     setInput(exampleInput);
     setInputType('timestamp');
+    trackToolUsage('Timestamp Converter', 'fill_example', {
+      example_length: exampleInput.length
+    });
   };
 
   return (
     <ToolLayout
-      title="Unix Timestamp Converter"
-      description="Convert Unix timestamps to human readable dates and vice versa. Handle multiple timezones, relative time calculations, and various date formats with precision."
       examples={examples}
       onFillExample={handleFillExample}
     >
-      <div className="p-6">
+      <div className="w-full">
         {/* Live Current Time */}
-        <div className="mb-6 p-4 bg-primary/10 border border-primary/20 rounded-lg">
-          <div className="flex items-center justify-between">
+        <div className="mb-6 p-4 sm:p-6 bg-primary/10 border border-primary/20 rounded-lg mx-4 sm:mx-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h3 className="font-medium text-primary mb-1">Current Unix Timestamp</h3>
               <div className="font-mono text-lg text-foreground">
@@ -318,7 +361,7 @@ export const TimestampConverter = () => {
         </div>
 
         {/* Input Section */}
-        <div className="space-y-4 mb-6">
+        <div className="space-y-4 mb-6 p-4 sm:p-6">
           {/* Input Type Toggle */}
           <div className="flex items-center bg-secondary rounded-lg p-1">
             <button
@@ -381,7 +424,7 @@ export const TimestampConverter = () => {
         </div>
 
         {/* Controls */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 p-4 sm:p-6">
           <div className="flex items-center gap-2">
             <Button onClick={convertTimestamp} className="flex items-center gap-2">
               <RefreshCw className="w-4 h-4" />
@@ -402,7 +445,7 @@ export const TimestampConverter = () => {
 
         {/* Error Display */}
         {error && (
-          <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+          <div className="mb-6 p-4 sm:p-6 bg-destructive/10 border border-destructive/20 rounded-lg mx-4 sm:mx-6">
             <div className="flex items-center gap-2 text-destructive">
               <Clock className="w-4 h-4" />
               <span className="font-medium">Error: {error}</span>
@@ -412,7 +455,7 @@ export const TimestampConverter = () => {
 
         {/* Results */}
         {result && (
-          <div className="space-y-4">
+          <div className="space-y-4 p-4 sm:p-6">
             <h3 className="font-medium text-foreground">Conversion Results</h3>
             
             <div className="grid gap-4">
@@ -424,18 +467,19 @@ export const TimestampConverter = () => {
                 { label: 'Local Time', value: result.local, icon: Calendar },
                 { label: 'Relative Time', value: result.relative, icon: Clock }
               ].map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-card border border-border rounded-lg">
+                <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-card border border-border rounded-lg gap-3">
                   <div className="flex items-center gap-3">
                     <item.icon className="w-4 h-4 text-muted-foreground" />
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <div className="font-medium text-foreground">{item.label}</div>
-                      <div className="font-mono text-sm text-muted-foreground">{item.value}</div>
+                      <div className="font-mono text-sm text-muted-foreground break-all">{item.value}</div>
                     </div>
                   </div>
                   <Button
                     size="sm"
                     variant="ghost"
                     onClick={() => copyValue(item.value, item.label)}
+                    className="self-start sm:self-center"
                   >
                     <Copy className="w-4 h-4" />
                   </Button>
@@ -446,9 +490,9 @@ export const TimestampConverter = () => {
         )}
 
         {/* Info */}
-        <div className="mt-8 p-4 bg-info/10 border border-info/20 rounded-lg">
-          <h4 className="font-medium text-info mb-2">About Unix Timestamps</h4>
-          <div className="text-sm text-info/80 space-y-1">
+        <div className="mt-8 p-4 sm:p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg mx-4 sm:mx-6">
+          <h4 className="font-medium text-blue-700 dark:text-blue-300 mb-2">About Unix Timestamps</h4>
+          <div className="text-sm text-blue-600 dark:text-blue-400 space-y-1">
             <p>• Unix timestamp counts seconds since January 1, 1970 (Unix Epoch)</p>
             <p>• Values less than 10,000,000,000 are treated as seconds</p>
             <p>• Values greater are treated as milliseconds</p>

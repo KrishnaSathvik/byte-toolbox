@@ -14,14 +14,14 @@ const NavigationWrapper = ({ children }: { children: React.ReactNode }) => (
 )
 
 describe('Navigation', () => {
-  it('renders ByteToolbox logo', () => {
+  it('renders ByteToolBox logo', () => {
     render(
       <NavigationWrapper>
         <Navigation />
       </NavigationWrapper>
     )
     
-    expect(screen.getByText('ByteToolbox')).toBeInTheDocument()
+    expect(screen.getByText('ByteToolBox')).toBeInTheDocument()
   })
 
   it('renders all tool links', () => {

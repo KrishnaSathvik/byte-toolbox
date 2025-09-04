@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Mobile-specific improvements */
+@layer utilities {
+  /* Better touch targets for mobile */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improved mobile spacing */
+  .mobile-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Mobile-friendly text sizes */
+  .mobile-text {
+    @apply text-sm sm:text-base;
+  }
+  
+  /* Mobile grid improvements */
+  .mobile-grid {
+    @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+  }
+  
+  /* Better mobile button spacing */
+  .mobile-button-group {
+    @apply flex flex-col sm:flex-row gap-2 sm:gap-3;
+  }
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
@@ -175,5 +204,27 @@ All colors MUST be HSL.
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 600;
+  }
+
+  .bullet-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .bullet-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .bullet-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--muted-foreground);
+    font-weight: bold;
+    width: 1rem;
+    text-align: center;
   }
 }

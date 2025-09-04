@@ -1,0 +1,22 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  
+  <!-- Main Card -->
+  <rect x="40" y="40" width="1120" height="550" rx="16" fill="#1a1a1a"/>
+  
+  <!-- Code Icon -->
+  <text x="600" y="200" font-family="'Source Code Pro', 'Cascadia Code', 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace" font-size="72" font-weight="700" text-anchor="middle" fill="#ffffff">&lt;/&gt;</text>
+  
+  <!-- Title -->
+  <text x="600" y="280" font-family="'Source Code Pro', 'Cascadia Code', 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace" font-size="48" font-weight="600" text-anchor="middle" fill="#ffffff">ByteToolBox</text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="330" font-family="'Source Code Pro', 'Cascadia Code', 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace" font-size="24" font-weight="400" text-anchor="middle" fill="#a1a1aa">Professional Developer Tools</text>
+  
+  <!-- Features -->
+  <text x="600" y="400" font-family="'Source Code Pro', 'Cascadia Code', 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace" font-size="18" font-weight="400" text-anchor="middle" fill="#71717a">JSON • Base64 • Hash • UUID • Regex • Timestamp</text>
+  
+  <!-- URL -->
+  <text x="600" y="520" font-family="'Source Code Pro', 'Cascadia Code', 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace" font-size="20" font-weight="500" text-anchor="middle" fill="#3b82f6">www.bytetoolbox.com</text>
+</svg>

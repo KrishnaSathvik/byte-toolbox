@@ -1,4 +1,4 @@
-# 🚀 SEO Checklist for ByteToolbox Launch
+# 🚀 SEO Checklist for ByteToolBox Launch
 
 ## ✅ **Technical SEO**
 
@@ -10,7 +10,7 @@
 - [x] Canonical URL structure
 
 ### **Content Optimization**
-- [x] H1 tag with primary keyword "ByteToolbox"
+- [x] H1 tag with primary keyword "ByteToolBox"
 - [x] H2 tags with tool names (JSON Formatter, Base64 Encoder, etc.)
 - [x] Alt text for images
 - [x] Internal linking structure

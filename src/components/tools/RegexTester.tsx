@@ -1,8 +1,9 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { MonacoEditor } from '@/components/ui/monaco-editor';
 import { Button } from '@/components/ui/button';
 import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
+import { trackToolUsage, trackConversion, trackError } from '@/lib/analytics';
 import { Copy, Download, TestTube, AlertCircle, CheckCircle } from 'lucide-react';
 
 /**
@@ -22,6 +23,14 @@ const examples = [
     input: '/https?:\\/\\/(www\\.)?[\\w\\.-]+\\.[a-zA-Z]{2,}([\\w\\.-]*)*\\/?\\??([\\w&=%.-]*)*#?([\\w-]*)/gm'
   }
 ];
+
+/**
+ * Props for the RegexTester component
+ */
+interface RegexTesterProps {
+  /** Initial value to populate the input field */
+  initialValue?: string;
+}
 
 /**
  * Common regex patterns for quick access
@@ -102,10 +111,17 @@ interface MatchResult {
  * 
  * @returns JSX element containing the complete regex testing interface
  */
-export const RegexTester = () => {
-  const [pattern, setPattern] = useState('');
+export const RegexTester = ({ initialValue = '' }: RegexTesterProps = {}) => {
+  const [pattern, setPattern] = useState(initialValue);
   const [flags, setFlags] = useState('gm');
   const [testText, setTestText] = useState('');
+
+  // Update pattern when initialValue prop changes
+  useEffect(() => {
+    if (initialValue) {
+      setPattern(initialValue);
+    }
+  }, [initialValue]);
   const [matches, setMatches] = useState<MatchResult[]>([]);
   const [error, setError] = useState('');
   const [isValid, setIsValid] = useState<boolean | null>(null);
@@ -113,6 +129,7 @@ export const RegexTester = () => {
 
   const testRegex = useCallback(() => {
     if (!pattern.trim()) {
+      trackError('missing_pattern', 'Pattern is required', 'Regex Tester');
       toast({
         title: 'Pattern Required',
         description: 'Please enter a regex pattern',
@@ -122,6 +139,7 @@ export const RegexTester = () => {
     }
 
     if (!testText.trim()) {
+      trackError('missing_test_text', 'Test text is required', 'Regex Tester');
       toast({
         title: 'Test Text Required',
         description: 'Please enter text to test against',
@@ -163,11 +181,23 @@ export const RegexTester = () => {
       setError('');
       setIsValid(true);
       
+      // Track successful regex test
+      trackToolUsage('Regex Tester', 'test_regex', {
+        pattern_length: pattern.length,
+        test_text_length: testText.length,
+        flags: flags,
+        match_count: results.length
+      });
+      trackConversion('regex_tested', 'Regex Tester');
+      
       toast({
         title: 'Regex Tested',
         description: `Found ${results.length} match${results.length !== 1 ? 'es' : ''}`,
       });
     } catch (err) {
+      // Track error
+      trackError('invalid_regex', err instanceof Error ? err.message : 'Invalid regex pattern', 'Regex Tester');
+      
       setError(err instanceof Error ? err.message : 'Invalid regex pattern');
       setMatches([]);
       setIsValid(false);
@@ -206,11 +236,19 @@ export const RegexTester = () => {
   const handlePatternSelect = (commonPattern: typeof commonPatterns[0]) => {
     setPattern(commonPattern.pattern);
     setFlags(commonPattern.flags);
+    trackToolUsage('Regex Tester', 'select_pattern', {
+      pattern_name: commonPattern.name,
+      pattern_length: commonPattern.pattern.length
+    });
   };
 
   const handleCopyPattern = async () => {
     if (pattern) {
       await navigator.clipboard.writeText(`/${pattern}/${flags}`);
+      trackToolUsage('Regex Tester', 'copy_pattern', {
+        pattern_length: pattern.length,
+        flags: flags
+      });
       toast({
         title: 'Copied!',
         description: 'Regex pattern copied to clipboard',
@@ -239,6 +277,13 @@ export const RegexTester = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
+    // Track download
+    trackToolUsage('Regex Tester', 'download_results', {
+      match_count: matches.length,
+      pattern_length: pattern.length,
+      file_name: a.download
+    });
+    
     toast({
       title: 'Downloaded!',
       description: 'Results saved to your device',
@@ -251,6 +296,7 @@ export const RegexTester = () => {
     setMatches([]);
     setError('');
     setIsValid(null);
+    trackToolUsage('Regex Tester', 'clear_all');
   };
 
   const handleFillExample = (exampleInput: string) => {
@@ -261,18 +307,20 @@ export const RegexTester = () => {
     } else {
       setPattern(exampleInput);
     }
+    trackToolUsage('Regex Tester', 'fill_example', {
+      example_length: exampleInput.length,
+      has_flags: !!match
+    });
   };
 
   return (
     <ToolLayout
-      title="Regular Expression Tester"
-      description="Test regular expressions with real-time matching and validation. Debug regex patterns, extract groups, and validate against test strings with professional tools."
       examples={examples}
       onFillExample={handleFillExample}
     >
-      <div className="p-6">
+      <div className="w-full">
         {/* Common Patterns */}
-        <div className="mb-6">
+        <div className="mb-6 p-4 sm:p-6">
           <h3 className="text-sm font-medium text-foreground mb-3">Quick Patterns</h3>
           <div className="flex flex-wrap gap-2">
             {commonPatterns.map((pattern) => (
@@ -288,8 +336,8 @@ export const RegexTester = () => {
         </div>
 
         {/* Pattern Input */}
-        <div className="grid md:grid-cols-4 gap-4 mb-6">
-          <div className="md:col-span-3 space-y-2">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6 p-3 sm:p-6">
+          <div className="sm:col-span-3 space-y-2">
             <label className="block text-sm font-medium text-foreground">
               Regular Expression Pattern
             </label>
@@ -317,7 +365,7 @@ export const RegexTester = () => {
         </div>
 
         {/* Flag Descriptions */}
-        <div className="mb-6 p-3 bg-muted/20 rounded-lg">
+        <div className="mb-6 p-3 bg-muted/20 rounded-lg mx-4 sm:mx-6">
           <div className="text-xs text-muted-foreground space-y-1">
             <div><code>g</code> - Global match (find all matches)</div>
             <div><code>i</code> - Case insensitive</div>
@@ -328,7 +376,7 @@ export const RegexTester = () => {
         </div>
 
         {/* Test Text */}
-        <div className="space-y-3 mb-6">
+        <div className="space-y-3 mb-6 p-4 sm:p-6">
           <label className="block text-sm font-medium text-foreground">
             Test Text
           </label>
@@ -337,61 +385,63 @@ export const RegexTester = () => {
             onChange={(value) => setTestText(value || '')}
             language="plaintext"
             placeholder="Enter text to test your regex against..."
-            height="200px"
+            height="250px"
           />
         </div>
 
         {/* Controls */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-          <div className="flex items-center gap-2">
-            <Button onClick={testRegex} className="flex items-center gap-2">
+        <div className="flex flex-col gap-3 mb-6 p-3 sm:p-6">
+          <div className="flex flex-wrap items-center gap-2">
+            <Button onClick={testRegex} className="flex items-center gap-2 flex-1 sm:flex-none">
               <TestTube className="w-4 h-4" />
               Test Regex
             </Button>
-            <Button onClick={handleClear} variant="outline">
+            <Button onClick={handleClear} variant="outline" className="flex-1 sm:flex-none">
               Clear
             </Button>
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {pattern && (
-              <Button onClick={handleCopyPattern} variant="outline" size="sm" className="flex items-center gap-2">
+              <Button onClick={handleCopyPattern} variant="outline" size="sm" className="flex items-center gap-2 flex-1 sm:flex-none">
                 <Copy className="w-4 h-4" />
-                Copy Pattern
+                <span className="hidden sm:inline">Copy Pattern</span>
+                <span className="sm:hidden">Copy Pattern</span>
               </Button>
             )}
             {matches.length > 0 && (
-              <Button onClick={handleDownloadResults} variant="outline" size="sm" className="flex items-center gap-2">
+              <Button onClick={handleDownloadResults} variant="outline" size="sm" className="flex items-center gap-2 flex-1 sm:flex-none">
                 <Download className="w-4 h-4" />
-                Download Results
+                <span className="hidden sm:inline">Download Results</span>
+                <span className="sm:hidden">Download Results</span>
               </Button>
             )}
           </div>
         </div>
 
         {/* Status */}
-        <div className="mb-6 p-4 bg-secondary/30 rounded-lg">
-          <div className="flex items-center gap-3">
+        <div className="mb-6 p-4 sm:p-6 bg-secondary/30 rounded-lg mx-4 sm:mx-6">
+          <div className="flex items-center gap-2 sm:gap-3">
             {isValid === true && (
               <>
-                <CheckCircle className="w-5 h-5 text-success" />
+                <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
                 <span className="text-success font-medium">Valid Pattern</span>
-                <span className="text-muted-foreground">
+                <span className="text-muted-foreground text-sm">
                   • Found {matches.length} match{matches.length !== 1 ? 'es' : ''}
                 </span>
               </>
             )}
             {isValid === false && (
               <>
-                <AlertCircle className="w-5 h-5 text-destructive" />
+                <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
                 <span className="text-destructive font-medium">Invalid Pattern</span>
-                <span className="text-muted-foreground">• {error}</span>
+                <span className="text-muted-foreground text-sm">• {error}</span>
               </>
             )}
             {isValid === null && (
               <>
-                <TestTube className="w-5 h-5 text-muted-foreground" />
-                <span className="text-muted-foreground">Enter pattern and test text to begin</span>
+                <TestTube className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                <span className="text-muted-foreground text-sm">Enter pattern and test text to begin</span>
               </>
             )}
           </div>
@@ -399,12 +449,12 @@ export const RegexTester = () => {
 
         {/* Results */}
         {matches.length > 0 && (
-          <div className="space-y-4">
+          <div className="space-y-4 p-3 sm:p-6">
             {/* Highlighted Text */}
             <div className="space-y-2">
               <h3 className="font-medium text-foreground">Highlighted Matches</h3>
               <div 
-                className="p-4 bg-editor-background border border-border rounded-lg font-mono text-sm whitespace-pre-wrap"
+                className="p-3 sm:p-4 bg-editor-background border border-border rounded-lg font-mono text-sm whitespace-pre-wrap overflow-x-auto"
                 dangerouslySetInnerHTML={{ __html: highlightedText }}
               />
             </div>
@@ -415,7 +465,7 @@ export const RegexTester = () => {
               <div className="space-y-2 max-h-64 overflow-y-auto">
                 {matches.map((match, index) => (
                   <div key={index} className="p-3 bg-card border border-border rounded-lg">
-                    <div className="flex items-start justify-between mb-2">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-2 gap-2">
                       <span className="text-sm font-medium text-foreground">
                         Match {index + 1}
                       </span>
@@ -423,13 +473,13 @@ export const RegexTester = () => {
                         Position: {match.index}
                       </span>
                     </div>
-                    <div className="font-mono text-sm text-primary bg-primary/10 px-2 py-1 rounded mb-2">
+                    <div className="font-mono text-sm text-primary bg-primary/10 px-2 py-1 rounded mb-2 break-all">
                       "{match.match}"
                     </div>
                     {match.groups.length > 0 && (
                       <div className="text-sm">
                         <span className="text-muted-foreground">Groups: </span>
-                        <span className="font-mono">[{match.groups.join(', ')}]</span>
+                        <span className="font-mono break-all">[{match.groups.join(', ')}]</span>
                       </div>
                     )}
                   </div>

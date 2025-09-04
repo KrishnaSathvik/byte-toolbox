@@ -1,10 +1,10 @@
-# 📚 ByteToolbox Component Documentation Guide
+# 📚 ByteToolBox Component Documentation Guide
 
-> **Professional-grade documentation for all components in the ByteToolbox application**
+> **Professional-grade documentation for all components in the ByteToolBox application**
 
 ## 🎯 Overview
 
-This guide provides comprehensive documentation for all components in the ByteToolbox application. The documentation follows industry standards with JSDoc comments, TypeScript integration, and practical examples for every component.
+This guide provides comprehensive documentation for all components in the ByteToolBox application. The documentation follows industry standards with JSDoc comments, TypeScript integration, and practical examples for every component.
 
 ## 📊 Documentation Coverage Status
 
