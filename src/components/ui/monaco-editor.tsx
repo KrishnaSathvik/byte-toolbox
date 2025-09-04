@@ -49,14 +49,17 @@ export const MonacoEditor = ({
         theme="vs-dark"
         loading={
           <div className="flex items-center justify-center h-full min-h-[200px]">
-            <Loader2 className="w-6 h-6 animate-spin text-primary" />
+            <div className="flex flex-col items-center gap-2">
+              <Loader2 className="w-6 h-6 animate-spin text-primary" />
+              <span className="text-sm text-muted-foreground">Loading editor...</span>
+            </div>
           </div>
         }
         options={{
           readOnly,
           minimap: { enabled: minimap },
           fontSize: 14,
-          fontFamily: 'JetBrains Mono, Fira Code, Consolas, monospace',
+          fontFamily: 'Fira Code, SF Mono, Monaco, Consolas, monospace',
           fontLigatures: true,
           lineNumbers: lineNumbers ? 'on' : 'off',
           automaticLayout: true,
@@ -72,7 +75,7 @@ export const MonacoEditor = ({
           insertSpaces: true,
           folding: true,
           foldingHighlight: true,
-          showFoldingControls: 'always',
+          showFoldingControls: 'mouseover',
           cursorBlinking: 'smooth',
           cursorSmoothCaretAnimation: 'on',
           renderWhitespace: 'selection',
@@ -90,12 +93,12 @@ export const MonacoEditor = ({
             comments: true,
             strings: true
           },
-          padding: { top: 12, bottom: 12 },
+          padding: { top: 16, bottom: 16 },
           scrollbar: {
             vertical: 'auto',
             horizontal: 'auto',
-            verticalScrollbarSize: 6,
-            horizontalScrollbarSize: 6,
+            verticalScrollbarSize: 8,
+            horizontalScrollbarSize: 8,
           }
         }}
       />

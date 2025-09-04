@@ -69,8 +69,8 @@ export default {
 				}
 			},
 			fontFamily: {
-				sans: ['Inter', 'system-ui', 'sans-serif'],
-				mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+				sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+				mono: ['Fira Code', 'SF Mono', 'Monaco', 'Consolas', 'monospace'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
