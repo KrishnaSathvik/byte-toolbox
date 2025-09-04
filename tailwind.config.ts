@@ -69,8 +69,8 @@ export default {
 				}
 			},
 			fontFamily: {
-				sans: ['Geist', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
-				mono: ['JetBrains Mono', 'Fira Code', 'SF Mono', 'Monaco', 'Consolas', 'monospace'],
+				sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+				mono: ['Cascadia Code', 'Source Code Pro', 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Consolas', 'monospace'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
