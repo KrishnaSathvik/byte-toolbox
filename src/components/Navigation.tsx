@@ -4,6 +4,9 @@ import { Search, Code2, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
+/**
+ * Available developer tools in the navigation
+ */
 const tools = [
   { name: 'JSON', path: '/json-formatter', full: 'JSON Formatter' },
   { name: 'Base64', path: '/base64', full: 'Base64 Encoder' },
@@ -13,6 +16,40 @@ const tools = [
   { name: 'Time', path: '/timestamp', full: 'Timestamp Converter' }
 ];
 
+/**
+ * Navigation - The main navigation component for DevToolbox
+ * 
+ * Features:
+ * - Responsive design with mobile hamburger menu
+ * - Command palette search (Ctrl/Cmd + K)
+ * - Theme toggle (dark/light mode)
+ * - Active route highlighting
+ * - Tool search functionality
+ * - DevToolbox branding with logo
+ * 
+ * @example
+ * ```tsx
+ * // Used in ToolLayout or main app layout
+ * <Navigation />
+ * 
+ * // Automatically handles:
+ * // - Route highlighting based on current location
+ * // - Mobile responsive behavior
+ * // - Keyboard shortcuts (Cmd/Ctrl + K for search)
+ * // - Theme switching
+ * ```
+ * 
+ * Keyboard Shortcuts:
+ * - `Ctrl/Cmd + K` - Open command palette search
+ * - `Escape` - Close search palette
+ * 
+ * Responsive Behavior:
+ * - Desktop: Horizontal navigation with all tools visible
+ * - Mobile: Hamburger menu with collapsible tool list
+ * - Search: Hidden on small screens, visible on sm+
+ * 
+ * @returns JSX element containing the complete navigation interface
+ */
 export const Navigation = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

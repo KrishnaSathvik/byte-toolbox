@@ -5,6 +5,9 @@ import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
 import { Copy, Download, ArrowUpDown, Upload, Type, FileText } from 'lucide-react';
 
+/**
+ * Predefined examples for quick testing of Base64 encoding functionality
+ */
 const examples = [
   {
     name: 'Simple Text',
@@ -20,6 +23,39 @@ const examples = [
   }
 ];
 
+/**
+ * Base64Encoder - A comprehensive Base64 encoding and decoding tool
+ * 
+ * Features:
+ * - Unicode-safe encoding/decoding using TextEncoder/TextDecoder
+ * - URL-safe Base64 variant support (RFC 4648 Section 5)
+ * - File upload support (up to 10MB)
+ * - Binary file encoding support
+ * - Copy to clipboard functionality
+ * - Download results as text files
+ * - Real-time conversion with error handling
+ * - Professional Monaco editor integration
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage
+ * <Base64Encoder />
+ * 
+ * // The component handles all state internally and provides:
+ * // - Encode/decode mode switching
+ * // - URL-safe Base64 option
+ * // - File upload for both text and binary files
+ * // - Copy/download functionality
+ * ```
+ * 
+ * Technical Details:
+ * - Uses TextEncoder/TextDecoder for proper Unicode handling
+ * - Supports both standard and URL-safe Base64 encoding
+ * - File size limit of 10MB for performance
+ * - Handles binary files through ArrayBuffer
+ * 
+ * @returns JSX element containing the complete Base64 encoder/decoder interface
+ */
 export const Base64Encoder = () => {
   const [mode, setMode] = useState<'encode' | 'decode'>('encode');
   const [input, setInput] = useState('');
@@ -28,6 +64,14 @@ export const Base64Encoder = () => {
   const [error, setError] = useState('');
   const { toast } = useToast();
 
+  /**
+   * Encodes text to Base64 with Unicode support
+   * 
+   * @param text - The text to encode
+   * @param urlSafe - Whether to use URL-safe Base64 encoding (replaces +/= with -/_)
+   * @returns Base64 encoded string
+   * @throws {Error} When encoding fails
+   */
   const encodeBase64 = useCallback((text: string, urlSafe: boolean = false) => {
     try {
       // Unicode-safe encoding
@@ -46,6 +90,14 @@ export const Base64Encoder = () => {
     }
   }, []);
 
+  /**
+   * Decodes Base64 string to text with Unicode support
+   * 
+   * @param encoded - The Base64 string to decode
+   * @param urlSafe - Whether the input uses URL-safe Base64 encoding
+   * @returns Decoded text string
+   * @throws {Error} When decoding fails or input is invalid
+   */
   const decodeBase64 = useCallback((encoded: string, urlSafe: boolean = false) => {
     try {
       let input = encoded;
