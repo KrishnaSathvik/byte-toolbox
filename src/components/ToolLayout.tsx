@@ -30,7 +30,7 @@ interface ToolLayoutProps {
 /**
  * ToolLayout - A reusable wrapper component for developer tools
  * 
- * Provides a consistent layout structure for all tools in the DevToolbox application.
+ * Provides a consistent layout structure for all tools in the ByteToolbox application.
  * Includes navigation, hero section with title/description, optional quick examples,
  * main content area, and a privacy notice footer.
  * 

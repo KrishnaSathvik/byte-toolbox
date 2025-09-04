@@ -17,7 +17,7 @@ const tools = [
 ];
 
 /**
- * Navigation - The main navigation component for DevToolbox
+ * Navigation - The main navigation component for ByteToolbox
  * 
  * Features:
  * - Responsive design with mobile hamburger menu
@@ -25,7 +25,7 @@ const tools = [
  * - Theme toggle (dark/light mode)
  * - Active route highlighting
  * - Tool search functionality
- * - DevToolbox branding with logo
+ * - ByteToolbox branding with logo
  * 
  * @example
  * ```tsx
@@ -90,7 +90,7 @@ export const Navigation = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3">
               <Code2 className="w-6 h-6 text-primary" />
-              <span className="text-xl font-semibold text-foreground">DevToolbox</span>
+              <span className="text-xl font-semibold text-foreground">ByteToolbox</span>
             </Link>
 
             {/* Desktop Navigation */}

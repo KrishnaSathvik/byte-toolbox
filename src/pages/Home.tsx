@@ -127,7 +127,7 @@ export const Home = () => {
       <section className="bg-card/20 border-y border-border">
         <div className="max-w-6xl mx-auto px-6 py-16">
           <h2 className="text-2xl font-semibold text-center mb-12">
-            Why DevToolbox?
+            Why ByteToolbox?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
