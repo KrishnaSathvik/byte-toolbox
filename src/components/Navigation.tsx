@@ -173,10 +173,22 @@ export const Navigation = () => {
                 About
               </Link>
               <Link 
+                to="/blog" 
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Blog
+              </Link>
+              <Link 
                 to="/faq" 
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 FAQ
+              </Link>
+              <Link 
+                to="/comparisons" 
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Compare
               </Link>
               <Link 
                 to="/privacy" 
