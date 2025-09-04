@@ -5,6 +5,9 @@ import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
 import { Copy, Download, Wand2, Minimize2, FileText, AlertCircle, CheckCircle } from 'lucide-react';
 
+/**
+ * Predefined JSON examples for quick testing
+ */
 const examples = [
   {
     name: 'Simple Object',
@@ -20,6 +23,44 @@ const examples = [
   }
 ];
 
+/**
+ * JsonFormatter - A professional JSON formatting and validation tool
+ * 
+ * Features:
+ * - Real-time JSON validation with detailed error messages
+ * - Pretty-print formatting with configurable indentation
+ * - JSON minification for production use
+ * - Syntax highlighting with Monaco editor
+ * - Copy to clipboard functionality
+ * - Download formatted JSON as files
+ * - Support for complex nested structures and arrays
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage - automatically formats and validates JSON
+ * <JsonFormatter />
+ * 
+ * // The component provides:
+ * // - Format button: Pretty-prints JSON with 2-space indentation
+ * // - Minify button: Removes whitespace for compact output
+ * // - Validation: Real-time error detection with position info
+ * // - Examples: Quick-fill buttons for common JSON structures
+ * ```
+ * 
+ * Technical Details:
+ * - Uses native JSON.parse() for validation (most reliable)
+ * - JSON.stringify() with replacer and space parameters for formatting
+ * - Monaco editor provides syntax highlighting and error detection
+ * - Handles Unicode characters and special escape sequences correctly
+ * 
+ * Validation Features:
+ * - Detects syntax errors with line/column information
+ * - Shows file size of formatted output
+ * - Visual status indicators (valid/invalid/pending)
+ * - Toast notifications for user feedback
+ * 
+ * @returns JSX element containing the complete JSON formatter interface
+ */
 export const JsonFormatter = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
@@ -28,6 +69,13 @@ export const JsonFormatter = () => {
   const [isMinified, setIsMinified] = useState(false);
   const { toast } = useToast();
 
+  /**
+   * Validates and formats JSON string with error handling
+   * 
+   * @param jsonString - Raw JSON string to validate and format
+   * @param minify - Whether to minify (true) or pretty-print (false) the output
+   * @returns void - Updates component state with formatted result or error
+   */
   const validateAndFormat = useCallback((jsonString: string, minify: boolean = false) => {
     if (!jsonString.trim()) {
       setOutput('');

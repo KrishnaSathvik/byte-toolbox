@@ -6,6 +6,9 @@ import { useToast } from '@/hooks/use-toast';
 import { Copy, Download, Hash, Upload, AlertTriangle, Shield } from 'lucide-react';
 import CryptoJS from 'crypto-js';
 
+/**
+ * Predefined examples for hash generation testing
+ */
 const examples = [
   {
     name: 'Simple Text',
@@ -21,6 +24,9 @@ const examples = [
   }
 ];
 
+/**
+ * Available hash algorithms with security indicators
+ */
 const algorithms = [
   { name: 'SHA-256', value: 'SHA256', secure: true },
   { name: 'SHA-512', value: 'SHA512', secure: true },
@@ -28,6 +34,50 @@ const algorithms = [
   { name: 'MD5', value: 'MD5', secure: false }
 ];
 
+/**
+ * HashGenerator - A comprehensive cryptographic hash generation tool
+ * 
+ * Features:
+ * - Multiple hash algorithms: SHA-256, SHA-512, SHA-1, MD5
+ * - Security warnings for deprecated algorithms (MD5, SHA-1)
+ * - File upload support for hashing file contents
+ * - Hash comparison mode for verification
+ * - Uppercase/lowercase output formatting
+ * - Copy to clipboard and download functionality
+ * - Real-time hash generation with error handling
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage - generates hashes with multiple algorithms
+ * <HashGenerator />
+ * 
+ * // The component provides:
+ * // - Algorithm selection with security indicators
+ * // - File upload for hashing file contents (up to 10MB)
+ * // - Compare mode for hash verification
+ * // - Format options (uppercase, URL-safe, etc.)
+ * ```
+ * 
+ * Security Features:
+ * - Visual warnings for cryptographically weak algorithms
+ * - Recommendations for secure algorithms (SHA-256, SHA-512)
+ * - Hash comparison for integrity verification
+ * - Secure random salt generation (if implemented)
+ * 
+ * Technical Details:
+ * - Uses CryptoJS library for reliable hash generation
+ * - Supports binary file hashing through FileReader API
+ * - Handles large files with size limits (10MB default)
+ * - Case-insensitive hash comparison for verification
+ * 
+ * Supported Algorithms:
+ * - SHA-256: Secure, widely used, recommended for new projects
+ * - SHA-512: More secure than SHA-256, larger output
+ * - SHA-1: Deprecated but still common in legacy systems
+ * - MD5: Fast but cryptographically broken, not recommended
+ * 
+ * @returns JSX element containing the complete hash generator interface
+ */
 export const HashGenerator = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
@@ -38,6 +88,14 @@ export const HashGenerator = () => {
   const [isMatch, setIsMatch] = useState<boolean | null>(null);
   const { toast } = useToast();
 
+  /**
+   * Generates a cryptographic hash from input text
+   * 
+   * @param text - The input text to hash
+   * @param algo - Hash algorithm to use (SHA256, SHA512, SHA1, MD5)
+   * @returns The generated hash string in hexadecimal format
+   * @throws {Error} When algorithm is unsupported or generation fails
+   */
   const generateHash = useCallback((text: string, algo: string) => {
     if (!text.trim()) return '';
 

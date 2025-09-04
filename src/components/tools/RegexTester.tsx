@@ -5,6 +5,9 @@ import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
 import { Copy, Download, TestTube, AlertCircle, CheckCircle } from 'lucide-react';
 
+/**
+ * Predefined regex examples for common use cases
+ */
 const examples = [
   {
     name: 'Email Validation',
@@ -20,6 +23,9 @@ const examples = [
   }
 ];
 
+/**
+ * Common regex patterns for quick access
+ */
 const commonPatterns = [
   { name: 'Email', pattern: '^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$', flags: 'gm' },
   { name: 'URL', pattern: 'https?:\\/\\/(www\\.)?[\\w\\.-]+\\.[a-zA-Z]{2,}([\\w\\.-]*)*\\/?\\??([\\w&=%.-]*)*#?([\\w-]*)', flags: 'gm' },
@@ -31,12 +37,71 @@ const commonPatterns = [
   { name: 'Hex Color', pattern: '#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})', flags: 'gm' }
 ];
 
+/**
+ * Interface for regex match results with groups and position data
+ */
 interface MatchResult {
   match: string;
   index: number;
   groups: string[];
 }
 
+/**
+ * RegexTester - A comprehensive regular expression testing and debugging tool
+ * 
+ * Features:
+ * - Real-time regex pattern testing with live results
+ * - Support for all JavaScript regex flags (g, i, m, u, y)
+ * - Visual match highlighting in test text
+ * - Detailed match information with groups and positions
+ * - Common pattern library for quick access
+ * - Pattern validation with detailed error messages
+ * - Copy pattern and download results functionality
+ * - Professional Monaco editor integration
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage - test regex patterns against text
+ * <RegexTester />
+ * 
+ * // The component provides:
+ * // - Pattern input with flag support
+ * // - Test text editor with syntax highlighting
+ * // - Real-time match highlighting and validation
+ * // - Quick pattern buttons for common use cases
+ * ```
+ * 
+ * Regex Flag Support:
+ * - g (global): Find all matches, not just the first
+ * - i (ignoreCase): Case-insensitive matching
+ * - m (multiline): ^ and $ match line breaks
+ * - u (unicode): Full Unicode support
+ * - y (sticky): Match only from lastIndex position
+ * 
+ * Match Information:
+ * - Full match text and position
+ * - Capture groups with individual values
+ * - Visual highlighting in source text
+ * - Match count and statistics
+ * 
+ * Common Patterns Included:
+ * - Email address validation
+ * - URL/URI matching
+ * - Phone number formats
+ * - IP address validation
+ * - Date and time patterns
+ * - Credit card numbers
+ * - Color codes (hex)
+ * 
+ * Technical Details:
+ * - Uses native JavaScript RegExp constructor
+ * - Handles global flag with proper lastIndex management
+ * - Prevents infinite loops on zero-length matches
+ * - HTML highlighting with XSS protection
+ * - Memory-efficient match processing
+ * 
+ * @returns JSX element containing the complete regex testing interface
+ */
 export const RegexTester = () => {
   const [pattern, setPattern] = useState('');
   const [flags, setFlags] = useState('gm');

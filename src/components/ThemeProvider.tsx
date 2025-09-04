@@ -20,6 +20,41 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
+/**
+ * ThemeProvider - Manages application theme state and system theme detection
+ * 
+ * Features:
+ * - Dark/light theme switching with system preference detection
+ * - Persistent theme storage in localStorage
+ * - Automatic system theme changes detection
+ * - Context-based theme access throughout the app
+ * - Smooth theme transitions
+ * 
+ * @example
+ * ```tsx
+ * // Wrap your app with the theme provider
+ * <ThemeProvider defaultTheme="dark" storageKey="app-theme">
+ *   <App />
+ * </ThemeProvider>
+ * 
+ * // Use the theme in components
+ * const { theme, setTheme } = useTheme()
+ * ```
+ * 
+ * Theme Options:
+ * - "dark": Force dark theme
+ * - "light": Force light theme  
+ * - "system": Follow system preference
+ * 
+ * Technical Details:
+ * - Uses matchMedia to detect system theme changes
+ * - Stores preference in localStorage for persistence
+ * - Updates document root class for CSS theme switching
+ * - Provides React context for theme state management
+ * 
+ * @param props - Theme provider configuration
+ * @returns JSX provider component
+ */
 export function ThemeProvider({
   children,
   defaultTheme = "dark",
@@ -63,6 +98,23 @@ export function ThemeProvider({
   )
 }
 
+/**
+ * useTheme - Hook to access and control theme state
+ * 
+ * @example
+ * ```tsx
+ * const { theme, setTheme } = useTheme()
+ * 
+ * // Get current theme
+ * console.log(theme) // "dark" | "light" | "system"
+ * 
+ * // Change theme
+ * setTheme("light")
+ * ```
+ * 
+ * @returns Theme context with current theme and setter function
+ * @throws {Error} When used outside of ThemeProvider
+ */
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
 

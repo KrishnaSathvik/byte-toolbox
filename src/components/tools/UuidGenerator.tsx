@@ -5,6 +5,9 @@ import { useToast } from '@/hooks/use-toast';
 import { Copy, Download, RefreshCw, Key, Trash2 } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
+/**
+ * Predefined examples for UUID generation quantities
+ */
 const examples = [
   {
     name: 'Single UUID',
@@ -20,6 +23,52 @@ const examples = [
   }
 ];
 
+/**
+ * UuidGenerator - A professional UUID generation tool for developers
+ * 
+ * Features:
+ * - Bulk UUID generation (1-1000 UUIDs at once)
+ * - UUID v4 (random) generation using crypto-secure random numbers
+ * - Flexible formatting options (uppercase, hyphen removal)
+ * - Individual and bulk copy operations
+ * - Download results as text files
+ * - Real-time format preview
+ * - Professional list interface with click-to-copy
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage - generates UUIDs with customizable options
+ * <UuidGenerator />
+ * 
+ * // The component provides:
+ * // - Quantity selector (1-1000 UUIDs)
+ * // - Format options: uppercase, remove hyphens
+ * // - Bulk operations: copy all, download all
+ * // - Individual UUID copy functionality
+ * ```
+ * 
+ * UUID v4 Specifications:
+ * - 128-bit random or pseudo-random numbers
+ * - Format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+ * - Version 4 indicated by the '4' in the third group
+ * - Variant bits in the fourth group (y = 8, 9, A, or B)
+ * - Extremely low collision probability (~5.3x10^-37)
+ * 
+ * Use Cases:
+ * - Database primary keys and foreign keys
+ * - API request identifiers and session IDs
+ * - File naming and resource identification
+ * - Distributed system node identification
+ * - Test data generation for development
+ * 
+ * Technical Details:
+ * - Uses uuid library's v4() function (crypto.getRandomValues)
+ * - Supports bulk generation with performance optimization
+ * - Memory-efficient handling of large UUID lists
+ * - Format customization without regenerating UUIDs
+ * 
+ * @returns JSX element containing the complete UUID generator interface
+ */
 export const UuidGenerator = () => {
   const [quantity, setQuantity] = useState(1);
   const [uppercase, setUppercase] = useState(false);
@@ -27,6 +76,12 @@ export const UuidGenerator = () => {
   const [uuids, setUuids] = useState<string[]>([]);
   const { toast } = useToast();
 
+  /**
+   * Formats a UUID string according to user preferences
+   * 
+   * @param uuid - Raw UUID string to format
+   * @returns Formatted UUID string (uppercase/lowercase, with/without hyphens)
+   */
   const formatUuid = useCallback((uuid: string) => {
     let formatted = uuid;
     if (removeHyphens) {

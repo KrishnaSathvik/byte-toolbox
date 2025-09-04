@@ -4,6 +4,9 @@ import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
 import { Copy, Download, Clock, Calendar, RefreshCw } from 'lucide-react';
 
+/**
+ * Predefined examples for timestamp conversion testing
+ */
 const examples = [
   {
     name: 'Current Time',
@@ -19,6 +22,9 @@ const examples = [
   }
 ];
 
+/**
+ * Available timezone options for display formatting
+ */
 const timezones = [
   { name: 'UTC', value: 'UTC' },
   { name: 'EST (Eastern)', value: 'America/New_York' },
@@ -29,6 +35,9 @@ const timezones = [
   { name: 'Local Time', value: 'local' }
 ];
 
+/**
+ * Interface for timestamp conversion results
+ */
 interface ConversionResult {
   timestamp: number;
   milliseconds: number;
@@ -39,6 +48,60 @@ interface ConversionResult {
   timezone: string;
 }
 
+/**
+ * TimestampConverter - A comprehensive Unix timestamp conversion tool
+ * 
+ * Features:
+ * - Bidirectional conversion between Unix timestamps and human-readable dates
+ * - Support for both seconds and milliseconds timestamps
+ * - Multiple timezone display options (UTC, EST, PST, local, etc.)
+ * - Live current timestamp display with real-time updates
+ * - Relative time calculations (e.g., "2 days ago", "in 3 hours")
+ * - ISO 8601 date formatting
+ * - Copy individual values and download complete results
+ * - Intelligent timestamp detection (seconds vs milliseconds)
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage - converts timestamps and dates in multiple formats
+ * <TimestampConverter />
+ * 
+ * // The component provides:
+ * // - Input toggle: Unix timestamp or date string input
+ * // - Timezone selection: Display results in different timezones
+ * // - Live current time: Always shows the current Unix timestamp
+ * // - Multiple output formats: Unix, ISO, UTC, local, relative
+ * ```
+ * 
+ * Input Format Support:
+ * - Unix timestamps in seconds (< 10,000,000,000)
+ * - Unix timestamps in milliseconds (>= 10,000,000,000)  
+ * - ISO 8601 date strings (2024-01-01T00:00:00Z)
+ * - Natural language dates (Jan 1, 2024)
+ * - Date constructor compatible strings
+ * 
+ * Output Formats:
+ * - Unix timestamp (seconds and milliseconds)
+ * - ISO 8601 standard format
+ * - UTC formatted string with timezone
+ * - Local time with system timezone
+ * - Relative time (human-friendly)
+ * 
+ * Technical Details:
+ * - Uses Intl.DateTimeFormat for locale-aware formatting
+ * - Handles timezone conversions accurately
+ * - Real-time current timestamp updates every second
+ * - Intelligent auto-detection of timestamp format
+ * - Proper handling of Unix epoch and Y2038 limits
+ * 
+ * Timezone Support:
+ * - UTC (Coordinated Universal Time)
+ * - Major world timezones (EST, PST, GMT, CET, JST)
+ * - System local timezone detection
+ * - Daylight saving time aware
+ * 
+ * @returns JSX element containing the complete timestamp converter interface
+ */
 export const TimestampConverter = () => {
   const [input, setInput] = useState('');
   const [inputType, setInputType] = useState<'timestamp' | 'date'>('timestamp');
@@ -56,6 +119,14 @@ export const TimestampConverter = () => {
     return () => clearInterval(interval);
   }, []);
 
+  /**
+   * Formats a timestamp for display in a specific timezone
+   * 
+   * @param timestamp - Unix timestamp in milliseconds
+   * @param timezone - IANA timezone identifier or 'local'
+   * @returns Formatted date string with timezone information
+   * @throws {Error} When timestamp is invalid
+   */
   const formatTimestamp = useCallback((timestamp: number, timezone: string) => {
     const date = new Date(timestamp);
     
@@ -77,6 +148,12 @@ export const TimestampConverter = () => {
     return new Intl.DateTimeFormat('en-US', options).format(date);
   }, []);
 
+  /**
+   * Calculates relative time difference in human-readable format
+   * 
+   * @param timestamp - Unix timestamp to compare against current time
+   * @returns Human-readable relative time string (e.g., "2 days ago", "in 3 hours")
+   */
   const getRelativeTime = useCallback((timestamp: number) => {
     const now = Date.now();
     const diff = Math.abs(now - timestamp);

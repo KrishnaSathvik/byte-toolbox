@@ -2,6 +2,39 @@ import { Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/ThemeProvider"
 
+/**
+ * ThemeToggle - A button component for switching between dark and light themes
+ * 
+ * Features:
+ * - Animated icon transition between sun (light) and moon (dark) icons
+ * - Integrates with ThemeProvider for theme state management
+ * - Accessible button with proper ARIA labels
+ * - Smooth icon rotation animations
+ * - Responsive hover states
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage - typically placed in navigation or header
+ * <ThemeToggle />
+ * 
+ * // The component automatically:
+ * // - Shows sun icon in dark mode, moon icon in light mode
+ * // - Toggles between light and dark themes
+ * // - Provides smooth icon transition animations
+ * ```
+ * 
+ * Accessibility:
+ * - Screen reader friendly with descriptive labels
+ * - Keyboard navigation support
+ * - Focus indicators for keyboard users
+ * 
+ * Animation Details:
+ * - Icons rotate during theme transitions
+ * - Scale animations for smooth visual feedback
+ * - CSS transitions for smooth theme switching
+ * 
+ * @returns JSX button element with theme toggle functionality
+ */
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
 
