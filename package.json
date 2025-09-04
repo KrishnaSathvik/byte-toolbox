@@ -1,5 +1,6 @@
 {
   "name": "bytetoolbox",
+  "description": "ByteToolBox - Professional Developer Tools v1.0.0",
   "private": true,
   "version": "1.0.0",
   "type": "module",
