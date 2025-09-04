@@ -93,10 +93,6 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  html {
-    @apply dark;
-  }
-
   body {
     @apply bg-app-background text-foreground font-sans antialiased;
     background: hsl(var(--app-background));
