@@ -147,7 +147,11 @@ export const Navigation = () => {
           <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 sm:gap-3">
-              <Code2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+              <img 
+                src="/logo.png" 
+                alt="ByteToolBox Logo" 
+                className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
+              />
               <span className="text-lg sm:text-xl font-semibold text-foreground">ByteToolBox</span>
             </Link>
 

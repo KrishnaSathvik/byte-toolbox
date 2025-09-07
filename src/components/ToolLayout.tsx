@@ -1,4 +1,13 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 /**
  * Example data for tool demonstrations
@@ -6,6 +15,14 @@ import { ReactNode } from 'react';
 interface Example {
   name: string;
   input: string;
+}
+
+/**
+ * Breadcrumb item interface
+ */
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
 }
 
 /**
@@ -22,6 +39,8 @@ interface ToolLayoutProps {
   examples?: Example[];
   /** Optional callback when an example is selected */
   onFillExample?: (example: Example) => void;
+  /** Optional breadcrumb navigation items */
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 /**
@@ -45,7 +64,8 @@ export const ToolLayout = ({
   title, 
   description, 
   examples, 
-  onFillExample 
+  onFillExample,
+  breadcrumbs 
 }: ToolLayoutProps) => {
   return (
     <div className="min-h-screen bg-background">
@@ -53,6 +73,30 @@ export const ToolLayout = ({
       <div className="w-full px-3 sm:px-4 lg:px-6 xl:px-8">
         <div className="max-w-4xl xl:max-w-5xl mx-auto">
           <div className="mx-1 sm:mx-0">
+            {/* Breadcrumb Navigation */}
+            {breadcrumbs && breadcrumbs.length > 0 && (
+              <div className="p-4 sm:p-6 border-b border-border">
+                <Breadcrumb>
+                  <BreadcrumbList>
+                    {breadcrumbs.map((item, index) => (
+                      <React.Fragment key={index}>
+                        <BreadcrumbItem>
+                          {item.href ? (
+                            <BreadcrumbLink asChild>
+                              <Link to={item.href}>{item.label}</Link>
+                            </BreadcrumbLink>
+                          ) : (
+                            <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                          )}
+                        </BreadcrumbItem>
+                        {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+                      </React.Fragment>
+                    ))}
+                  </BreadcrumbList>
+                </Breadcrumb>
+              </div>
+            )}
+
             {/* Tool Header */}
             {(title || description) && (
               <div className="p-4 sm:p-6 border-b border-border">

@@ -53,7 +53,11 @@ export const About = () => {
           {/* Hero Section */}
           <section className="mb-12 text-center">
             <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-8 mb-8">
-              <Code2 className="w-16 h-16 text-primary mx-auto mb-4" />
+              <img 
+                src="/logo.png" 
+                alt="ByteToolBox Logo" 
+                className="w-16 h-16 mx-auto mb-4 object-contain"
+              />
               <h1 className="text-4xl font-bold text-foreground mb-4">ByteToolBox</h1>
               <p className="text-xl text-muted-foreground">
                 Privacy-focused developer tools built for the modern web
