@@ -2,7 +2,6 @@ import fs from 'fs';
 import http from 'http';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { chromium } from 'playwright';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '..');
@@ -28,6 +27,34 @@ const MIME_TYPES = {
 };
 
 const PRERENDER_READY_EVENT = 'bytetoolbox-prerender-ready';
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function launchBrowser() {
+  const puppeteer = await import('puppeteer-core');
+
+  if (process.env.VERCEL === '1') {
+    const chromium = (await import('@sparticuz/chromium')).default;
+    chromium.setHeadlessMode = true;
+    chromium.setGraphicsMode = false;
+
+    return puppeteer.default.launch({
+      args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+    });
+  }
+
+  const { chromium } = await import('playwright');
+  return puppeteer.default.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath: chromium.executablePath(),
+    headless: true,
+  });
+}
 
 const ROUTE_CONTENT_CHECKS = {
   '/': ['ByteToolBox', 'JSON Formatter', 'Popular developer guides'],
@@ -171,7 +198,6 @@ async function waitForRouteReady(page) {
       const text = root.textContent?.replace(/\s+/g, ' ').trim() ?? '';
       return text.length > 120 && !text.includes('Loading…');
     },
-    undefined,
     { timeout: 60000 }
   );
 
@@ -190,12 +216,12 @@ async function waitForRouteReady(page) {
           document.addEventListener(eventName, onReady, { once: true });
           window.setTimeout(onReady, 5000);
         }),
-      PRERENDER_READY_EVENT,
-      { timeout: 65000 }
+      { timeout: 65000 },
+      PRERENDER_READY_EVENT
     )
     .catch(() => {});
 
-  await page.waitForTimeout(500);
+  await sleep(500);
 }
 
 async function getRootMetrics(page) {
@@ -246,7 +272,7 @@ async function main() {
 
   console.log(`Prerender server listening on ${baseUrl}`);
 
-  const browser = await chromium.launch({ headless: true });
+  const browser = await launchBrowser();
   const page = await browser.newPage();
 
   const failures = [];
