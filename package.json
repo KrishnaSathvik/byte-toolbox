@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-sitemap.mjs && vite build && node scripts/inject-seo-html.mjs && node scripts/prerender-full-html.mjs",
+    "build": "node scripts/generate-sitemap.mjs && vite build && node scripts/inject-seo-html.mjs && npx playwright install chromium && node scripts/prerender-full-html.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
