@@ -18,7 +18,7 @@ ByteToolBox is a modern, professional collection of essential developer tools de
 - **JSON Formatter** - Format, validate, and minify JSON with syntax highlighting
 - **Base64 Encoder/Decoder** - Encode and decode Base64 with file support
 - **Hash Generator** - Generate cryptographic hashes (SHA-256, SHA-512, MD5, SHA-1)
-- **UUID Generator** - Generate UUIDs in bulk with formatting options
+- **UUID Generator** - Generate UUID v4 identifiers in bulk with formatting options
 - **Regex Tester** - Test regular expressions with real-time highlighting
 - **Timestamp Converter** - Convert between timestamps and human-readable dates
 

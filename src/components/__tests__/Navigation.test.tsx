@@ -49,7 +49,7 @@ describe('Navigation', () => {
     const searchButton = screen.getByRole('button', { name: /search/i })
     fireEvent.click(searchButton)
     
-    expect(screen.getByPlaceholderText('Search tools...')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Search tools and guides...')).toBeInTheDocument()
   })
 
   it('filters tools when searching', () => {
@@ -62,10 +62,26 @@ describe('Navigation', () => {
     const searchButton = screen.getByRole('button', { name: /search/i })
     fireEvent.click(searchButton)
     
-    const searchInput = screen.getByPlaceholderText('Search tools...')
+    const searchInput = screen.getByPlaceholderText('Search tools and guides...')
     fireEvent.change(searchInput, { target: { value: 'json' } })
     
     expect(screen.getByText('JSON Formatter')).toBeInTheDocument()
     expect(screen.queryByText('Base64 Encoder')).not.toBeInTheDocument()
+  })
+
+  it('filters guides when searching', () => {
+    render(
+      <NavigationWrapper>
+        <Navigation />
+      </NavigationWrapper>
+    )
+
+    const searchButton = screen.getByRole('button', { name: /search/i })
+    fireEvent.click(searchButton)
+
+    const searchInput = screen.getByPlaceholderText('Search tools and guides...')
+    fireEvent.change(searchInput, { target: { value: 'regex flags' } })
+
+    expect(screen.getByText(/Regex Flags in JavaScript/i)).toBeInTheDocument()
   })
 })

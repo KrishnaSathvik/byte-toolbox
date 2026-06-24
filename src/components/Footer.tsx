@@ -44,7 +44,7 @@ export const Footer = () => {
                 to="/blog" 
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors py-1 px-2 rounded-md hover:bg-secondary/50"
               >
-                Blog
+                Guides
               </Link>
               <Link 
                 to="/faq" 
@@ -81,7 +81,7 @@ export const Footer = () => {
               Built for developers. All tools run locally in your browser.
             </div>
             <div className="text-xs text-muted-foreground">
-              © 2025 ByteToolBox. All rights reserved.
+              © {new Date().getFullYear()} ByteToolBox. All rights reserved.
             </div>
           </div>
         </div>

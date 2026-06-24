@@ -1,7 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { MonacoEditor } from '@/components/ui/monaco-editor';
 import { Button } from '@/components/ui/button';
-import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
 import { trackToolUsage, trackConversion, trackError } from '@/lib/analytics';
 import { Copy, Download, TestTube, AlertCircle, CheckCircle } from 'lucide-react';
@@ -314,20 +313,15 @@ export const RegexTester = ({ initialValue = '' }: RegexTesterProps = {}) => {
   };
 
   return (
-    <ToolLayout
-      examples={examples}
-      onFillExample={handleFillExample}
-    >
-      <div className="w-full">
-        {/* Common Patterns */}
-        <div className="mb-6 p-4 sm:p-6">
-          <h3 className="text-sm font-medium text-foreground mb-3">Quick Patterns</h3>
+    <div className="w-full tool-workspace">
+        <div className="p-4 sm:p-5 border-b border-border bg-secondary/20">
+          <h3 className="text-sm font-medium text-foreground mb-2">Quick Patterns</h3>
           <div className="flex flex-wrap gap-2">
             {commonPatterns.map((pattern) => (
               <button
                 key={pattern.name}
                 onClick={() => handlePatternSelect(pattern)}
-                className="px-3 py-1.5 text-xs bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-md transition-colors"
+                className="px-3 py-1.5 text-xs font-medium bg-card border border-border hover:border-primary/40 hover:bg-secondary text-foreground rounded-md transition-colors"
               >
                 {pattern.name}
               </button>
@@ -335,9 +329,8 @@ export const RegexTester = ({ initialValue = '' }: RegexTesterProps = {}) => {
           </div>
         </div>
 
-        {/* Pattern Input */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6 p-3 sm:p-6">
-          <div className="sm:col-span-3 space-y-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 border-b border-border">
+        <div className="p-4 sm:p-5 border-b lg:border-b-0 lg:border-r border-border space-y-3">
             <label className="block text-sm font-medium text-foreground">
               Regular Expression Pattern
             </label>
@@ -348,12 +341,8 @@ export const RegexTester = ({ initialValue = '' }: RegexTesterProps = {}) => {
               placeholder="Enter regex pattern..."
               className="w-full px-4 py-2 bg-input border border-border rounded-lg font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
-          </div>
-          
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-foreground">
-              Flags
-            </label>
+            <label className="block text-sm font-medium text-foreground">Flags</label>
             <input
               type="text"
               value={flags}
@@ -361,125 +350,94 @@ export const RegexTester = ({ initialValue = '' }: RegexTesterProps = {}) => {
               placeholder="gimuy"
               className="w-full px-4 py-2 bg-input border border-border rounded-lg font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
+            <p className="text-xs text-muted-foreground">
+              <code className="text-foreground">g</code> all · <code className="text-foreground">i</code> case · <code className="text-foreground">m</code> multiline · <code className="text-foreground">u</code> unicode · <code className="text-foreground">y</code> sticky
+            </p>
           </div>
         </div>
 
-        {/* Flag Descriptions */}
-        <div className="mb-6 p-3 bg-muted/20 rounded-lg mx-4 sm:mx-6">
-          <div className="text-xs text-muted-foreground space-y-1">
-            <div><code>g</code> - Global match (find all matches)</div>
-            <div><code>i</code> - Case insensitive</div>
-            <div><code>m</code> - Multi-line mode</div>
-            <div><code>u</code> - Unicode support</div>
-            <div><code>y</code> - Sticky matching</div>
-          </div>
-        </div>
-
-        {/* Test Text */}
-        <div className="space-y-3 mb-6 p-4 sm:p-6">
-          <label className="block text-sm font-medium text-foreground">
-            Test Text
-          </label>
+        <div className="p-4 sm:p-5 space-y-3">
+          <label className="block text-sm font-medium text-foreground">Test Text</label>
+          <div className="dev-panel overflow-hidden">
           <MonacoEditor
             value={testText}
             onChange={(value) => setTestText(value || '')}
             language="plaintext"
             placeholder="Enter text to test your regex against..."
-            height="250px"
+            height="220px"
           />
+          </div>
+        </div>
         </div>
 
-        {/* Controls */}
-        <div className="flex flex-col gap-3 mb-6 p-3 sm:p-6">
+        <div className="dev-toolbar">
           <div className="flex flex-wrap items-center gap-2">
-            <Button onClick={testRegex} className="flex items-center gap-2 flex-1 sm:flex-none">
+            <Button onClick={testRegex} className="flex items-center gap-2">
               <TestTube className="w-4 h-4" />
               Test Regex
             </Button>
-            <Button onClick={handleClear} variant="outline" className="flex-1 sm:flex-none">
+            <Button onClick={handleClear} variant="outline">
               Clear
             </Button>
-          </div>
-          
-          <div className="flex flex-wrap items-center gap-2">
             {pattern && (
-              <Button onClick={handleCopyPattern} variant="outline" size="sm" className="flex items-center gap-2 flex-1 sm:flex-none">
+              <Button onClick={handleCopyPattern} variant="outline" size="sm" className="flex items-center gap-2">
                 <Copy className="w-4 h-4" />
-                <span className="hidden sm:inline">Copy Pattern</span>
-                <span className="sm:hidden">Copy Pattern</span>
+                Copy Pattern
               </Button>
             )}
             {matches.length > 0 && (
-              <Button onClick={handleDownloadResults} variant="outline" size="sm" className="flex items-center gap-2 flex-1 sm:flex-none">
+              <Button onClick={handleDownloadResults} variant="outline" size="sm" className="flex items-center gap-2">
                 <Download className="w-4 h-4" />
-                <span className="hidden sm:inline">Download Results</span>
-                <span className="sm:hidden">Download Results</span>
+                Download Results
               </Button>
             )}
           </div>
-        </div>
 
-        {/* Status */}
-        <div className="mb-6 p-4 sm:p-6 bg-secondary/30 rounded-lg mx-4 sm:mx-6">
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="p-3 rounded-lg bg-secondary/30 border border-border">
             {isValid === true && (
-              <>
-                <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
-                <span className="text-success font-medium">Valid Pattern</span>
-                <span className="text-muted-foreground text-sm">
-                  • Found {matches.length} match{matches.length !== 1 ? 'es' : ''}
-                </span>
-              </>
+              <div className="flex flex-wrap items-center gap-2 text-sm">
+                <CheckCircle className="w-4 h-4 text-success" />
+                <span className="text-success font-medium">{matches.length} match{matches.length !== 1 ? 'es' : ''} found</span>
+              </div>
             )}
             {isValid === false && (
-              <>
-                <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
-                <span className="text-destructive font-medium">Invalid Pattern</span>
-                <span className="text-muted-foreground text-sm">• {error}</span>
-              </>
+              <div className="flex flex-wrap items-center gap-2 text-sm">
+                <AlertCircle className="w-4 h-4 text-destructive" />
+                <span className="text-destructive font-medium">Invalid pattern</span>
+                <span className="text-muted-foreground font-mono text-xs">{error}</span>
+              </div>
             )}
             {isValid === null && (
-              <>
-                <TestTube className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                <span className="text-muted-foreground text-sm">Enter pattern and test text to begin</span>
-              </>
+              <p className="text-sm text-muted-foreground">Enter a pattern and test text, then run Test Regex.</p>
             )}
           </div>
         </div>
 
-        {/* Results */}
         {matches.length > 0 && (
-          <div className="space-y-4 p-3 sm:p-6">
-            {/* Highlighted Text */}
-            <div className="space-y-2">
-              <h3 className="font-medium text-foreground">Highlighted Matches</h3>
+          <div className="p-4 sm:p-5 space-y-4 border-t border-border">
+            <div className="dev-result-card">
+              <h3 className="font-medium text-foreground text-sm mb-2">Highlighted matches</h3>
               <div 
-                className="p-3 sm:p-4 bg-editor-background border border-border rounded-lg font-mono text-sm whitespace-pre-wrap overflow-x-auto"
+                className="font-mono text-sm whitespace-pre-wrap overflow-x-auto text-foreground"
                 dangerouslySetInnerHTML={{ __html: highlightedText }}
               />
             </div>
 
-            {/* Match Details */}
             <div className="space-y-2">
-              <h3 className="font-medium text-foreground">Match Details</h3>
+              <h3 className="font-medium text-foreground text-sm">Match details</h3>
               <div className="space-y-2 max-h-64 overflow-y-auto">
                 {matches.map((match, index) => (
                   <div key={index} className="p-3 bg-card border border-border rounded-lg">
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-2 gap-2">
-                      <span className="text-sm font-medium text-foreground">
-                        Match {index + 1}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        Position: {match.index}
-                      </span>
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                      <span className="text-sm font-medium text-foreground">Match {index + 1}</span>
+                      <span className="text-xs text-muted-foreground font-mono">@{match.index}</span>
                     </div>
                     <div className="font-mono text-sm text-primary bg-primary/10 px-2 py-1 rounded mb-2 break-all">
-                      "{match.match}"
+                      &quot;{match.match}&quot;
                     </div>
                     {match.groups.length > 0 && (
-                      <div className="text-sm">
-                        <span className="text-muted-foreground">Groups: </span>
-                        <span className="font-mono break-all">[{match.groups.join(', ')}]</span>
+                      <div className="text-sm text-muted-foreground">
+                        Groups: <span className="font-mono text-foreground">[{match.groups.join(', ')}]</span>
                       </div>
                     )}
                   </div>
@@ -488,7 +446,6 @@ export const RegexTester = ({ initialValue = '' }: RegexTesterProps = {}) => {
             </div>
           </div>
         )}
-      </div>
-    </ToolLayout>
+    </div>
   );
 };

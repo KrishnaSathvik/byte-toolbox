@@ -24,7 +24,7 @@ export const FAQ = () => {
     },
     {
       question: "Is my data secure?",
-      answer: "Absolutely! All data processing happens locally in your browser. We don't store, transmit, or collect any of your data. Your information never leaves your device, ensuring complete privacy and security."
+      answer: "Your tool input is processed locally in your browser and is not uploaded to our servers. We use Google Analytics to understand aggregate page and tool usage. See our Privacy Policy for details."
     },
     {
       question: "Do I need to create an account?",
@@ -98,11 +98,11 @@ export const FAQ = () => {
       items: [
         {
           question: "Is my data safe with ByteToolBox?",
-          answer: "Absolutely! All data processing happens locally in your browser. Your data never leaves your device and is never sent to our servers. This ensures maximum privacy and security."
+          answer: "Tool input is processed locally in your browser and is not uploaded to our servers. We use Google Analytics for aggregate usage statistics. See our Privacy Policy for details."
         },
         {
           question: "Do you store any of my data?",
-          answer: "No, we don't store any of your data. Everything is processed locally in your browser, and we have no access to your files, text, or any other information you process with our tools."
+          answer: "We do not store your tool input on our servers. Processing happens locally in your browser. We may collect aggregate analytics about page and tool usage through Google Analytics."
         },
         {
           question: "Do you use cookies?",
@@ -186,13 +186,10 @@ export const FAQ = () => {
   ];
 
   return (
-    <ToolLayout
-      title="Frequently Asked Questions"
-      description="Find answers to common questions about ByteToolBox. Learn about privacy, features, performance, and how to get the most out of our developer tools."
-    >
+    <ToolLayout>
       <div className="p-6 max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">FAQ</h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">Frequently Asked Questions</h1>
           <p className="text-xl text-muted-foreground">
             Everything you need to know about ByteToolBox
           </p>

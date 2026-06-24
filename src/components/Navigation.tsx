@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Code2, Menu, X } from 'lucide-react';
+import { Search, Code2, Menu, X, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { filterCommandPaletteItems, COMMAND_PALETTE_TYPE_LABELS } from '@/lib/commandPalette';
 
 /**
  * Available developer tools in the navigation
@@ -13,8 +14,11 @@ const tools = [
   { name: 'Hash', path: '/hash', full: 'Hash Generator' },
   { name: 'UUID', path: '/uuid', full: 'UUID Generator' },
   { name: 'Regex', path: '/regex', full: 'Regex Tester' },
-  { name: 'Time', path: '/timestamp', full: 'Timestamp Converter' }
+  { name: 'Time', path: '/timestamp', full: 'Timestamp Converter' },
 ];
+
+const isBlogRoute = (pathname: string) =>
+  pathname === '/blog' || pathname.startsWith('/blog/');
 
 /**
  * Navigation - The main navigation component for ByteToolBox
@@ -130,11 +134,12 @@ export const Navigation = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const filteredTools = tools.filter(tool =>
-    tool.full.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredItems = useMemo(
+    () => filterCommandPaletteItems(searchQuery),
+    [searchQuery]
   );
 
-  const handleToolSelect = (path: string) => {
+  const handlePaletteSelect = () => {
     setIsSearchOpen(false);
     setSearchQuery('');
     setIsMobileMenuOpen(false);
@@ -170,6 +175,16 @@ export const Navigation = () => {
                   {tool.name}
                 </Link>
               ))}
+              <Link
+                to="/blog"
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  isBlogRoute(location.pathname)
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+                }`}
+              >
+                Guides
+              </Link>
             </div>
 
             {/* Search & Mobile Menu */}
@@ -217,6 +232,17 @@ export const Navigation = () => {
                     {tool.full}
                   </Link>
                 ))}
+                <Link
+                  to="/blog"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    isBlogRoute(location.pathname)
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+                  }`}
+                >
+                  Guides
+                </Link>
                 
                 {/* Mobile Search Button */}
                 <button
@@ -227,7 +253,7 @@ export const Navigation = () => {
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 >
                   <Search className="w-4 h-4" />
-                  Search Tools
+                  Search tools & guides
                 </button>
               </div>
             </div>
@@ -238,17 +264,25 @@ export const Navigation = () => {
 
       {/* Command Palette */}
       {isSearchOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
           onClick={() => setIsSearchOpen(false)}
+          role="presentation"
         >
-          <div className="fixed left-1/2 top-1/4 sm:top-1/3 -translate-x-1/2 -translate-y-1/2 w-[95vw] sm:w-[90vw] max-w-lg">
+          <div
+            className="fixed left-1/2 top-1/4 sm:top-1/3 -translate-x-1/2 -translate-y-1/2 w-[95vw] sm:w-[90vw] max-w-lg"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Search tools and guides"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="bg-card border border-border rounded-lg shadow-lg">
               <div className="flex items-center gap-3 p-4 border-b border-border">
                 <Search className="w-5 h-5 text-muted-foreground" />
                 <input
-                  type="text"
-                  placeholder="Search tools..."
+                  type="search"
+                  placeholder="Search tools and guides..."
+                  aria-label="Search tools and guides"
                   className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-base"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -256,21 +290,46 @@ export const Navigation = () => {
                 />
                 <kbd className="hidden sm:inline-flex px-2 py-1 text-xs text-muted-foreground bg-muted rounded">ESC</kbd>
               </div>
-              <div className="max-h-64 overflow-y-auto">
-                {filteredTools.length > 0 ? (
-                  filteredTools.map((tool) => (
-                    <Link
-                      key={tool.path}
-                      to={tool.path}
-                      onClick={() => handleToolSelect(tool.path)}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-secondary transition-colors border-b border-border last:border-b-0"
-                    >
-                      <div className="font-medium text-foreground text-sm sm:text-base">{tool.full}</div>
-                    </Link>
-                  ))
+              <div className="max-h-80 overflow-y-auto">
+                {filteredItems.length > 0 ? (
+                  filteredItems.map((item) => {
+                    const label =
+                      item.type === 'tool' ? item.name : item.title;
+                    const Icon =
+                      item.type === 'tool'
+                        ? Code2
+                        : item.type === 'guide'
+                          ? BookOpen
+                          : Search;
+                    return (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        onClick={handlePaletteSelect}
+                        className="flex items-start gap-3 px-4 py-3 hover:bg-secondary transition-colors border-b border-border last:border-b-0"
+                      >
+                        <Icon className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-foreground text-sm sm:text-base truncate">
+                              {label}
+                            </span>
+                            <span className="dev-badge shrink-0 py-0 text-[0.625rem]">
+                              {COMMAND_PALETTE_TYPE_LABELS[item.type]}
+                            </span>
+                          </div>
+                          {item.type === 'guide' && (
+                            <div className="text-xs text-muted-foreground line-clamp-1 mt-0.5">
+                              {item.excerpt}
+                            </div>
+                          )}
+                        </div>
+                      </Link>
+                    );
+                  })
                 ) : (
                   <div className="px-4 py-8 text-center text-muted-foreground text-sm">
-                    No tools found for "{searchQuery}"
+                    No tools or guides found for &quot;{searchQuery}&quot;
                   </div>
                 )}
               </div>

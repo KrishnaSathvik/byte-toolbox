@@ -206,6 +206,71 @@ All colors MUST be HSL.
     font-weight: 600;
   }
 
+  .dev-badge {
+    @apply inline-flex items-center rounded border border-border bg-secondary/80 px-2 py-0.5 text-[0.6875rem] font-mono font-medium uppercase tracking-wide text-muted-foreground;
+  }
+
+  .dev-card {
+    @apply rounded-lg border border-border bg-card transition-colors;
+  }
+
+  .dev-card-hover {
+    @apply dev-card hover:border-primary/40 hover:bg-card/90 focus-within:border-primary/40;
+  }
+
+  .dev-panel {
+    @apply rounded-lg border border-border bg-editor-background;
+  }
+
+  .dev-toolbar {
+    @apply flex flex-col gap-3 border-b border-border p-3 sm:p-4;
+  }
+
+  .dev-result-card {
+    @apply dev-panel p-4;
+  }
+
+  .tool-workspace {
+    @apply overflow-hidden rounded-lg border border-border bg-card;
+  }
+
+  .blog-prose {
+    @apply mb-12 max-w-none;
+  }
+
+  .blog-prose pre {
+    @apply m-0 bg-transparent p-0;
+  }
+
+  .blog-prose pre code {
+    @apply border-0 bg-transparent p-0 text-inherit;
+  }
+
+  .blog-code-block pre {
+    @apply m-0 overflow-x-auto rounded-b-lg border border-border bg-editor-background px-6 py-6 sm:px-8 sm:py-8 text-sm leading-8;
+  }
+
+  .blog-code-block pre code {
+    @apply block border-0 bg-transparent p-0 font-mono text-[0.875rem] leading-8 text-foreground whitespace-pre;
+  }
+
+  .blog-table-wrap {
+    @apply my-6 overflow-x-auto rounded-lg border border-border bg-card;
+  }
+
+  .blog-table-wrap table {
+    @apply m-0 w-full table-fixed border-collapse text-sm;
+  }
+
+  .blog-table-wrap th,
+  .blog-table-wrap td {
+    @apply break-words;
+  }
+
+  .blog-table-wrap tbody tr:nth-child(even) td {
+    @apply bg-secondary/30;
+  }
+
   .bullet-list {
     list-style: none;
     padding-left: 0;

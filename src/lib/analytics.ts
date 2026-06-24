@@ -1,8 +1,11 @@
 // Google Analytics utility functions
+type GtagCommand = 'config' | 'event' | 'js' | 'set';
+type GtagArgs = [GtagCommand, string | Date, Record<string, unknown>?] | [GtagCommand, Record<string, unknown>?];
+
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
-    dataLayer: any[];
+    gtag: (...args: GtagArgs) => void;
+    dataLayer: unknown[];
   }
 }
 
@@ -42,7 +45,7 @@ export const trackEvent = (action: string, category: string, label?: string, val
 };
 
 // Track tool usage
-export const trackToolUsage = (toolName: string, action: string, additionalData?: Record<string, any>) => {
+export const trackToolUsage = (toolName: string, action: string, additionalData?: Record<string, unknown>) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', action, {
       event_category: 'Tool Usage',
@@ -66,7 +69,7 @@ export const trackConversion = (conversionType: string, toolName: string, value?
 };
 
 // Track user engagement
-export const trackEngagement = (engagementType: string, details?: Record<string, any>) => {
+export const trackEngagement = (engagementType: string, details?: Record<string, unknown>) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'engagement', {
       event_category: 'User Engagement',

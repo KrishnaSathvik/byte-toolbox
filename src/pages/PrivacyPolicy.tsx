@@ -10,7 +10,8 @@ import { useSEO } from '@/hooks/useSEO';
 export const PrivacyPolicy = () => {
   useSEO({
     title: 'Privacy Policy - ByteToolBox Developer Tools | Data Protection & Privacy',
-    description: 'Learn how ByteToolBox protects your privacy and handles your data. All processing happens locally in your browser. No data collection, no tracking, complete privacy.',
+    description:
+      'Learn how ByteToolBox handles privacy, local browser processing, cookies, and Google Analytics.',
     keywords: 'privacy policy, data protection, privacy-focused, no tracking, local processing, browser-based tools, GDPR compliant, user privacy',
     canonical: 'https://www.bytetoolbox.com/privacy',
     structuredData: {

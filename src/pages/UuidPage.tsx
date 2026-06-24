@@ -1,54 +1,53 @@
 import { ToolLayout } from '@/components/ToolLayout';
 import { UuidGenerator } from '@/components/tools/UuidGenerator';
-import { Key, CheckCircle, Zap, Shield, Copy, Download } from 'lucide-react';
-import { useState } from 'react';
+import { ToolPageHeader } from '@/components/tool-page/ToolPageHeader';
+import { ToolQuickExamples } from '@/components/tool-page/ToolQuickExamples';
+import { ToolGuideCta } from '@/components/tool-page/ToolGuideCta';
+import { ToolRelatedTools } from '@/components/tool-page/ToolRelatedTools';
+import { ToolHowToSteps } from '@/components/tool-page/ToolHowToSteps';
+import { ToolSeoPanel, ToolSeoSection } from '@/components/tool-page/ToolSeoSection';
 import { useSEO } from '@/hooks/useSEO';
+import { CheckCircle, Zap, Shield, FileText, Target } from 'lucide-react';
+import { useState } from 'react';
 
-/**
- * UUID Generator page with SEO optimization
- * 
- * This page provides comprehensive information about the UUID Generator tool
- * and includes the actual tool component for immediate use.
- */
 export const UuidPage = () => {
   const [selectedExample, setSelectedExample] = useState<string>('');
 
   useSEO({
-    title: 'UUID Generator - Free Online UUID v1, v4, v7 Generator | ByteToolBox',
-    description: 'Generate unique identifiers (UUIDs) instantly. Free online UUID generator supporting v1, v4, and v7 versions. Perfect for database keys, API tokens, and unique identifiers.',
-    keywords: 'UUID generator, GUID generator, unique identifier, UUID v1, UUID v4, UUID v7, database keys, API tokens, unique ID generator, online UUID tool',
+    title: 'UUID Generator (v4) - Bulk UUID Creator | ByteToolBox',
+    description:
+      'Generate UUID v4 identifiers in bulk with formatting options. Free online UUID generator that runs locally in your browser.',
+    keywords:
+      'UUID generator, GUID generator, unique identifier, UUID v4, database keys, API tokens, unique ID generator, online UUID tool',
     canonical: 'https://www.bytetoolbox.com/uuid',
     structuredData: {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
-      'name': 'UUID Generator - ByteToolBox',
-      'description': 'Generate unique identifiers (UUIDs) with v1, v4, and v7 versions.',
-      'url': 'https://www.bytetoolbox.com/uuid',
-      'applicationCategory': 'DeveloperApplication',
-      'operatingSystem': 'Web Browser',
-      'offers': {
+      name: 'UUID Generator (v4) - ByteToolBox',
+      description: 'Generate UUID v4 identifiers in bulk with formatting options.',
+      url: 'https://www.bytetoolbox.com/uuid',
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'Web Browser',
+      offers: {
         '@type': 'Offer',
-        'price': '0',
-        'priceCurrency': 'USD'
+        price: '0',
+        priceCurrency: 'USD',
       },
-      'creator': {
+      creator: {
         '@type': 'Organization',
-        'name': 'ByteToolBox',
-        'url': 'https://www.bytetoolbox.com'
+        name: 'ByteToolBox',
+        url: 'https://www.bytetoolbox.com',
       },
-      'featureList': [
-        'UUID v1 Generation (Time-based)',
+      featureList: [
         'UUID v4 Generation (Random)',
-        'UUID v7 Generation (Time-ordered)',
-        'Bulk UUID Generation',
+        'Bulk UUID Generation (1-1000)',
+        'Uppercase and Hyphen Formatting',
         'Copy to Clipboard',
-        'Download as Text File'
+        'Download as Text File',
       ],
-      'browserRequirements': 'Requires JavaScript. Requires HTML5.',
-      'softwareVersion': '1.0.0',
-      'datePublished': '2025-01-04',
-      'dateModified': '2025-01-04'
-    }
+      browserRequirements: 'Requires JavaScript. Requires HTML5.',
+      softwareVersion: '1.0.0',
+    },
   });
 
   const examples = [
@@ -66,10 +65,6 @@ export const UuidPage = () => {
     }
   ];
 
-  const handleFillExample = (input: string) => {
-    setSelectedExample(input);
-  };
-
   return (
     <ToolLayout
       breadcrumbs={[
@@ -77,123 +72,90 @@ export const UuidPage = () => {
         { label: 'UUID Generator' }
       ]}
     >
-      {/* Hero Section */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-6 sm:mb-8">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold gradient-text mb-3 sm:mb-4">
-              UUID Generator
-            </h1>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Generate UUIDs in bulk with formatting options. Free online UUID generator for v4 UUIDs with copy, download, and customization features.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* SEO Content Section */}
-      <div className="p-6 border-b border-border">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
-            <div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">Why Use Our UUID Generator?</h2>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-success mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-foreground">Bulk Generation</h3>
-                    <p className="text-sm text-muted-foreground">Generate up to 1000 UUIDs at once for testing and development</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Zap className="w-5 h-5 text-warning mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-foreground">Formatting Options</h3>
-                    <p className="text-sm text-muted-foreground">Customize UUID format with uppercase and hyphen removal options</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Shield className="w-5 h-5 text-info mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-foreground">Cryptographically Secure</h3>
-                    <p className="text-sm text-muted-foreground">Uses crypto.getRandomValues() for secure random generation</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">Key Features</h2>
-              <ul className="bullet-list text-muted-foreground">
-                <li><strong>Bulk Generation:</strong> Create 1-1000 UUIDs at once</li>
-                <li><strong>UUID v4:</strong> Random UUIDs using secure random numbers</li>
-                <li><strong>Format Options:</strong> Uppercase, remove hyphens, or both</li>
-                <li><strong>Copy Individual:</strong> Click any UUID to copy it</li>
-                <li><strong>Copy All:</strong> Copy all generated UUIDs at once</li>
-                <li><strong>Download:</strong> Save UUIDs as a text file</li>
-                <li><strong>Real-time Preview:</strong> See format before generating</li>
-                <li><strong>Memory Efficient:</strong> Handle large lists without performance issues</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mb-8">
-            <h3 className="text-xl font-bold text-foreground mb-6">How to Use the UUID Generator</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-primary font-bold">1</span>
-                </div>
-                <h4 className="font-semibold text-foreground mb-2">Set Quantity</h4>
-                <p className="text-sm text-muted-foreground">Choose how many UUIDs to generate (1-1000)</p>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-primary font-bold">2</span>
-                </div>
-                <h4 className="font-semibold text-foreground mb-2">Choose Format</h4>
-                <p className="text-sm text-muted-foreground">Select uppercase, remove hyphens, or both</p>
-              </div>
-              <div className="text-center sm:col-span-2 lg:col-span-1">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-primary font-bold">3</span>
-                </div>
-                <h4 className="font-semibold text-foreground mb-2">Generate & Copy</h4>
-                <p className="text-sm text-muted-foreground">Generate UUIDs and copy individual or all at once</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Examples */}
-      <div className="p-6 border-b border-border">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-6">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Quick Examples</h3>
-            <div className="flex flex-wrap justify-center gap-3">
-              {examples.map((example, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleFillExample(example.input)}
-                  className="px-4 py-2 text-sm bg-primary hover:bg-primary/90 text-primary-foreground rounded-md transition-colors min-h-[40px] flex items-center"
-                >
-                  {example.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Tool Component */}
+      <ToolPageHeader
+        title="UUID Generator"
+        description="Generate UUIDs in bulk with formatting options. Free online UUID generator for v4 UUIDs with copy, download, and customization features."
+      />
+      <ToolQuickExamples examples={examples} onSelect={setSelectedExample} />
       <UuidGenerator initialValue={selectedExample} />
+      <ToolGuideCta toolRoute="/uuid" />
+      <ToolRelatedTools toolRoute="/uuid" />
 
-      {/* Additional SEO Content */}
-      <div className="p-6 border-t border-border">
-        <div className="max-w-4xl mx-auto">
+      <ToolSeoSection>
+        <ToolSeoPanel
+          value="how"
+          title="How to use the UUID Generator"
+          icon={<FileText className="w-4 h-4" />}
+        >
+          <ToolHowToSteps
+            steps={[
+              {
+                title: 'Set Quantity',
+                description: 'Choose how many UUIDs to generate (1-1000)',
+              },
+              {
+                title: 'Choose Format',
+                description: 'Select uppercase, remove hyphens, or both',
+              },
+              {
+                title: 'Generate & Copy',
+                description: 'Generate UUIDs and copy individual or all at once',
+              },
+            ]}
+          />
+        </ToolSeoPanel>
+
+        <ToolSeoPanel
+          value="why"
+          title="Why use our UUID Generator?"
+          icon={<Target className="w-4 h-4" />}
+        >
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <CheckCircle className="w-5 h-5 text-success mt-1 shrink-0" />
+              <div>
+                <h3 className="font-semibold text-foreground">Bulk Generation</h3>
+                <p className="text-sm text-muted-foreground">Generate up to 1000 UUIDs at once for testing and development</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Zap className="w-5 h-5 text-warning mt-1 shrink-0" />
+              <div>
+                <h3 className="font-semibold text-foreground">Formatting Options</h3>
+                <p className="text-sm text-muted-foreground">Customize UUID format with uppercase and hyphen removal options</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Shield className="w-5 h-5 text-info mt-1 shrink-0" />
+              <div>
+                <h3 className="font-semibold text-foreground">Cryptographically Secure</h3>
+                <p className="text-sm text-muted-foreground">Uses crypto.getRandomValues() for secure random generation</p>
+              </div>
+            </div>
+          </div>
+        </ToolSeoPanel>
+
+        <ToolSeoPanel value="features" title="Key features" icon={<Zap className="w-4 h-4" />}>
+          <ul className="bullet-list text-muted-foreground">
+            <li><strong>Bulk Generation:</strong> Create 1-1000 UUIDs at once</li>
+            <li><strong>UUID v4:</strong> Random UUIDs using secure random numbers</li>
+            <li><strong>Format Options:</strong> Uppercase, remove hyphens, or both</li>
+            <li><strong>Copy Individual:</strong> Click any UUID to copy it</li>
+            <li><strong>Copy All:</strong> Copy all generated UUIDs at once</li>
+            <li><strong>Download:</strong> Save UUIDs as a text file</li>
+            <li><strong>Real-time Preview:</strong> See format before generating</li>
+            <li><strong>Memory Efficient:</strong> Handle large lists without performance issues</li>
+          </ul>
+        </ToolSeoPanel>
+
+        <ToolSeoPanel
+          value="use-cases"
+          title="Use cases & specifications"
+          icon={<FileText className="w-4 h-4" />}
+        >
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-xl font-bold text-foreground mb-4">Common UUID Use Cases</h3>
+              <h3 className="text-base font-semibold text-foreground mb-3">Common UUID use cases</h3>
               <ul className="bullet-list text-muted-foreground">
                 <li><strong>Database Keys:</strong> Primary keys and foreign keys in databases</li>
                 <li><strong>API Identifiers:</strong> Unique IDs for API requests and responses</li>
@@ -204,7 +166,7 @@ export const UuidPage = () => {
               </ul>
             </div>
             <div>
-              <h3 className="text-xl font-bold text-foreground mb-4">UUID v4 Specifications</h3>
+              <h3 className="text-base font-semibold text-foreground mb-3">UUID v4 specifications</h3>
               <ul className="bullet-list text-muted-foreground">
                 <li><strong>Format:</strong> xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx</li>
                 <li><strong>Version:</strong> 4 (indicated by '4' in third group)</li>
@@ -215,17 +177,16 @@ export const UuidPage = () => {
               </ul>
             </div>
           </div>
-
-          <div className="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-blue-700 dark:text-blue-300 mb-2">💡 Pro Tip</h3>
-            <p className="text-blue-600 dark:text-blue-400">
-              Use UUIDs for database primary keys instead of auto-incrementing integers. 
-              UUIDs are globally unique, making them perfect for distributed systems and 
+          <div className="mt-6 rounded-lg border border-primary/20 bg-primary/5 p-4">
+            <h3 className="text-sm font-semibold text-foreground mb-2">Pro tip</h3>
+            <p className="text-sm">
+              Use UUIDs for database primary keys instead of auto-incrementing integers.
+              UUIDs are globally unique, making them perfect for distributed systems and
               preventing ID conflicts when merging databases.
             </p>
           </div>
-        </div>
-      </div>
+        </ToolSeoPanel>
+      </ToolSeoSection>
     </ToolLayout>
   );
 };

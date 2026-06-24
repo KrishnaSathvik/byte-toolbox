@@ -58,7 +58,7 @@ export const About = () => {
                 alt="ByteToolBox Logo" 
                 className="w-16 h-16 mx-auto mb-4 object-contain"
               />
-              <h1 className="text-4xl font-bold text-foreground mb-4">ByteToolBox</h1>
+              <h2 className="text-4xl font-bold text-foreground mb-4">Built for developers</h2>
               <p className="text-xl text-muted-foreground">
                 Privacy-focused developer tools built for the modern web
               </p>

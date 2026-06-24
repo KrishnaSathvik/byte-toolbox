@@ -8,8 +8,10 @@ describe('utils', () => {
     })
 
     it('handles conditional classes', () => {
-      expect(cn('base-class', true && 'conditional-class')).toBe('base-class conditional-class')
-      expect(cn('base-class', false && 'conditional-class')).toBe('base-class')
+      const showConditional = true;
+      const hideConditional = false;
+      expect(cn('base-class', showConditional ? 'conditional-class' : undefined)).toBe('base-class conditional-class')
+      expect(cn('base-class', hideConditional ? 'conditional-class' : undefined)).toBe('base-class')
     })
 
     it('handles tailwind merge conflicts', () => {

@@ -1,4 +1,4 @@
-import { Editor } from '@monaco-editor/react';
+import { Editor, type OnMount } from '@monaco-editor/react';
 import { Loader2 } from 'lucide-react';
 
 /**
@@ -91,10 +91,10 @@ export const MonacoEditor = ({
   wordWrap = true,
   className = ''
 }: MonacoEditorProps) => {
-  const handleEditorDidMount = (editor: any) => {
+  const handleEditorDidMount: OnMount = (monacoEditor) => {
     if (placeholder && !value) {
-      editor.setValue(placeholder);
-      editor.setSelection({ 
+      monacoEditor.setValue(placeholder);
+      monacoEditor.setSelection({
         startLineNumber: 1, 
         startColumn: 1, 
         endLineNumber: 1, 

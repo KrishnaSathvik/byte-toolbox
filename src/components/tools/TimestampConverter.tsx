@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
 import { trackToolUsage, trackConversion, trackError } from '@/lib/analytics';
 import { Copy, Download, Clock, Calendar, RefreshCw } from 'lucide-react';
@@ -337,13 +336,8 @@ export const TimestampConverter = ({ initialValue = '' }: TimestampConverterProp
   };
 
   return (
-    <ToolLayout
-      examples={examples}
-      onFillExample={handleFillExample}
-    >
-      <div className="w-full">
-        {/* Live Current Time */}
-        <div className="mb-6 p-4 sm:p-6 bg-primary/10 border border-primary/20 rounded-lg mx-4 sm:mx-6">
+    <div className="w-full tool-workspace">
+        <div className="m-4 sm:m-5 p-4 bg-secondary/30 border border-border rounded-lg">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h3 className="font-medium text-primary mb-1">Current Unix Timestamp</h3>
@@ -397,11 +391,16 @@ export const TimestampConverter = ({ initialValue = '' }: TimestampConverterProp
               onChange={(e) => setInput(e.target.value)}
               placeholder={
                 inputType === 'timestamp' 
-                  ? 'Enter timestamp (e.g., 1640995200 or 1640995200000)' 
+                  ? 'Seconds (10 digits) or milliseconds (13 digits) — auto-detected' 
                   : 'Enter date (e.g., 2024-01-01 or Jan 1, 2024)'
               }
               className="w-full px-4 py-2 bg-input border border-border rounded-lg font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
+            {inputType === 'timestamp' && (
+              <p className="text-xs text-muted-foreground">
+                Auto-detect: values under 10,000,000,000 are treated as seconds; longer values as milliseconds.
+              </p>
+            )}
           </div>
 
           {/* Timezone Selection */}
@@ -455,10 +454,18 @@ export const TimestampConverter = ({ initialValue = '' }: TimestampConverterProp
 
         {/* Results */}
         {result && (
-          <div className="space-y-4 p-4 sm:p-6">
-            <h3 className="font-medium text-foreground">Conversion Results</h3>
+          <div className="p-4 sm:p-5 border-t border-border">
+            <h3 className="font-medium text-foreground mb-4">Conversion results</h3>
             
-            <div className="grid gap-4">
+            <div className="dev-result-card mb-4 p-4 border-primary/20 bg-primary/5">
+              <div className="text-xs font-mono uppercase tracking-wide text-primary mb-2">Primary output</div>
+              <div className="font-mono text-lg text-foreground break-all">{result.iso}</div>
+              <div className="text-sm text-muted-foreground mt-1">
+                {result.timestamp}s · {result.milliseconds}ms
+              </div>
+            </div>
+
+            <div className="grid gap-3">
               {[
                 { label: 'Unix Timestamp (seconds)', value: result.timestamp.toString(), icon: Clock },
                 { label: 'Unix Timestamp (milliseconds)', value: result.milliseconds.toString(), icon: Clock },
@@ -489,17 +496,14 @@ export const TimestampConverter = ({ initialValue = '' }: TimestampConverterProp
           </div>
         )}
 
-        {/* Info */}
-        <div className="mt-8 p-4 sm:p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg mx-4 sm:mx-6">
-          <h4 className="font-medium text-blue-700 dark:text-blue-300 mb-2">About Unix Timestamps</h4>
-          <div className="text-sm text-blue-600 dark:text-blue-400 space-y-1">
-            <p>• Unix timestamp counts seconds since January 1, 1970 (Unix Epoch)</p>
-            <p>• Values less than 10,000,000,000 are treated as seconds</p>
-            <p>• Values greater are treated as milliseconds</p>
-            <p>• Maximum value: 2,147,483,647 (January 19, 2038)</p>
+        <div className="p-4 sm:p-5 border-t border-border">
+          <h4 className="font-medium text-foreground text-sm mb-2">Time format notes</h4>
+          <div className="text-sm text-muted-foreground space-y-1">
+            <p>Store UTC, display local time intentionally.</p>
+            <p>Unix epoch counts from 1970-01-01 00:00:00 UTC.</p>
+            <p>10-digit timestamps are seconds; 13-digit values are milliseconds.</p>
           </div>
         </div>
-      </div>
-    </ToolLayout>
+    </div>
   );
 };

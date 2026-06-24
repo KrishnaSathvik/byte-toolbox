@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { MonacoEditor } from '@/components/ui/monaco-editor';
 import { Button } from '@/components/ui/button';
-import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
 import { trackToolUsage, trackConversion, trackError } from '@/lib/analytics';
 import { Copy, Download, Hash, Upload, AlertTriangle, Shield } from 'lucide-react';
@@ -16,8 +15,8 @@ const examples = [
     input: 'Hello, World!'
   },
   {
-    name: 'Password',
-    input: 'mySecurePassword123!'
+    name: 'Release manifest',
+    input: 'app-v2.1.0-build-4821'
   },
   {
     name: 'JSON Data',
@@ -29,10 +28,10 @@ const examples = [
  * Available hash algorithms with security indicators
  */
 const algorithms = [
-  { name: 'SHA-256', value: 'SHA256', secure: true },
+  { name: 'SHA-256', value: 'SHA256', secure: true, badge: 'Recommended' as const },
   { name: 'SHA-512', value: 'SHA512', secure: true },
-  { name: 'SHA-1', value: 'SHA1', secure: false },
-  { name: 'MD5', value: 'MD5', secure: false }
+  { name: 'SHA-1', value: 'SHA1', secure: false, badge: 'Legacy' as const },
+  { name: 'MD5', value: 'MD5', secure: false, badge: 'Legacy' as const }
 ];
 
 /**
@@ -286,11 +285,13 @@ export const HashGenerator = ({ initialValue = '' }: HashGeneratorProps = {}) =>
   const selectedAlgorithm = algorithms.find(a => a.value === algorithm);
 
   return (
-    <ToolLayout>
-      <div className="w-full">
-        {/* Algorithm Selection */}
-        <div className="mb-6 p-3 sm:p-6">
-          <h3 className="text-sm font-medium text-foreground mb-3">Hash Algorithm</h3>
+    <div className="w-full tool-workspace">
+      <div className="p-4 sm:p-5 border-b border-border">
+          <h3 className="text-sm font-medium text-foreground mb-1">Hash Algorithm</h3>
+          <p className="text-xs text-muted-foreground mb-3">
+            SHA-256 is <span className="font-medium text-foreground">recommended</span> for checksums.
+            MD5 and SHA-1 are <span className="font-medium text-foreground">legacy</span> algorithms for compatibility only.
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
             {algorithms.map((algo) => (
               <button
@@ -308,29 +309,42 @@ export const HashGenerator = ({ initialValue = '' }: HashGeneratorProps = {}) =>
                     : 'bg-card border-border hover:bg-secondary'
                 }`}
               >
-                <div className="flex items-center gap-2 justify-center sm:justify-start">
+                <div className="flex items-center gap-2 justify-center sm:justify-start flex-wrap">
                   {algo.secure ? (
                     <Shield className="w-3 h-3 text-success" />
                   ) : (
                     <AlertTriangle className="w-3 h-3 text-warning" />
                   )}
                   {algo.name}
+                  {'badge' in algo && algo.badge && (
+                    <span className={`dev-badge text-[0.625rem] py-0 ${
+                      algo.badge === 'Recommended'
+                        ? 'border-success/30 bg-success/10 text-success'
+                        : 'border-warning/30 bg-warning/10 text-warning'
+                    }`}>
+                      {algo.badge}
+                    </span>
+                  )}
                 </div>
               </button>
             ))}
           </div>
           
           {selectedAlgorithm && !selectedAlgorithm.secure && (
-            <div className="mt-3 p-3 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg">
-              <div className="flex items-center gap-2 text-orange-700 dark:text-orange-300">
+            <div className="mt-3 p-3 bg-warning/10 border border-warning/30 rounded-lg">
+              <div className="flex items-center gap-2 text-warning">
                 <AlertTriangle className="w-4 h-4" />
-                <span className="text-sm font-medium">Security Warning</span>
+                <span className="text-sm font-medium">Legacy algorithm</span>
               </div>
-              <p className="text-sm text-orange-600 dark:text-orange-400 mt-1">
-                {algorithm} is considered cryptographically weak. Use SHA-256 or SHA-512 for security-critical applications.
+              <p className="text-sm text-muted-foreground mt-1">
+                {algorithm} is fine for checksums and legacy compatibility. Use SHA-256 or SHA-512 for new integrity checks.
               </p>
             </div>
           )}
+
+          <p className="mt-3 text-xs text-muted-foreground">
+            For passwords, use bcrypt, scrypt, or Argon2. Plain hashes are not enough.
+          </p>
         </div>
 
         {/* Options */}
@@ -435,13 +449,13 @@ export const HashGenerator = ({ initialValue = '' }: HashGeneratorProps = {}) =>
 
         {/* Output - Full width */}
         {output && (
-          <div className="w-full p-4 sm:p-6">
+          <div className="w-full p-4 sm:p-5 border-t border-border">
             <div className="flex items-center gap-2 mb-3">
               <Shield className="w-4 h-4 text-muted-foreground" />
               <h3 className="font-medium text-foreground text-sm sm:text-base">{algorithm} Hash</h3>
             </div>
-            <div className="w-full p-4 bg-editor-background border border-border rounded-lg">
-              <code className="font-mono text-sm break-all">{output}</code>
+            <div className="dev-result-card">
+              <code className="font-mono text-sm break-all text-foreground">{output}</code>
             </div>
             
             {/* Comparison Result */}
@@ -458,7 +472,6 @@ export const HashGenerator = ({ initialValue = '' }: HashGeneratorProps = {}) =>
             )}
           </div>
         )}
-      </div>
-    </ToolLayout>
+    </div>
   );
 };

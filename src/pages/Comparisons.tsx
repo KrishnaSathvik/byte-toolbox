@@ -181,9 +181,8 @@ export const Comparisons = () => {
       <div className="p-6 max-w-6xl mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Why Choose ByteToolBox?</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Discover the key advantages that make ByteToolBox the preferred choice for 
+            Discover the key advantages that make ByteToolBox the preferred choice for
             developers who value privacy, performance, and comprehensive functionality.
           </p>
         </div>
@@ -353,10 +352,8 @@ export const Comparisons = () => {
                 your device, ensuring maximum privacy and security.
               </p>
               <ul className="bullet-list text-muted-foreground">
-                <li>No data collection or tracking</li>
-                <li>Works completely offline</li>
                 <li>No account creation required</li>
-                <li>Your data stays on your device</li>
+                <li>Aggregate analytics only — tool input stays on your device</li>
               </ul>
             </div>
           </div>

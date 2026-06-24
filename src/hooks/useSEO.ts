@@ -1,4 +1,7 @@
 import { useEffect } from 'react';
+import { OG_IMAGE_PATH, OG_IMAGE_URL, SITE_URL } from '@/lib/seoConstants';
+
+export const PRERENDER_READY_EVENT = 'bytetoolbox-prerender-ready';
 
 interface SEOProps {
   title: string;
@@ -6,7 +9,34 @@ interface SEOProps {
   keywords?: string;
   canonical?: string;
   ogImage?: string;
-  structuredData?: object;
+  structuredData?: object | object[];
+  noindex?: boolean;
+}
+
+function upsertMeta(selector: string, attrs: Record<string, string>) {
+  let el = document.querySelector(selector);
+  if (!el) {
+    el = document.createElement('meta');
+    Object.entries(attrs).forEach(([key, value]) => {
+      if (key !== 'content') {
+        el.setAttribute(key, value);
+      }
+    });
+    document.head.appendChild(el);
+  }
+  if (attrs.content !== undefined) {
+    el.setAttribute('content', attrs.content);
+  }
+}
+
+function upsertLink(rel: string, href: string) {
+  let link = document.querySelector(`link[rel="${rel}"]`);
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', rel);
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', href);
 }
 
 export const useSEO = ({
@@ -14,91 +44,57 @@ export const useSEO = ({
   description,
   keywords,
   canonical,
-  ogImage = '/og-image.svg',
-  structuredData
+  ogImage = OG_IMAGE_PATH,
+  structuredData,
+  noindex = false,
 }: SEOProps) => {
   useEffect(() => {
-    // Update document title
     document.title = title;
 
-    // Update meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', description);
-    }
+    upsertMeta('meta[name="description"]', { name: 'description', content: description });
 
-    // Update meta keywords
     if (keywords) {
-      let metaKeywords = document.querySelector('meta[name="keywords"]');
-      if (!metaKeywords) {
-        metaKeywords = document.createElement('meta');
-        metaKeywords.setAttribute('name', 'keywords');
-        document.head.appendChild(metaKeywords);
-      }
-      metaKeywords.setAttribute('content', keywords);
+      upsertMeta('meta[name="keywords"]', { name: 'keywords', content: keywords });
     }
 
-    // Update canonical URL
+    const robotsContent = noindex ? 'noindex, nofollow' : 'index, follow';
+    upsertMeta('meta[name="robots"]', { name: 'robots', content: robotsContent });
+
     if (canonical) {
-      let canonicalLink = document.querySelector('link[rel="canonical"]');
-      if (!canonicalLink) {
-        canonicalLink = document.createElement('link');
-        canonicalLink.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonicalLink);
-      }
-      canonicalLink.setAttribute('href', canonical);
+      upsertLink('canonical', canonical);
     }
 
-    // Update Open Graph tags
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute('content', title);
+    const absoluteOgImage = ogImage.startsWith('http') ? ogImage : `${SITE_URL}${ogImage}`;
+
+    upsertMeta('meta[property="og:title"]', { property: 'og:title', content: title });
+    upsertMeta('meta[property="og:description"]', { property: 'og:description', content: description });
+    upsertMeta('meta[property="og:image"]', { property: 'og:image', content: absoluteOgImage });
+    if (canonical) {
+      upsertMeta('meta[property="og:url"]', { property: 'og:url', content: canonical });
     }
 
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) {
-      ogDescription.setAttribute('content', description);
-    }
+    upsertMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: title });
+    upsertMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: description });
+    upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: absoluteOgImage });
 
-    const ogImageMeta = document.querySelector('meta[property="og:image"]');
-    if (ogImageMeta) {
-      ogImageMeta.setAttribute('content', `https://www.bytetoolbox.com${ogImage}`);
-    }
+    document.querySelectorAll('script[data-seo-ld]').forEach((script) => script.remove());
 
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl && canonical) {
-      ogUrl.setAttribute('content', canonical);
-    }
+    const schemas = structuredData
+      ? Array.isArray(structuredData)
+        ? structuredData
+        : [structuredData]
+      : [];
 
-    // Update Twitter tags
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twitterTitle) {
-      twitterTitle.setAttribute('content', title);
-    }
-
-    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-    if (twitterDescription) {
-      twitterDescription.setAttribute('content', description);
-    }
-
-    const twitterImage = document.querySelector('meta[name="twitter:image"]');
-    if (twitterImage) {
-      twitterImage.setAttribute('content', `https://www.bytetoolbox.com${ogImage}`);
-    }
-
-    // Add structured data
-    if (structuredData) {
-      // Remove existing structured data
-      const existingScript = document.querySelector('script[type="application/ld+json"]');
-      if (existingScript) {
-        existingScript.remove();
-      }
-
-      // Add new structured data
+    schemas.forEach((schema, index) => {
       const script = document.createElement('script');
       script.type = 'application/ld+json';
-      script.textContent = JSON.stringify(structuredData);
+      script.setAttribute('data-seo-ld', index === 0 ? 'true' : String(index));
+      script.textContent = JSON.stringify(schema);
       document.head.appendChild(script);
-    }
-  }, [title, description, keywords, canonical, ogImage, structuredData]);
+    });
+
+    document.dispatchEvent(new Event(PRERENDER_READY_EVENT));
+  }, [title, description, keywords, canonical, ogImage, structuredData, noindex]);
 };
+
+export { OG_IMAGE_URL, SITE_URL };

@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { MonacoEditor } from '@/components/ui/monaco-editor';
 import { Button } from '@/components/ui/button';
-import { ToolLayout } from '@/components/ToolLayout';
 import { useToast } from '@/hooks/use-toast';
 import { trackToolUsage, trackConversion, trackError } from '@/lib/analytics';
 import { Copy, Download, ArrowUpDown, Upload, Type, FileText } from 'lucide-react';
@@ -283,14 +282,10 @@ export const Base64Encoder = ({ initialValue = '' }: Base64EncoderProps = {}) =>
   };
 
   return (
-    <ToolLayout>
-      <div className="w-full">
-        {/* Toolbar */}
-        <div className="flex flex-col gap-4 p-3 sm:p-6 border-b border-border">
-          {/* Top Row - Mode Toggle and Options */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-            {/* Mode Toggle */}
-            <div className="flex items-center bg-secondary rounded-lg p-1 w-full sm:w-auto">
+    <div className="w-full tool-workspace">
+      <div className="dev-toolbar">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-3">
+            <div className="flex items-center bg-secondary rounded-lg p-1 w-full sm:w-auto shrink-0">
               <button
                 onClick={() => setMode('encode')}
                 className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-md transition-colors ${
@@ -313,8 +308,7 @@ export const Base64Encoder = ({ initialValue = '' }: Base64EncoderProps = {}) =>
               </button>
             </div>
 
-            {/* Options */}
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-1">
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
@@ -325,7 +319,6 @@ export const Base64Encoder = ({ initialValue = '' }: Base64EncoderProps = {}) =>
                 URL Safe
               </label>
 
-              {/* File Upload */}
               <div className="relative">
                 <input
                   type="file"
@@ -335,53 +328,34 @@ export const Base64Encoder = ({ initialValue = '' }: Base64EncoderProps = {}) =>
                 />
                 <Button variant="outline" size="sm" className="flex items-center gap-2">
                   <Upload className="w-4 h-4" />
-                  <span className="hidden sm:inline">Upload File</span>
-                  <span className="sm:hidden">Upload</span>
+                  Upload
                 </Button>
               </div>
-            </div>
-          </div>
-          
-          {/* Bottom Row - Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-            <div className="flex flex-wrap items-center gap-2">
-              <Button onClick={handleConvert} className="flex items-center gap-2 flex-1 sm:flex-none">
+
+              <Button onClick={handleConvert} className="flex items-center gap-2">
                 <ArrowUpDown className="w-4 h-4" />
                 {mode === 'encode' ? 'Encode' : 'Decode'}
               </Button>
-              <Button onClick={handleClear} variant="outline" className="flex-1 sm:flex-none">
+              <Button onClick={handleClear} variant="outline">
                 Clear
               </Button>
             </div>
-            
-            {output && (
-              <div className="flex flex-wrap items-center gap-2">
-                <Button onClick={handleCopy} variant="outline" size="sm" className="flex items-center gap-2 flex-1 sm:flex-none">
-                  <Copy className="w-4 h-4" />
-                  <span className="hidden sm:inline">Copy</span>
-                  <span className="sm:hidden">Copy</span>
-                </Button>
-                <Button onClick={handleDownload} variant="outline" size="sm" className="flex items-center gap-2 flex-1 sm:flex-none">
-                  <Download className="w-4 h-4" />
-                  <span className="hidden sm:inline">Download</span>
-                  <span className="sm:hidden">Download</span>
-                </Button>
-              </div>
-            )}
           </div>
+
+          <p className="text-xs text-muted-foreground">
+            Base64 is encoding, not encryption.
+          </p>
         </div>
 
-        {/* Editors - Full width layout */}
         <div className="w-full">
-          {/* Input */}
-          <div className="w-full p-4 sm:p-6 border-b border-border">
+          <div className="w-full p-4 sm:p-5 border-b border-border">
             <div className="flex items-center gap-2 mb-3">
               <Type className="w-4 h-4 text-muted-foreground" />
               <h3 className="font-medium text-foreground text-sm sm:text-base">
                 {mode === 'encode' ? 'Text Input' : 'Base64 Input'}
               </h3>
             </div>
-            <div className="w-full">
+            <div className="w-full dev-panel overflow-hidden">
               <MonacoEditor
                 value={input}
                 onChange={(value) => setInput(value || '')}
@@ -396,14 +370,28 @@ export const Base64Encoder = ({ initialValue = '' }: Base64EncoderProps = {}) =>
           </div>
 
           {/* Output */}
-          <div className="w-full p-4 sm:p-6">
-            <div className="flex items-center gap-2 mb-3">
-              <FileText className="w-4 h-4 text-muted-foreground" />
-              <h3 className="font-medium text-foreground text-sm sm:text-base">
-                {mode === 'encode' ? 'Base64 Output' : 'Text Output'}
-              </h3>
+          <div className="w-full p-4 sm:p-5">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4 text-muted-foreground" />
+                <h3 className="font-medium text-foreground text-sm sm:text-base">
+                  {mode === 'encode' ? 'Base64 Output' : 'Text Output'}
+                </h3>
+              </div>
+              {output && (
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button onClick={handleCopy} variant="outline" size="sm" className="flex items-center gap-2">
+                    <Copy className="w-4 h-4" />
+                    Copy
+                  </Button>
+                  <Button onClick={handleDownload} variant="outline" size="sm" className="flex items-center gap-2">
+                    <Download className="w-4 h-4" />
+                    Download
+                  </Button>
+                </div>
+              )}
             </div>
-            <div className="w-full">
+            <div className="w-full dev-panel overflow-hidden">
               <MonacoEditor
                 value={output}
                 language="plaintext"
@@ -416,7 +404,7 @@ export const Base64Encoder = ({ initialValue = '' }: Base64EncoderProps = {}) =>
         </div>
 
         {/* Status */}
-        <div className="mt-6 p-4 sm:p-6 bg-secondary/30 rounded-lg mx-4 sm:mx-6">
+        <div className="mx-4 sm:mx-5 mb-4 p-3 rounded-lg bg-secondary/30 border border-border">
           <div className="flex items-center gap-2 sm:gap-3">
             {error ? (
               <>
@@ -444,7 +432,6 @@ export const Base64Encoder = ({ initialValue = '' }: Base64EncoderProps = {}) =>
             )}
           </div>
         </div>
-      </div>
-    </ToolLayout>
+    </div>
   );
 };

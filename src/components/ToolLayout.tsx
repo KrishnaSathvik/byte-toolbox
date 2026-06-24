@@ -68,14 +68,12 @@ export const ToolLayout = ({
   breadcrumbs 
 }: ToolLayoutProps) => {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Tool Content - Responsive width with better desktop sizing */}
+    <main id="main-content" className="min-h-screen bg-background">
       <div className="w-full px-3 sm:px-4 lg:px-6 xl:px-8">
         <div className="max-w-4xl xl:max-w-5xl mx-auto">
           <div className="mx-1 sm:mx-0">
-            {/* Breadcrumb Navigation */}
             {breadcrumbs && breadcrumbs.length > 0 && (
-              <div className="p-4 sm:p-6 border-b border-border">
+              <div className="px-4 sm:px-6 py-3 border-b border-border">
                 <Breadcrumb>
                   <BreadcrumbList>
                     {breadcrumbs.map((item, index) => (
@@ -116,13 +114,26 @@ export const ToolLayout = ({
             )}
 
 
-            {/* Tool Content */}
-            <div className="w-full">
-              {children}
-            </div>
+            {examples && examples.length > 0 && onFillExample && (
+              <div className="px-4 sm:px-6 py-3 border-b border-border flex flex-wrap items-center gap-2">
+                <span className="text-xs font-medium text-muted-foreground">Try an example:</span>
+                {examples.map((example) => (
+                  <button
+                    key={example.name}
+                    type="button"
+                    onClick={() => onFillExample(example)}
+                    className="px-3 py-1.5 text-xs sm:text-sm bg-secondary hover:bg-secondary/80 text-foreground rounded-md transition-colors"
+                  >
+                    {example.name}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <div className="w-full">{children}</div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
