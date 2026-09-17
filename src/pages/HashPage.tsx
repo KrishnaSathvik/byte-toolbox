@@ -23,6 +23,7 @@ export const HashPage = () => {
     keywords:
       'hash generator, MD5, SHA-1, SHA-256, SHA-512, cryptographic hash, checksum, file integrity, data integrity, security testing, online hash tool',
     canonical: 'https://www.bytetoolbox.com/hash',
+    ogImage: '/og/hash.png',
     structuredData: toolPageStructuredData({
       name: 'Hash Generator - ByteToolBox',
       description:

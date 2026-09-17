@@ -23,6 +23,7 @@ export const UuidPage = () => {
     keywords:
       'UUID generator, GUID generator, unique identifier, UUID v4, database keys, API tokens, unique ID generator, online UUID tool',
     canonical: 'https://www.bytetoolbox.com/uuid',
+    ogImage: '/og/uuid.png',
     structuredData: toolPageStructuredData({
       name: 'UUID Generator (v4) - ByteToolBox',
       description: 'Generate UUID v4 identifiers in bulk with formatting options.',

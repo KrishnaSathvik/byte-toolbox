@@ -21,6 +21,7 @@ export const TimestampPage = () => {
     description: 'Convert Unix timestamps to human-readable dates and vice versa instantly. Free online timestamp converter with timezone support, multiple formats, and batch conversion. Perfect for developers and data analysis.',
     keywords: 'timestamp converter, unix timestamp, date converter, time converter, epoch time, timestamp to date, date to timestamp, timezone converter, online timestamp tool',
     canonical: 'https://www.bytetoolbox.com/timestamp',
+    ogImage: '/og/timestamp.png',
     structuredData: toolPageStructuredData({
       name: 'Timestamp Converter - ByteToolBox',
       description: 'Convert Unix timestamps to human-readable dates and vice versa with timezone support.',

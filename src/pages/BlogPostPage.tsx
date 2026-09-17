@@ -13,7 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { OG_IMAGE_PATH, SITE_URL } from '@/lib/seoConstants';
+import { ogImageForPath, SITE_URL } from '@/lib/seoConstants';
 import { breadcrumbListSchema } from '@/lib/structuredData';
 
 interface BlogPostPageProps {
@@ -108,7 +108,7 @@ export const BlogPostPage = ({ slug: slugProp }: BlogPostPageProps) => {
     description: seoDescription,
     keywords: post?.tags.join(', '),
     canonical: `${SITE_URL}/blog/${slug}`,
-    ogImage: OG_IMAGE_PATH,
+    ogImage: ogImageForPath(post?.relatedToolRoute),
     structuredData,
   });
 

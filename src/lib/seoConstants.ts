@@ -1,7 +1,25 @@
 export const SITE_URL = 'https://www.bytetoolbox.com';
 export const SITE_NAME = 'ByteToolBox';
-export const OG_IMAGE_PATH = '/og-image.png';
+
+export const PAGE_OG_IMAGES: Record<string, string> = {
+  '/': '/og/json-formatter.png',
+  '/json-formatter': '/og/json-formatter.png',
+  '/base64': '/og/base64.png',
+  '/hash': '/og/hash.png',
+  '/uuid': '/og/uuid.png',
+  '/regex': '/og/regex.png',
+  '/timestamp': '/og/timestamp.png',
+};
+
+export const OG_IMAGE_PATH = PAGE_OG_IMAGES['/'];
 export const OG_IMAGE_URL = `${SITE_URL}${OG_IMAGE_PATH}`;
+
+export function ogImageForPath(path?: string): string {
+  if (!path) {
+    return OG_IMAGE_PATH;
+  }
+  return PAGE_OG_IMAGES[path] ?? OG_IMAGE_PATH;
+}
 
 export interface PageSeoConfig {
   path: string;

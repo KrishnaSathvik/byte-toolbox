@@ -8,7 +8,16 @@ const distDir = path.join(root, 'dist');
 const seoPages = JSON.parse(fs.readFileSync(path.join(root, 'scripts/seo-pages.json'), 'utf8'));
 
 const SITE_URL = seoPages.siteUrl;
-const OG_IMAGE = `${SITE_URL}/og-image.png`;
+const DEFAULT_OG_PATH = '/og/json-formatter.png';
+const PAGE_OG_IMAGES = {
+  '/': '/og/json-formatter.png',
+  '/json-formatter': '/og/json-formatter.png',
+  '/base64': '/og/base64.png',
+  '/hash': '/og/hash.png',
+  '/uuid': '/og/uuid.png',
+  '/regex': '/og/regex.png',
+  '/timestamp': '/og/timestamp.png',
+};
 
 const pageMeta = {
   '/': {
@@ -112,11 +121,16 @@ function loadBlogMeta() {
       slug,
       title,
       description,
+      relatedToolRoute: parseBlogField(blogPostsFile, slug, 'relatedToolRoute'),
     };
   });
 }
 
-function injectMeta(html, { title, description, canonical, noindex = false }) {
+function ogImageUrl(ogPath) {
+  return `${SITE_URL}${ogPath ?? DEFAULT_OG_PATH}`;
+}
+
+function injectMeta(html, { title, description, canonical, ogImage, noindex = false }) {
   let out = html;
   out = out.replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`);
   out = out.replace(
@@ -145,7 +159,7 @@ function injectMeta(html, { title, description, canonical, noindex = false }) {
   );
   out = out.replace(
     /<meta property="og:image" content="[^"]*"\s*\/?>/,
-    `<meta property="og:image" content="${OG_IMAGE}" />`
+    `<meta property="og:image" content="${ogImageUrl(ogImage)}" />`
   );
   out = out.replace(
     /<meta name="twitter:title" content="[^"]*"\s*\/?>/,
@@ -157,7 +171,7 @@ function injectMeta(html, { title, description, canonical, noindex = false }) {
   );
   out = out.replace(
     /<meta name="twitter:image" content="[^"]*"\s*\/?>/,
-    `<meta name="twitter:image" content="${OG_IMAGE}" />`
+    `<meta name="twitter:image" content="${ogImageUrl(ogImage)}" />`
   );
   return out;
 }
@@ -166,7 +180,8 @@ function writeRouteHtml(routePath, meta) {
   const templatePath = path.join(distDir, 'index.html');
   const template = fs.readFileSync(templatePath, 'utf8');
   const canonical = `${SITE_URL}${routePath === '/' ? '/' : routePath}`;
-  const html = injectMeta(template, { ...meta, canonical });
+  const ogImage = meta.ogImage ?? PAGE_OG_IMAGES[routePath] ?? DEFAULT_OG_PATH;
+  const html = injectMeta(template, { ...meta, canonical, ogImage });
 
   if (routePath === '/') {
     fs.writeFileSync(templatePath, html);
@@ -188,7 +203,11 @@ for (const [routePath, meta] of Object.entries(pageMeta)) {
 }
 
 for (const post of loadBlogMeta()) {
-  writeRouteHtml(`/blog/${post.slug}`, { title: post.title, description: post.description });
+  writeRouteHtml(`/blog/${post.slug}`, {
+    title: post.title,
+    description: post.description,
+    ogImage: PAGE_OG_IMAGES[post.relatedToolRoute] ?? DEFAULT_OG_PATH,
+  });
 }
 
 console.log(`Injected SEO HTML for ${Object.keys(pageMeta).length + seoPages.blogSlugs.length} routes`);

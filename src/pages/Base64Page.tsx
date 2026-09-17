@@ -21,6 +21,7 @@ export const Base64Page = () => {
     description: 'Encode and decode Base64 strings instantly. Free online Base64 encoder/decoder with file upload support. Perfect for data transmission, email attachments, and API development.',
     keywords: 'Base64 encoder, Base64 decoder, Base64 converter, Base64 online, data encoding, file encoding, API development, data transmission',
     canonical: 'https://www.bytetoolbox.com/base64',
+    ogImage: '/og/base64.png',
     structuredData: toolPageStructuredData({
       name: 'Base64 Encoder & Decoder',
       description: 'Encode and decode Base64 strings instantly with our free online tool.',

@@ -21,6 +21,7 @@ export const JsonFormatterPage = () => {
     description: 'Format, validate, and beautify JSON data instantly. Free online JSON formatter with syntax highlighting, error detection, and minification. Perfect for developers and API testing.',
     keywords: 'JSON formatter, JSON validator, JSON beautifier, JSON minifier, JSON prettifier, JSON syntax checker, API testing, developer tools',
     canonical: 'https://www.bytetoolbox.com/json-formatter',
+    ogImage: '/og/json-formatter.png',
     structuredData: toolPageStructuredData({
       name: 'JSON Formatter & Validator',
       description: 'Format, validate, and beautify JSON data instantly with our free online tool.',

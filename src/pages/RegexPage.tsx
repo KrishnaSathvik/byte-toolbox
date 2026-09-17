@@ -21,6 +21,7 @@ export const RegexPage = () => {
     description: 'Test and debug regular expressions instantly. Free online regex tester with real-time matching, syntax highlighting, and comprehensive pattern testing. Perfect for developers and data validation.',
     keywords: 'regex tester, regular expression tester, regex debugger, pattern matching, regex validation, online regex tool, regex cheatsheet, regex examples',
     canonical: 'https://www.bytetoolbox.com/regex',
+    ogImage: '/og/regex.png',
     structuredData: toolPageStructuredData({
       name: 'Regex Tester - ByteToolBox',
       description: 'Test and debug regular expressions with real-time matching and validation.',
