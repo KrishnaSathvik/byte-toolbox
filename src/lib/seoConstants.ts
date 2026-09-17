@@ -2,7 +2,7 @@ export const SITE_URL = 'https://www.bytetoolbox.com';
 export const SITE_NAME = 'ByteToolBox';
 
 export const PAGE_OG_IMAGES: Record<string, string> = {
-  '/': '/og/json-formatter.png',
+  '/': '/og-image.png',
   '/json-formatter': '/og/json-formatter.png',
   '/base64': '/og/base64.png',
   '/hash': '/og/hash.png',

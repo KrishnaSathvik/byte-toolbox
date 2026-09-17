@@ -95,7 +95,7 @@ export const Home = () => {
     keywords:
       'developer tools, JSON formatter, Base64 encoder, hash generator, UUID generator, regex tester, timestamp converter, online tools, free tools, web development, programming utilities, privacy-focused',
     canonical: 'https://www.bytetoolbox.com/',
-    ogImage: '/og/json-formatter.png',
+    ogImage: '/og-image.png',
     structuredData: [
       organizationSchema(),
       websiteSchema(),

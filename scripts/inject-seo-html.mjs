@@ -8,9 +8,9 @@ const distDir = path.join(root, 'dist');
 const seoPages = JSON.parse(fs.readFileSync(path.join(root, 'scripts/seo-pages.json'), 'utf8'));
 
 const SITE_URL = seoPages.siteUrl;
-const DEFAULT_OG_PATH = '/og/json-formatter.png';
+const DEFAULT_OG_PATH = '/og-image.png';
 const PAGE_OG_IMAGES = {
-  '/': '/og/json-formatter.png',
+  '/': '/og-image.png',
   '/json-formatter': '/og/json-formatter.png',
   '/base64': '/og/base64.png',
   '/hash': '/og/hash.png',
