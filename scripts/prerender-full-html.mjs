@@ -58,14 +58,14 @@ async function launchBrowser() {
 
 const ROUTE_CONTENT_CHECKS = {
   '/': ['ByteToolBox', 'JSON Formatter', 'Popular developer guides'],
-  '/json-formatter': ['JSON Formatter & Validator', 'Input JSON', 'Why Use Our JSON Formatter?'],
+  '/json-formatter': ['JSON Formatter & Validator', 'Input JSON', 'Why Use Our JSON Formatter?', 'Does ByteToolBox upload my JSON?'],
   '/base64': ['Base64', 'Encode'],
-  '/hash': ['Hash Generator', 'SHA-256', 'Recommended', 'Legacy', 'Argon2'],
+  '/hash': ['Hash Generator', 'SHA-256', 'Recommended', 'Legacy', 'Argon2', 'Can I use this for password storage?'],
   '/uuid': ['UUID', 'UUID v4'],
   '/regex': ['Regex', 'pattern'],
   '/timestamp': ['Timestamp', 'Convert'],
   '/blog': ['Developer Guides', 'Start here'],
-  '/about': ['About ByteToolBox', 'Our Mission'],
+  '/about': ['About ByteToolBox', 'Our Mission', 'Also check', 'TextCraft', 'SecureTools'],
   '/comparisons': ['ByteToolBox vs Competitors', 'Key Advantages'],
   '/faq': ['Frequently Asked Questions', 'What is ByteToolBox?'],
   '/privacy': ['Privacy Policy', 'Google Analytics'],

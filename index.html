@@ -12,6 +12,7 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.bytetoolbox.com/" />
+    <link rel="alternate" type="text/plain" href="https://www.bytetoolbox.com/llms.txt" title="LLM-readable site index" />
     
     <!-- Language and Geo -->
     <meta name="language" content="English" />
@@ -79,37 +80,51 @@
     </style>
     
     <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
+    <script type="application/ld+json" data-seo-ld="true">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "ByteToolBox - Professional Developer Tools",
-      "description": "Free online developer tools for JSON formatting, Base64 encoding, hash generation, UUID creation, regex testing, and timestamp conversion. Fast, secure, and privacy-focused tools that run locally in your browser.",
-      "url": "https://www.bytetoolbox.com",
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Web Browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "creator": {
-        "@type": "Organization",
-        "name": "ByteToolBox",
-        "url": "https://www.bytetoolbox.com"
-      },
-      "featureList": [
-        "JSON Formatter and Validator",
-        "Base64 Encoder and Decoder", 
-        "Hash Generator (MD5, SHA-1, SHA-256, SHA-512)",
-        "UUID Generator (v4)",
-        "Regular Expression Tester",
-        "Timestamp Converter"
-      ],
-      "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0.0",
-      "datePublished": "2025-09-04",
-      "dateModified": "2025-09-04"
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.bytetoolbox.com/#organization",
+          "name": "ByteToolBox",
+          "url": "https://www.bytetoolbox.com",
+          "logo": "https://www.bytetoolbox.com/android-chrome-512x512.png",
+          "description": "ByteToolBox provides free, privacy-first browser-based developer tools. Tools run locally in the user's browser."
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.bytetoolbox.com/#website",
+          "name": "ByteToolBox",
+          "url": "https://www.bytetoolbox.com",
+          "publisher": { "@id": "https://www.bytetoolbox.com/#organization" },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "ByteToolBox - Professional Developer Tools",
+          "description": "Free online developer tools for JSON formatting, Base64 encoding, hash generation, UUID creation, regex testing, and timestamp conversion. Fast, secure, and privacy-focused tools that run locally in your browser.",
+          "url": "https://www.bytetoolbox.com",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Web",
+          "isAccessibleForFree": true,
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "creator": { "@id": "https://www.bytetoolbox.com/#organization" },
+          "featureList": [
+            "JSON Formatter and Validator",
+            "Base64 Encoder and Decoder",
+            "Hash Generator (MD5, SHA-1, SHA-256, SHA-512)",
+            "UUID Generator (v4)",
+            "Regular Expression Tester",
+            "Timestamp Converter"
+          ],
+          "browserRequirements": "Requires JavaScript. Requires HTML5."
+        }
+      ]
     }
     </script>
 

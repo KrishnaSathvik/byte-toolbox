@@ -6,7 +6,10 @@ import { ToolGuideCta } from '@/components/tool-page/ToolGuideCta';
 import { ToolRelatedTools } from '@/components/tool-page/ToolRelatedTools';
 import { ToolHowToSteps } from '@/components/tool-page/ToolHowToSteps';
 import { ToolSeoPanel, ToolSeoSection } from '@/components/tool-page/ToolSeoSection';
+import { ToolFaqPanel } from '@/components/tool-page/ToolFaqPanel';
 import { useSEO } from '@/hooks/useSEO';
+import { toolPageStructuredData } from '@/lib/structuredData';
+import { getToolFaqs } from '@/lib/toolFaqs';
 import { CheckCircle, Zap, Shield, FileText, Target } from 'lucide-react';
 import { useState } from 'react';
 
@@ -18,33 +21,24 @@ export const Base64Page = () => {
     description: 'Encode and decode Base64 strings instantly. Free online Base64 encoder/decoder with file upload support. Perfect for data transmission, email attachments, and API development.',
     keywords: 'Base64 encoder, Base64 decoder, Base64 converter, Base64 online, data encoding, file encoding, API development, data transmission',
     canonical: 'https://www.bytetoolbox.com/base64',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'WebApplication',
-      'name': 'Base64 Encoder & Decoder',
-      'description': 'Encode and decode Base64 strings instantly with our free online tool.',
-      'url': 'https://www.bytetoolbox.com/base64',
-      'applicationCategory': 'DeveloperApplication',
-      'operatingSystem': 'Web Browser',
-      'offers': {
-        '@type': 'Offer',
-        'price': '0',
-        'priceCurrency': 'USD'
-      },
-      'creator': {
-        '@type': 'Organization',
-        'name': 'ByteToolBox',
-        'url': 'https://www.bytetoolbox.com'
-      },
-      'featureList': [
+    structuredData: toolPageStructuredData({
+      name: 'Base64 Encoder & Decoder',
+      description: 'Encode and decode Base64 strings instantly with our free online tool.',
+      path: '/base64',
+      featureList: [
         'Base64 Encoding and Decoding',
         'File Upload Support',
         'Copy to Clipboard',
         'Download as File',
         'Real-time Conversion',
-        'Error Detection'
-      ]
-    }
+        'Error Detection',
+      ],
+      breadcrumbs: [
+        { name: 'Home', path: '/' },
+        { name: 'Base64 Encoder' },
+      ],
+      faqs: getToolFaqs('/base64'),
+    })
   });
 
   const examples = [
@@ -182,6 +176,7 @@ export const Base64Page = () => {
             </p>
           </div>
         </ToolSeoPanel>
+        <ToolFaqPanel faqs={getToolFaqs('/base64')} />
       </ToolSeoSection>
     </ToolLayout>
   );

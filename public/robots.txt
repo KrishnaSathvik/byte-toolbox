@@ -1,48 +1,30 @@
-# ByteToolbox - Professional Developer Tools
+# ByteToolBox
 # https://www.bytetoolbox.com
 
-# Allow all search engines to crawl the entire site
 User-agent: *
 Allow: /
 
-# Specific rules for major search engines
+# Search and discovery
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
 
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Slurp
-Allow: /
-Crawl-delay: 1
-
-# Social media crawlers
-User-agent: Twitterbot
+User-agent: OAI-SearchBot
 Allow: /
 
-User-agent: facebookexternalhit
+User-agent: Claude-SearchBot
 Allow: /
 
-User-agent: LinkedInBot
+User-agent: Claude-User
 Allow: /
 
-# Block AI training crawlers (optional - uncomment if desired)
-# User-agent: GPTBot
-# Disallow: /
+# Training — separate from search. Currently: allow
+User-agent: GPTBot
+Allow: /
 
-# User-agent: ChatGPT-User
-# Disallow: /
+User-agent: ClaudeBot
+Allow: /
 
-# User-agent: CCBot
-# Disallow: /
+User-agent: Google-Extended
+Allow: /
 
-# User-agent: anthropic-ai
-# Disallow: /
-
-# Sitemap location
 Sitemap: https://www.bytetoolbox.com/sitemap.xml
-
-# Host declaration
-Host: https://www.bytetoolbox.com

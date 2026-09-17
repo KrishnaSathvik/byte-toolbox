@@ -5,6 +5,11 @@ import { useSEO } from '@/hooks/useSEO';
 import { getBlogPostBySlug } from '@/data/blogPosts';
 import { getBlogTool } from '@/lib/blogTools';
 import { HOMEPAGE_GUIDE_SLUGS, TOOL_GUIDE_SLUGS } from '@/lib/toolPageGuides';
+import {
+  organizationSchema,
+  webApplicationSchema,
+  websiteSchema,
+} from '@/lib/structuredData';
 
 const tools = [
   {
@@ -90,38 +95,24 @@ export const Home = () => {
     keywords:
       'developer tools, JSON formatter, Base64 encoder, hash generator, UUID generator, regex tester, timestamp converter, online tools, free tools, web development, programming utilities, privacy-focused',
     canonical: 'https://www.bytetoolbox.com/',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'WebApplication',
-      name: 'ByteToolBox - Professional Developer Tools',
-      description:
-        'Free online developer tools for JSON formatting, Base64 encoding, hash generation, UUID creation, regex testing, and timestamp conversion. Fast, secure, and privacy-focused tools that run locally in your browser.',
-      url: 'https://www.bytetoolbox.com',
-      applicationCategory: 'DeveloperApplication',
-      operatingSystem: 'Web Browser',
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
-      creator: {
-        '@type': 'Organization',
-        name: 'ByteToolBox',
-        url: 'https://www.bytetoolbox.com',
-      },
-      featureList: [
-        'JSON Formatter and Validator',
-        'Base64 Encoder and Decoder',
-        'Hash Generator (MD5, SHA-1, SHA-256, SHA-512)',
-        'UUID Generator (v4)',
-        'Regular Expression Tester',
-        'Timestamp Converter',
-      ],
-      browserRequirements: 'Requires JavaScript. Requires HTML5.',
-      softwareVersion: '1.0.0',
-      datePublished: '2025-01-04',
-      dateModified: '2025-01-04',
-    },
+    structuredData: [
+      organizationSchema(),
+      websiteSchema(),
+      webApplicationSchema({
+        name: 'ByteToolBox - Professional Developer Tools',
+        description:
+          'Free online developer tools for JSON formatting, Base64 encoding, hash generation, UUID creation, regex testing, and timestamp conversion. Fast, secure, and privacy-focused tools that run locally in your browser.',
+        path: '/',
+        featureList: [
+          'JSON Formatter and Validator',
+          'Base64 Encoder and Decoder',
+          'Hash Generator (MD5, SHA-1, SHA-256, SHA-512)',
+          'UUID Generator (v4)',
+          'Regular Expression Tester',
+          'Timestamp Converter',
+        ],
+      }),
+    ],
   });
 
   const filteredTools = tools.filter(

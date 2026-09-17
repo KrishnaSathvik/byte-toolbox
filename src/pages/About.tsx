@@ -1,6 +1,7 @@
 import { ToolLayout } from '@/components/ToolLayout';
-import { Code2, Shield, Zap, Users, Heart, Github, Twitter, Linkedin } from 'lucide-react';
+import { Code2, Shield, Zap, Heart, ExternalLink } from 'lucide-react';
 import { useSEO } from '@/hooks/useSEO';
+import { SISTER_SITES } from '@/lib/sisterSites';
 
 /**
  * About page for ByteToolBox
@@ -229,6 +230,32 @@ export const About = () => {
             </div>
           </section>
 
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-foreground mb-6">Also check</h2>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              ByteToolBox covers developer utilities like JSON, Base64, hashes, UUIDs, regex, and
+              timestamps. If you need text processing or security tools, these sister sites use the
+              same privacy-first, in-browser approach.
+            </p>
+            <div className="grid md:grid-cols-2 gap-6">
+              {SISTER_SITES.map((site) => (
+                <a
+                  key={site.url}
+                  href={site.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-card border border-border rounded-lg p-6 hover:border-primary/40 transition-colors no-underline"
+                >
+                  <h3 className="font-semibold text-foreground mb-2 inline-flex items-center gap-2">
+                    {site.name}
+                    <ExternalLink className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </h3>
+                  <p className="text-sm text-muted-foreground">{site.blurb}</p>
+                </a>
+              ))}
+            </div>
+          </section>
 
           {/* Contact Section */}
           <section className="mb-12">

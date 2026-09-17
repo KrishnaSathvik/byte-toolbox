@@ -14,6 +14,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { OG_IMAGE_PATH, SITE_URL } from '@/lib/seoConstants';
+import { breadcrumbListSchema } from '@/lib/structuredData';
 
 interface BlogPostPageProps {
   slug?: string;
@@ -89,9 +90,15 @@ export const BlogPostPage = ({ slug: slugProp }: BlogPostPageProps) => {
   const structuredData = useMemo(
     () =>
       post
-        ? [buildArticleSchema(post), buildFaqSchema(post)].filter(
-            (schema): schema is Record<string, unknown> => schema !== null
-          )
+        ? [
+            buildArticleSchema(post),
+            breadcrumbListSchema([
+              { name: 'Home', path: '/' },
+              { name: 'Guides', path: '/blog' },
+              { name: post.title },
+            ]),
+            buildFaqSchema(post),
+          ].filter((schema): schema is Record<string, unknown> => schema !== null)
         : undefined,
     [post]
   );

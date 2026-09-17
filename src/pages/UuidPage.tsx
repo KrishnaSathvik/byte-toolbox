@@ -6,7 +6,10 @@ import { ToolGuideCta } from '@/components/tool-page/ToolGuideCta';
 import { ToolRelatedTools } from '@/components/tool-page/ToolRelatedTools';
 import { ToolHowToSteps } from '@/components/tool-page/ToolHowToSteps';
 import { ToolSeoPanel, ToolSeoSection } from '@/components/tool-page/ToolSeoSection';
+import { ToolFaqPanel } from '@/components/tool-page/ToolFaqPanel';
 import { useSEO } from '@/hooks/useSEO';
+import { toolPageStructuredData } from '@/lib/structuredData';
+import { getToolFaqs } from '@/lib/toolFaqs';
 import { CheckCircle, Zap, Shield, FileText, Target } from 'lucide-react';
 import { useState } from 'react';
 
@@ -20,24 +23,10 @@ export const UuidPage = () => {
     keywords:
       'UUID generator, GUID generator, unique identifier, UUID v4, database keys, API tokens, unique ID generator, online UUID tool',
     canonical: 'https://www.bytetoolbox.com/uuid',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'WebApplication',
+    structuredData: toolPageStructuredData({
       name: 'UUID Generator (v4) - ByteToolBox',
       description: 'Generate UUID v4 identifiers in bulk with formatting options.',
-      url: 'https://www.bytetoolbox.com/uuid',
-      applicationCategory: 'DeveloperApplication',
-      operatingSystem: 'Web Browser',
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
-      creator: {
-        '@type': 'Organization',
-        name: 'ByteToolBox',
-        url: 'https://www.bytetoolbox.com',
-      },
+      path: '/uuid',
       featureList: [
         'UUID v4 Generation (Random)',
         'Bulk UUID Generation (1-1000)',
@@ -45,9 +34,12 @@ export const UuidPage = () => {
         'Copy to Clipboard',
         'Download as Text File',
       ],
-      browserRequirements: 'Requires JavaScript. Requires HTML5.',
-      softwareVersion: '1.0.0',
-    },
+      breadcrumbs: [
+        { name: 'Home', path: '/' },
+        { name: 'UUID Generator' },
+      ],
+      faqs: getToolFaqs('/uuid'),
+    }),
   });
 
   const examples = [
@@ -186,6 +178,7 @@ export const UuidPage = () => {
             </p>
           </div>
         </ToolSeoPanel>
+        <ToolFaqPanel faqs={getToolFaqs('/uuid')} />
       </ToolSeoSection>
     </ToolLayout>
   );

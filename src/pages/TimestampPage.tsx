@@ -6,7 +6,10 @@ import { ToolGuideCta } from '@/components/tool-page/ToolGuideCta';
 import { ToolRelatedTools } from '@/components/tool-page/ToolRelatedTools';
 import { ToolHowToSteps } from '@/components/tool-page/ToolHowToSteps';
 import { ToolSeoPanel, ToolSeoSection } from '@/components/tool-page/ToolSeoSection';
+import { ToolFaqPanel } from '@/components/tool-page/ToolFaqPanel';
 import { useSEO } from '@/hooks/useSEO';
+import { toolPageStructuredData } from '@/lib/structuredData';
+import { getToolFaqs } from '@/lib/toolFaqs';
 import { CheckCircle, Zap, Shield, FileText, Target } from 'lucide-react';
 import { useState } from 'react';
 
@@ -18,37 +21,24 @@ export const TimestampPage = () => {
     description: 'Convert Unix timestamps to human-readable dates and vice versa instantly. Free online timestamp converter with timezone support, multiple formats, and batch conversion. Perfect for developers and data analysis.',
     keywords: 'timestamp converter, unix timestamp, date converter, time converter, epoch time, timestamp to date, date to timestamp, timezone converter, online timestamp tool',
     canonical: 'https://www.bytetoolbox.com/timestamp',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'WebApplication',
-      'name': 'Timestamp Converter - ByteToolBox',
-      'description': 'Convert Unix timestamps to human-readable dates and vice versa with timezone support.',
-      'url': 'https://www.bytetoolbox.com/timestamp',
-      'applicationCategory': 'DeveloperApplication',
-      'operatingSystem': 'Web Browser',
-      'offers': {
-        '@type': 'Offer',
-        'price': '0',
-        'priceCurrency': 'USD'
-      },
-      'creator': {
-        '@type': 'Organization',
-        'name': 'ByteToolBox',
-        'url': 'https://www.bytetoolbox.com'
-      },
-      'featureList': [
+    structuredData: toolPageStructuredData({
+      name: 'Timestamp Converter - ByteToolBox',
+      description: 'Convert Unix timestamps to human-readable dates and vice versa with timezone support.',
+      path: '/timestamp',
+      featureList: [
         'Unix Timestamp to Date Conversion',
         'Date to Unix Timestamp Conversion',
         'Timezone Support',
         'Multiple Date Formats',
         'Batch Conversion',
-        'Current Time Display'
+        'Current Time Display',
       ],
-      'browserRequirements': 'Requires JavaScript. Requires HTML5.',
-      'softwareVersion': '1.0.0',
-      'datePublished': '2025-01-04',
-      'dateModified': '2025-01-04'
-    }
+      breadcrumbs: [
+        { name: 'Home', path: '/' },
+        { name: 'Timestamp Converter' },
+      ],
+      faqs: getToolFaqs('/timestamp'),
+    })
   });
 
   const examples = [
@@ -187,6 +177,7 @@ export const TimestampPage = () => {
             </p>
           </div>
         </ToolSeoPanel>
+        <ToolFaqPanel faqs={getToolFaqs('/timestamp')} />
       </ToolSeoSection>
     </ToolLayout>
   );

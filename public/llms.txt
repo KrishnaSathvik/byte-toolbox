@@ -1,0 +1,34 @@
+# ByteToolBox
+
+> ByteToolBox provides free, privacy-first browser-based developer tools.
+> Tools run locally in the user's browser and include JSON formatting,
+> Base64 encoding and decoding, hashing, UUID generation, regex testing,
+> and timestamp conversion.
+
+## Tools
+
+- [JSON Formatter](https://www.bytetoolbox.com/json-formatter): Format, validate, and debug JSON locally in the browser.
+- [Base64 Encoder & Decoder](https://www.bytetoolbox.com/base64): Encode and decode Base64 and Base64URL data.
+- [Hash Generator](https://www.bytetoolbox.com/hash): Generate SHA-256 and SHA-512 hashes locally.
+- [UUID Generator](https://www.bytetoolbox.com/uuid): Generate UUID v4 values.
+- [Regex Tester](https://www.bytetoolbox.com/regex): Test regular expressions against sample text.
+- [Timestamp Converter](https://www.bytetoolbox.com/timestamp): Convert Unix timestamps, UTC, and ISO dates.
+
+## Guides
+
+- [Developer Guides](https://www.bytetoolbox.com/blog): Practical references for JSON, Base64, hashing, regex, UUIDs, and timestamps.
+- [How to Find and Fix Invalid JSON](https://www.bytetoolbox.com/blog/find-and-fix-invalid-json-examples): Fix trailing commas, unquoted keys, comments, and other common JSON errors.
+- [Unix Timestamp to Date Cheat Sheet](https://www.bytetoolbox.com/blog/unix-timestamp-to-date-developer-cheat-sheet): Convert epoch time, seconds vs milliseconds, UTC, and ISO-8601 dates.
+- [Verify File Integrity With SHA-256](https://www.bytetoolbox.com/blog/verify-file-integrity-sha-256-checksum): Generate and compare SHA-256 checksums for downloads and release artifacts.
+- [Base64URL and JWT Encoding Rules](https://www.bytetoolbox.com/blog/base64url-jwt-api-encoding-rules): When to use Base64 vs Base64URL for APIs, JWTs, and URL-safe payloads.
+
+## About
+
+- [About ByteToolBox](https://www.bytetoolbox.com/about)
+- [Privacy](https://www.bytetoolbox.com/privacy)
+- [FAQ](https://www.bytetoolbox.com/faq)
+
+## Related sites
+
+- [TextCraft](https://www.textcraft.dev/): Browser tools for counting, cleaning, converting, comparing, and organizing text.
+- [SecureTools](https://www.securetools.dev/): Browser security tools for passwords, encryption, 2FA, random data, and privacy.

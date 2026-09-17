@@ -6,7 +6,10 @@ import { ToolGuideCta } from '@/components/tool-page/ToolGuideCta';
 import { ToolRelatedTools } from '@/components/tool-page/ToolRelatedTools';
 import { ToolHowToSteps } from '@/components/tool-page/ToolHowToSteps';
 import { ToolSeoPanel, ToolSeoSection } from '@/components/tool-page/ToolSeoSection';
+import { ToolFaqPanel } from '@/components/tool-page/ToolFaqPanel';
 import { useSEO } from '@/hooks/useSEO';
+import { toolPageStructuredData } from '@/lib/structuredData';
+import { getToolFaqs } from '@/lib/toolFaqs';
 import { CheckCircle, Zap, Shield, FileText, Target } from 'lucide-react';
 import { useState } from 'react';
 
@@ -18,33 +21,24 @@ export const JsonFormatterPage = () => {
     description: 'Format, validate, and beautify JSON data instantly. Free online JSON formatter with syntax highlighting, error detection, and minification. Perfect for developers and API testing.',
     keywords: 'JSON formatter, JSON validator, JSON beautifier, JSON minifier, JSON prettifier, JSON syntax checker, API testing, developer tools',
     canonical: 'https://www.bytetoolbox.com/json-formatter',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'WebApplication',
-      'name': 'JSON Formatter & Validator',
-      'description': 'Format, validate, and beautify JSON data instantly with our free online tool.',
-      'url': 'https://www.bytetoolbox.com/json-formatter',
-      'applicationCategory': 'DeveloperApplication',
-      'operatingSystem': 'Web Browser',
-      'offers': {
-        '@type': 'Offer',
-        'price': '0',
-        'priceCurrency': 'USD'
-      },
-      'creator': {
-        '@type': 'Organization',
-        'name': 'ByteToolBox',
-        'url': 'https://www.bytetoolbox.com'
-      },
-      'featureList': [
+    structuredData: toolPageStructuredData({
+      name: 'JSON Formatter & Validator',
+      description: 'Format, validate, and beautify JSON data instantly with our free online tool.',
+      path: '/json-formatter',
+      featureList: [
         'JSON Formatting and Beautification',
         'JSON Validation and Error Detection',
         'JSON Minification',
         'Syntax Highlighting',
         'Copy to Clipboard',
-        'Download as File'
-      ]
-    }
+        'Download as File',
+      ],
+      breadcrumbs: [
+        { name: 'Home', path: '/' },
+        { name: 'JSON Formatter' },
+      ],
+      faqs: getToolFaqs('/json-formatter'),
+    })
   });
 
   const examples = [
@@ -174,6 +168,7 @@ export const JsonFormatterPage = () => {
             </p>
           </div>
         </ToolSeoPanel>
+        <ToolFaqPanel faqs={getToolFaqs('/json-formatter')} />
       </ToolSeoSection>
     </ToolLayout>
   );

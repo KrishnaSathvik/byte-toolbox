@@ -6,7 +6,10 @@ import { ToolGuideCta } from '@/components/tool-page/ToolGuideCta';
 import { ToolRelatedTools } from '@/components/tool-page/ToolRelatedTools';
 import { ToolHowToSteps } from '@/components/tool-page/ToolHowToSteps';
 import { ToolSeoPanel, ToolSeoSection } from '@/components/tool-page/ToolSeoSection';
+import { ToolFaqPanel } from '@/components/tool-page/ToolFaqPanel';
 import { useSEO } from '@/hooks/useSEO';
+import { toolPageStructuredData } from '@/lib/structuredData';
+import { getToolFaqs } from '@/lib/toolFaqs';
 import { CheckCircle, Zap, Shield, FileText, Target } from 'lucide-react';
 import { useState } from 'react';
 
@@ -18,37 +21,24 @@ export const RegexPage = () => {
     description: 'Test and debug regular expressions instantly. Free online regex tester with real-time matching, syntax highlighting, and comprehensive pattern testing. Perfect for developers and data validation.',
     keywords: 'regex tester, regular expression tester, regex debugger, pattern matching, regex validation, online regex tool, regex cheatsheet, regex examples',
     canonical: 'https://www.bytetoolbox.com/regex',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'WebApplication',
-      'name': 'Regex Tester - ByteToolBox',
-      'description': 'Test and debug regular expressions with real-time matching and validation.',
-      'url': 'https://www.bytetoolbox.com/regex',
-      'applicationCategory': 'DeveloperApplication',
-      'operatingSystem': 'Web Browser',
-      'offers': {
-        '@type': 'Offer',
-        'price': '0',
-        'priceCurrency': 'USD'
-      },
-      'creator': {
-        '@type': 'Organization',
-        'name': 'ByteToolBox',
-        'url': 'https://www.bytetoolbox.com'
-      },
-      'featureList': [
+    structuredData: toolPageStructuredData({
+      name: 'Regex Tester - ByteToolBox',
+      description: 'Test and debug regular expressions with real-time matching and validation.',
+      path: '/regex',
+      featureList: [
         'Real-time Regex Testing',
         'Pattern Matching Validation',
         'Syntax Highlighting',
         'Match Groups Extraction',
         'Global and Case-insensitive Flags',
-        'Common Regex Examples'
+        'Common Regex Examples',
       ],
-      'browserRequirements': 'Requires JavaScript. Requires HTML5.',
-      'softwareVersion': '1.0.0',
-      'datePublished': '2025-01-04',
-      'dateModified': '2025-01-04'
-    }
+      breadcrumbs: [
+        { name: 'Home', path: '/' },
+        { name: 'Regex Tester' },
+      ],
+      faqs: getToolFaqs('/regex'),
+    })
   });
 
   const examples = [
@@ -187,6 +177,7 @@ export const RegexPage = () => {
             </p>
           </div>
         </ToolSeoPanel>
+        <ToolFaqPanel faqs={getToolFaqs('/regex')} />
       </ToolSeoSection>
     </ToolLayout>
   );

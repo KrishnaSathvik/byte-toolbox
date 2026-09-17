@@ -60,64 +60,6 @@ export const Navigation = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
 
-  // Generate breadcrumb data
-  const generateBreadcrumbs = () => {
-    const pathSegments = location.pathname.split('/').filter(Boolean);
-    const breadcrumbs = [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://www.bytetoolbox.com/'
-      }
-    ];
-
-    let currentPath = '';
-    pathSegments.forEach((segment, index) => {
-      currentPath += `/${segment}`;
-      const tool = tools.find(t => t.path === currentPath);
-      const name = tool ? tool.full : segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
-      
-      breadcrumbs.push({
-        '@type': 'ListItem',
-        position: index + 2,
-        name: name,
-        item: `https://www.bytetoolbox.com${currentPath}`
-      });
-    });
-
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: breadcrumbs
-    };
-  };
-
-  // Add breadcrumb structured data
-  useEffect(() => {
-    const breadcrumbData = generateBreadcrumbs();
-    
-    // Remove existing breadcrumb data
-    const existingScript = document.querySelector('script[data-breadcrumb]');
-    if (existingScript) {
-      existingScript.remove();
-    }
-
-    // Add new breadcrumb data
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.setAttribute('data-breadcrumb', 'true');
-    script.textContent = JSON.stringify(breadcrumbData);
-    document.head.appendChild(script);
-
-    return () => {
-      const scriptToRemove = document.querySelector('script[data-breadcrumb]');
-      if (scriptToRemove) {
-        scriptToRemove.remove();
-      }
-    };
-  }, [location.pathname]);
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {

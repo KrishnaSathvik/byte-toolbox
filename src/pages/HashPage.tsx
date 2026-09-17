@@ -6,7 +6,10 @@ import { ToolGuideCta } from '@/components/tool-page/ToolGuideCta';
 import { ToolRelatedTools } from '@/components/tool-page/ToolRelatedTools';
 import { ToolHowToSteps } from '@/components/tool-page/ToolHowToSteps';
 import { ToolSeoPanel, ToolSeoSection } from '@/components/tool-page/ToolSeoSection';
+import { ToolFaqPanel } from '@/components/tool-page/ToolFaqPanel';
 import { useSEO } from '@/hooks/useSEO';
+import { toolPageStructuredData } from '@/lib/structuredData';
+import { getToolFaqs } from '@/lib/toolFaqs';
 import { Shield, CheckCircle, Zap, AlertTriangle, FileText, Target } from 'lucide-react';
 import { useState } from 'react';
 
@@ -20,25 +23,11 @@ export const HashPage = () => {
     keywords:
       'hash generator, MD5, SHA-1, SHA-256, SHA-512, cryptographic hash, checksum, file integrity, data integrity, security testing, online hash tool',
     canonical: 'https://www.bytetoolbox.com/hash',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'WebApplication',
+    structuredData: toolPageStructuredData({
       name: 'Hash Generator - ByteToolBox',
       description:
         'Generate MD5, SHA-1, SHA-256, and SHA-512 checksums for file integrity and development workflows.',
-      url: 'https://www.bytetoolbox.com/hash',
-      applicationCategory: 'DeveloperApplication',
-      operatingSystem: 'Web Browser',
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
-      creator: {
-        '@type': 'Organization',
-        name: 'ByteToolBox',
-        url: 'https://www.bytetoolbox.com',
-      },
+      path: '/hash',
       featureList: [
         'MD5 Hash Generation',
         'SHA-1 Hash Generation',
@@ -47,11 +36,12 @@ export const HashPage = () => {
         'Text and File Input Support',
         'Real-time Hash Generation',
       ],
-      browserRequirements: 'Requires JavaScript. Requires HTML5.',
-      softwareVersion: '1.0.0',
-      datePublished: '2025-01-04',
-      dateModified: '2025-01-04',
-    },
+      breadcrumbs: [
+        { name: 'Home', path: '/' },
+        { name: 'Hash Generator' },
+      ],
+      faqs: getToolFaqs('/hash'),
+    }),
   });
 
   const examples = [
@@ -193,6 +183,7 @@ export const HashPage = () => {
             </p>
           </div>
         </ToolSeoPanel>
+        <ToolFaqPanel faqs={getToolFaqs('/hash')} />
       </ToolSeoSection>
     </ToolLayout>
   );
